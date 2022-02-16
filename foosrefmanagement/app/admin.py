@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import Referee, RefereedEvent, RefereedGame
 
-# Register your models here.
+
+admin.site.register(Referee)
+admin.site.register(RefereedEvent)
+admin.site.register(RefereedGame)
