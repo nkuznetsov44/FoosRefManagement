@@ -1,6 +1,14 @@
+import React from 'react';
+import ApiDrivenDataGrid from '../../components/ApiDrivenDataGrid';
+
 const Games = () => {
     return (
-        <div><h1>Games</h1></div>
+        <React.Fragment>
+            <h1>Games</h1>
+            <ApiDrivenDataGrid
+                endpoint="/api/games"
+            />
+        </React.Fragment>
     );
 }
 

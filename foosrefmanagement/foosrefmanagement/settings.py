@@ -14,9 +14,9 @@ from pathlib import Path
 import os
 
 
-LOCAL = True
+env = os.getenv('ENVIRONMENT', 'LOCAL')
 
-if LOCAL:
+if env == 'LOCAL':
     from dotenv import load_dotenv
     load_dotenv()
 
@@ -41,6 +41,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'app.apps.AppConfig',
+    'rest_framework',
     'django_better_admin_arrayfield',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -137,3 +138,14 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Rest Framework
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}

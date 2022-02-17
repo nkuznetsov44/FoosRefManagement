@@ -1,23 +1,23 @@
 from django.http import HttpResponse
-from .models import Referee
-import json
+from rest_framework import viewsets
+from . import models
+from . import serializers
 
 
 def index(request):
     return HttpResponse('foosrefmanagement/app index')
 
 
-def referees(request):
-    referees = Referee.objects.all()
+class RefereeViewSet(viewsets.ModelViewSet):
+    queryset = models.Referee.objects.all()
+    serializer_class = serializers.RefereeSerializer
 
-    def serialize_referee(referee):
-        return {
-            'first_name': referee.first_name,
-            'last_name': referee.last_name,
-            'email': referee.email,
-            'languages': referee.languages,
-            'rank': referee.rank
-        }
-    
-    referees_json = json.dumps(list(map(serialize_referee, referees)))
-    return HttpResponse(referees_json)
+
+class RefereedGameViewSet(viewsets.ModelViewSet):
+    queryset = models.RefereedGame.objects.all()
+    serializer_class = serializers.RefereedGameSerializer
+
+
+class RefereedEventViewSet(viewsets.ModelViewSet):
+    queryset = models.RefereedEvent.objects.all()
+    serializer_class = serializers.RefereedEventSerializer
