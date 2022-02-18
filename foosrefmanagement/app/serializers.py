@@ -12,6 +12,7 @@ class RefereedGameSerializer(serializers.ModelSerializer):
     class Meta:
         model = RefereedGame
         fields = '__all__'
+        depth = 1
 
 
 class RefereedEventSerializer(serializers.ModelSerializer):

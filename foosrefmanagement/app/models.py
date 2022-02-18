@@ -19,6 +19,8 @@ class RefereeLanguage(models.TextChoices):
 class Referee(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
+    first_name_en = models.CharField(max_length=255)
+    last_name_en = models.CharField(max_length=255)
     email = models.CharField(max_length=255, null=True, blank=True)
     languages = ArrayField(models.CharField(max_length=2, choices=RefereeLanguage.choices))
     rank = models.CharField(max_length=63, choices=RefereeRank.choices, default=RefereeRank.ASSISTANT)
