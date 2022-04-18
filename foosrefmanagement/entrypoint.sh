@@ -9,8 +9,8 @@ done
 echo "PostgreSQL started"
 
 # python manage.py flush --no-input
-python manage.py migrate --noinput
-# python manage.py collectstatic --no-input --clear
-python manage.py createsuperuser --noinput
+python manage.py migrate --no-input
+python manage.py collectstatic --no-input --clear
+python manage.py createsuperuser --no-input
 
 exec "$@"
