@@ -5,16 +5,12 @@ from .models import Referee, RefereedGame, RefereedEvent
 
 
 class RefereeSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(write_only=False)
-
     class Meta:
         model = Referee
         fields = '__all__'
 
 
 class RefereedEventSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(write_only=False)
-
     class Meta:
         model = RefereedEvent
         fields = '__all__'
@@ -31,9 +27,9 @@ class RefereedGameSerializer(serializers.ModelSerializer):
         depth = 1
 
     def create(self, validated_data):
-        referee = Referee.objects.get(id=validated_data['referee']['id'])
-        assistant = Referee.objects.get(id=validated_data['assistant']['id'])
-        event = RefereedEvent.objects.get(id=validated_data['event']['id'])
+        referee = Referee.objects.get(id=self.initial_data['referee']['id'])
+        assistant = Referee.objects.get(id=self.initial_data['assistant']['id'])
+        event = RefereedEvent.objects.get(id=self.initial_data['event']['id'])
         return RefereedGame.objects.create(
             referee=referee,
             assistant=assistant,
