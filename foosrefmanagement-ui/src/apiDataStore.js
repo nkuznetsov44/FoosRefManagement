@@ -1,21 +1,21 @@
 import CustomStore from 'devextreme/data/custom_store';
-import axios from 'axios';
+import { api } from './auth';
 
 export const dataStoreFactory = (endpoint, idField) => {
     return new CustomStore({
         key: idField,
         load: async () => {
-            const { data } = await axios.get(endpoint);
+            const { data } = await api.get(endpoint);
             return data;
         },
         insert: async (values) => {
-            await axios.post(`${endpoint}/`, values);
+            await api.post(`${endpoint}/`, values);
         },
         update: async (key, values) => {
-            await axios.patch(`${endpoint}/${key}/`, values);
+            await api.patch(`${endpoint}/${key}/`, values);
         },
         remove: async (key) => {
-            await axios.delete(`${endpoint}/${key}/`);
+            await api.delete(`${endpoint}/${key}/`);
         },
     });
 };
