@@ -38,7 +38,7 @@ services:
       context: ./foosrefmanagement-ui
       dockerfile: Dockerfile
     ports:
-      - 80:80
+      - ${WEBAPP_PORT}:80
     depends_on:
       - foosrefmanagement
     volumes:
