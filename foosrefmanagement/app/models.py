@@ -32,9 +32,10 @@ class Referee(models.Model):
 class RefereedEventType(models.TextChoices):
     MASTERS = 'MASTERS', 'Masters'
     PRO_TOUR = 'PRO_TOUR', 'Pro Tour'
-    RUSSIAN_CUP_STAGE = 'RUSSIAN_CUP_STAGE', 'Russian Cup Stage'
-    RUSSIAN_CUP_FINAL = 'RUSSIAN_CUP_FINAL', 'Russian Cup Final'
-    TEAMS = 'TEAMS', 'Teams'
+    RUSSIAN_CUP_STAGE = 'RUSSIAN_CUP_STAGE', 'Этап чемпионата России'
+    RUSSIAN_CUP_FINAL = 'RUSSIAN_CUP_FINAL', 'Финал чемпионата России'
+    LOCAL_TOURNAMENT = 'LOCAL_TOURNAMENT', 'Локальный турнир'
+    TEAMS = 'TEAMS', 'Лига'
 
 
 class RefereedEvent(models.Model):

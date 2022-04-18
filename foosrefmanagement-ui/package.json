@@ -1,6 +1,6 @@
 {
   "name": "foosrefmanagement-ui",
-  "proxy": "http://localhost:8000",
+  "proxy": "http://localhost",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

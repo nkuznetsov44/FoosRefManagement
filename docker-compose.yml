@@ -7,6 +7,8 @@ services:
       POSTGRES_DB: ${DEFAULT_DATABASE_NAME}
     ports:
       - 5432:5432
+    volumes:
+      - postgresdata:/var/lib/postgresql/data
   adminer:
     image: adminer
     ports:
@@ -26,6 +28,9 @@ services:
       DEFAULT_DATABASE_PASSWORD: ${DEFAULT_DATABASE_PASSWORD}
       DEFAULT_DATABASE_HOST: postgres
       DEFAULT_DATABASE_PORT: 5432
+      DJANGO_SUPERUSER_EMAIL: ${DJANGO_SUPERUSER_EMAIL}
+      DJANGO_SUPERUSER_USERNAME: ${DJANGO_SUPERUSER_USERNAME}
+      DJANGO_SUPERUSER_PASSWORD: ${DJANGO_SUPERUSER_PASSWORD}
     volumes:
       - staticfiles:/usr/src/app/staticfiles
   nginx:
@@ -38,3 +43,4 @@ services:
       - staticfiles:/usr/src/app/staticfiles
 volumes:
   staticfiles:
+  postgresdata:

@@ -1,5 +1,5 @@
 import React from 'react';
-import { DataGrid, Editing, Column } from 'devextreme-react/data-grid';
+import { DataGrid, Column } from 'devextreme-react/data-grid';
 import { dataStoreFactory } from '../../apiDataStore';
 
 const Referees = () => {
@@ -12,19 +12,13 @@ const Referees = () => {
                 dataSource={dataStore}
                 showBorders={true}
                 columnAutoWidth={true}>
-                <Editing
-                    mode="row"
-                    allowAdding={true}
-                    allowDeleting={true}
-                    allowUpdating={true}
-                />
-                <Column dataField={"first_name"} />
-                <Column dataField={"last_name"} />
-                <Column dataField={"first_name_en"} />
-                <Column dataField={"last_name_en"} />
-                <Column dataField={"email"} />
-                <Column dataField={"languages"} />
-                <Column dataField={"rank"} />
+                <Column dataField={"first_name"} caption={"Имя"} />
+                <Column dataField={"last_name"} caption={"Фамилия"} />
+                <Column dataField={"first_name_en"} caption={"First name"} />
+                <Column dataField={"last_name_en"} caption={"Last name"} />
+                <Column dataField={"email"} caption={"E-mail"} />
+                <Column dataField={"languages"} caption={"Языки"} />
+                <Column dataField={"rank"} caption={"Ранг"} />
             </DataGrid>
         </React.Fragment>
     );

@@ -1,70 +1,22 @@
 import React from 'react';
 import axios from 'axios';
-import { DataGrid, Editing, Column, Paging, Scrolling, Selection, Lookup } from 'devextreme-react/data-grid';
-import { DropDownBox } from 'devextreme-react/drop-down-box';
+import { DataGrid, Editing, Column, Lookup } from 'devextreme-react/data-grid';
+import SelectBox from 'devextreme-react/select-box';
 import { dataStoreFactory } from '../../apiDataStore';
 
 const displayReferee = (referee) => {
     return referee && `${referee.first_name} ${referee.last_name} (${referee.rank})`;
 };
 
-const RefereeSelectBox = (props) => {
-    const [isDropDownOpened, setIsDropDownOpened] = React.useState(false);
-    const [referees, setReferees] = React.useState([props.data.value]);
-    const [selectedReferees, setSelectedRefeerees] = React.useState([props.data.value]);
-
-    React.useEffect(() => {
-        (async () => {
-            const { data } = await axios.get('/api/referees');
-            setReferees(data);
-        })();
-    }, []);
-
-    const boxOptionChanged = ({ name, value }) => {
-        if (name === 'opened') {
-            setIsDropDownOpened(value);
-        }
-    };
-
-    const changeDropDownBoxValue = ({ selectedRowKeys }) => {
-        setSelectedRefeerees(selectedRowKeys);
-        setIsDropDownOpened(false);
-        props.data.setValue(selectedRowKeys[0]);
-    };
-
-    const dropDownOptions = { width: 500 };
-
-    return (
-        <DropDownBox
-            dataSource={referees}
-            value={selectedReferees && selectedReferees[0]}
-            valueExpr="id"
-            displayExpr={displayReferee}
-            onOptionChanged={boxOptionChanged}
-            opened={isDropDownOpened}
-            dropDownOptions={dropDownOptions}>
-            <DataGrid
-                dataSource={referees}
-                selectedRowKeys={selectedReferees}
-                defaultFocusedRowKey={selectedReferees && selectedReferees[0]}
-                onSelectionChanged={changeDropDownBoxValue}
-                hoverStateEnabled={true}
-                focusedRowEnabled={true}>
-                <Column dataField="first_name" />
-                <Column dataField="last_name" />
-                <Column dataField="rank" />
-                <Paging enabled={true} defaultPageSize={10} />
-                <Scrolling mode="virtual" />
-                <Selection mode="single" />
-            </DataGrid>
-        </DropDownBox>
-    );
+const displayEvent = (event) => {
+    return event && event.name;
 };
 
 const Games = () => {
     const dataStore = dataStoreFactory('/api/games', 'id');
 
     const [referees, setReferees] = React.useState([]);
+    const [events, setEvents] = React.useState([]);
 
     React.useEffect(() => {
         (async () => {
@@ -73,12 +25,30 @@ const Games = () => {
         })();
     }, []);
 
+    React.useEffect(() => {
+        (async () => {
+            const { data } = await axios.get('/api/events');
+            setEvents(data);
+        })();
+    }, []);
+
     const EventCellRender = ({ value }) => {
-        return <div>{value.name}</div>;
+        return <div>{displayEvent(value)}</div>;
     };
 
     const RefereeCellRender = ({ value }) => {
         return <div>{displayReferee(value)}</div>
+    };
+
+    const refereeEditorRender = (cell) => {
+        return (
+            <SelectBox
+                defaultValue={cell.value}
+                {...cell.column.lookup}
+                onValueChanged={({ value }) => cell.setValue(value)}
+                itemRender={displayReferee}
+            />
+        );
     };
 
     return (
@@ -92,27 +62,35 @@ const Games = () => {
                     mode="row"
                     allowAdding={true}
                     allowDeleting={true}
-                    allowUpdating={true}
+                    allowUpdating={false}
                 />
                 <Column
                     dataField={"event"}
-                    cellRender={EventCellRender} />
+                    cellRender={EventCellRender}>
+                    <Lookup
+                        dataSource={events}
+                        displayExpr={displayEvent}>
+                    </Lookup>
+                </Column>
                 <Column dataField={"first_player"} />
                 <Column dataField={"second_player"} />
                 <Column dataField={"date"} dataType={"date"} />
                 <Column
-                    dataField={"referee"}
+                    dataField="referee"
                     cellRender={RefereeCellRender}
-                    editCellComponent={RefereeSelectBox}>
+                    editCellRender={refereeEditorRender}>
+                    <Lookup
+                        dataSource={referees}
+                        displayExpr={displayReferee}>
+                    </Lookup>
                 </Column>
                 <Column
                     dataField={"assistant"}
                     cellRender={RefereeCellRender}
-                    editCellComponent={RefereeSelectBox}>
+                    editCellRender={refereeEditorRender}>
                     <Lookup
                         dataSource={referees}
-                        displayExpr={displayReferee}
-                        valueExpr="id">
+                        displayExpr={displayReferee}>
                     </Lookup>
                 </Column>
             </DataGrid>
