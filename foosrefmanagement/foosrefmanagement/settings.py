@@ -133,7 +133,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/django-static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
@@ -161,9 +161,10 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "http://192.168.88.1:3000",
-    "http://192.168.88.101",
-    "https://foosref.nkuznetsov.com",
+    "https://foosref.nkuznetsov.com"
 ]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://foosref.nkuznetsov.com"
+]
+
