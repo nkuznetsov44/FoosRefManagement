@@ -1,49 +1,53 @@
 import React from 'react';
+import { useNavigate } from "react-router-dom";
 import { Button } from 'devextreme-react/button';
 import { api, logout } from '../../auth';
 
 
-const Login = () => {
+const LoginButton = (props) => {
+    const navigate = useNavigate();
+
     const loginClick = (e) => {
-        window.location.replace('/login');
+        navigate('/login', { replace: true });
     };
 
-    return (
-        <Button
-            width={120}
-            text="Login"
-            type="normal"
-            stylingMode="contained"
-            onClick={loginClick}
-        />
-    )
-};
+    const Login = () => {
+        return (
+            <Button
+                width={120}
+                text="Login"
+                type="normal"
+                stylingMode="contained"
+                onClick={loginClick}
+            />
+        )
+    };
 
-const Logout = () => {
     const logoutClick = (e) => {
         (async () => {
             await logout();
         })();
     };
 
-    return (
-        <Button
-            width={120}
-            text="Logout"
-            type="normal"
-            stylingMode="contained"
-            onClick={logoutClick}
-        />
-    )
-};
+    const Logout = () => {
+        return (
+            <React.Fragment>
+                <div className="dx-field-label">Logged in as {props.user}</div>
+                <Button
+                    width={120}
+                    text="Logout"
+                    type="normal"
+                    stylingMode="contained"
+                    onClick={logoutClick}
+                />
+            </React.Fragment>
+        )
+    };
 
-const LoginButton = () => {
-    const [user, setUser] = React.useState(sessionStorage.getItem('user'));
-
-    if (user == undefined) {
-        return <Login />;
+    if (props.user != undefined) {
+        return <Logout />;
     }
-    return <Logout />
+    return <Login />
 };
 
 export default LoginButton;

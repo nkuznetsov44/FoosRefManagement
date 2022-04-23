@@ -1,20 +1,24 @@
 import React from 'react';
+import { useNavigate } from "react-router-dom";
 import TextBox from 'devextreme-react/text-box';
 import { Button } from 'devextreme-react/button';
 import { login } from '../../auth';
 
 
-const Login = (props) => {
+const LoginForm = (props) => {
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
+
+    const navigate = useNavigate();
 
     const loginClick = (e) => {
         (async () => {
             try {
                 const user = await login(username, password);
-                if (props.onLogin !== undefined) {
+                if (props.onLogin) {
                     props.onLogin(user);
                 }
+                navigate('/', { replace: true });
             }
             catch(e) {
                 alert('Login failed');
@@ -60,19 +64,5 @@ const Login = (props) => {
     );
 };
 
-const User = (props) => {
-    return (
-        <div className="dx-field-label">Logged in as {props.user}</div>
-    );
-};
-
-const LoginForm = () => {
-    const [user, setUser] = React.useState(sessionStorage.getItem('user'));
-
-    if (user == undefined) {
-        return (<Login onLogin={setUser} />);
-    }
-    return (<User user={user} />);
-};
 
 export default LoginForm;

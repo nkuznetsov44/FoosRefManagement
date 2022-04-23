@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+
 export const login = async (username, password) => {
     const { data } = await axios.post('/api/auth/login/', {
         username: username,
@@ -50,7 +51,7 @@ api.interceptors.response.use(
                 localStorage.removeItem('refresh_token');
                 sessionStorage.removeItem('access_token');
                 sessionStorage.removeItem('user');
-                window.location.replace('/login');
+                alert('Login required');
             });
         }
     }
