@@ -18,7 +18,7 @@ class RefereedEventSerializer(serializers.ModelSerializer):
 
 class RefereedGameSerializer(serializers.ModelSerializer):
     referee = RefereeSerializer()
-    assistant = RefereeSerializer()
+    assistant = RefereeSerializer(required=False)
     event = RefereedEventSerializer()
 
     class Meta:
@@ -28,7 +28,9 @@ class RefereedGameSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         referee = Referee.objects.get(id=self.initial_data['referee']['id'])
-        assistant = Referee.objects.get(id=self.initial_data['assistant']['id'])
+        assistant = None
+        if validated_data.get('assistant'):
+            assistant = Referee.objects.get(id=self.initial_data['assistant']['id'])
         event = RefereedEvent.objects.get(id=self.initial_data['event']['id'])
         return RefereedGame.objects.create(
             referee=referee,

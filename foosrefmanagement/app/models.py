@@ -16,6 +16,16 @@ class RefereeLanguage(models.TextChoices):
     GERMAN = 'GE', 'German'
 
 
+class RefereeCity(models.TextChoices):
+    MOSCOW = 'MOSCOW', 'Москва'
+    SAINT_PETERSBURG = 'SAINT_PETERSBURG', 'Санкт-Петербург'
+    KALININGRAD = 'KALININGRAD', 'Калининград'
+    TOMSK = 'TOMSK', 'Томск'
+    KAZAN = 'KAZAN', 'Казань'
+    YAROSLAVL = 'YAROSLAVL', 'Ярославль'
+    OTHER = 'OTHER', 'Другой'
+
+
 class Referee(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
@@ -23,6 +33,7 @@ class Referee(models.Model):
     last_name_en = models.CharField(max_length=255)
     email = models.CharField(max_length=255, null=True, blank=True)
     languages = ArrayField(models.CharField(max_length=2, choices=RefereeLanguage.choices))
+    city = models.CharField(max_length=63, choices=RefereeCity.choices, default=RefereeCity.OTHER)
     rank = models.CharField(max_length=63, choices=RefereeRank.choices, default=RefereeRank.ASSISTANT)
 
     def __str__(self):

@@ -17,10 +17,19 @@ export const login = async (username, password) => {
 
 export const api = axios.create({});
 
+export const logout = () => {
+    localStorage.removeItem('refresh_token');
+    sessionStorage.removeItem('access_token');
+    sessionStorage.removeItem('user');
+    window.location.reload()
+};
+
 api.interceptors.request.use(
     req => {
         const accessToken = sessionStorage.getItem('access_token');
-        req.headers['Authorization'] = `Bearer ${accessToken}`;
+        if (accessToken) {
+            req.headers['Authorization'] = `Bearer ${accessToken}`;
+        }
         return req;
     }
 );
@@ -41,7 +50,7 @@ api.interceptors.response.use(
                 localStorage.removeItem('refresh_token');
                 sessionStorage.removeItem('access_token');
                 sessionStorage.removeItem('user');
-                window.location.replace('/');
+                window.location.replace('/login');
             });
         }
     }

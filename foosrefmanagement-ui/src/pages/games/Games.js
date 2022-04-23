@@ -53,7 +53,7 @@ const Games = () => {
 
     return (
         <React.Fragment>
-            <h1>Games</h1>
+            <h1>Игры</h1>
             <DataGrid
                 dataSource={dataStore}
                 showBorders={true}
@@ -66,17 +66,19 @@ const Games = () => {
                 />
                 <Column
                     dataField={"event"}
+                    caption={"Турнир"}
                     cellRender={EventCellRender}>
                     <Lookup
                         dataSource={events}
                         displayExpr={displayEvent}>
                     </Lookup>
                 </Column>
-                <Column dataField={"first_player"} />
-                <Column dataField={"second_player"} />
-                <Column dataField={"date"} dataType={"date"} />
+                <Column dataField={"first_player"} caption="Первая команда" />
+                <Column dataField={"second_player"} caption="Вторая команда" />
+                <Column dataField={"date"} dataType={"date"} caption="Дата" />
                 <Column
                     dataField="referee"
+                    caption="Основной рефери"
                     cellRender={RefereeCellRender}
                     editCellRender={refereeEditorRender}>
                     <Lookup
@@ -86,6 +88,7 @@ const Games = () => {
                 </Column>
                 <Column
                     dataField={"assistant"}
+                    caption="Ассистент"
                     cellRender={RefereeCellRender}
                     editCellRender={refereeEditorRender}>
                     <Lookup

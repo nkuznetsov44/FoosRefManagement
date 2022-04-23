@@ -18,7 +18,7 @@ const Events = () => {
 
     return (
         <React.Fragment>
-            <h1>Events</h1>
+            <h1>Турниры</h1>
             <DataGrid
                 dataSource={dataStore}
                 showBorders={true}
