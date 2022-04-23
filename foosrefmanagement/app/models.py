@@ -1,5 +1,6 @@
 from django.db import models
 from django_better_admin_arrayfield.models.fields import ArrayField
+from django.db.models import Q
 
 
 class RefereeRank(models.TextChoices):
@@ -35,6 +36,9 @@ class Referee(models.Model):
     languages = ArrayField(models.CharField(max_length=2, choices=RefereeLanguage.choices))
     city = models.CharField(max_length=63, choices=RefereeCity.choices, default=RefereeCity.OTHER)
     rank = models.CharField(max_length=63, choices=RefereeRank.choices, default=RefereeRank.ASSISTANT)
+
+    def get_games(self):
+        return RefereedGame.objects.filter(Q(referee__id=self.id) | Q(assistant__id=self.id))
 
     def __str__(self):
         return f'Referee<first_name="{self.first_name}", last_name="{self.last_name}", rank="{self.rank}">'

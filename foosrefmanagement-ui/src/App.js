@@ -9,6 +9,7 @@ import LoginForm from './pages/login/LoginForm';
 import Games from './pages/games/Games';
 import Events from './pages/events/Events';
 import Referees from './pages/referees/Referees';
+import RefereeProfile from './pages/referees/RefereeProfile';
 
 
 const App = () => {
@@ -22,6 +23,7 @@ const App = () => {
             <Route path="/games" element={<Games />} />
             <Route path="/events" element={<Events />} />
             <Route path="/login" element={<LoginForm onLogin={setUser} />} />
+            <Route path="/refereeProfile" element={<RefereeProfile />} />
         </Routes>
         </BrowserRouter>
     );

@@ -32,7 +32,7 @@ const LoginButton = (props) => {
     const Logout = () => {
         return (
             <React.Fragment>
-                <div className="dx-field-label">Logged in as {props.user}</div>
+                <div className="dx-field-label">{`Logged in as ${props.user}`}</div>
                 <Button
                     width={120}
                     text="Logout"

@@ -1,9 +1,18 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { DataGrid, Column } from 'devextreme-react/data-grid';
 import { dataStoreFactory } from '../../apiDataStore';
 
 const Referees = () => {
     const dataStore = dataStoreFactory('/api/referees', 'id');
+
+    const RefereeProfileLinkCellRender = (cellData) => {
+        return (
+            <Link to="/refereeProfile" state={{ referee: cellData.data }}>
+                {cellData.value}
+            </Link>
+        );
+    };
 
     return (
         <React.Fragment>
@@ -12,7 +21,11 @@ const Referees = () => {
                 dataSource={dataStore}
                 showBorders={true}
                 columnAutoWidth={true}>
-                <Column dataField={"first_name"} caption={"Имя"} />
+                <Column
+                    dataField={"first_name"}
+                    caption={"Имя"}
+                    cellRender={RefereeProfileLinkCellRender}>
+                </Column>
                 <Column dataField={"last_name"} caption={"Фамилия"} />
                 <Column dataField={"first_name_en"} caption={"First name"} />
                 <Column dataField={"last_name_en"} caption={"Last name"} />
