@@ -24,7 +24,7 @@ const RefereeCard = (props) => {
 
     const getProfilePhotoUrl = (referee) => {
         if (referee.photo == null) {
-            return '/media/blank_profile_photo.png';
+            return '/media/static-media/unknown_referee.png';
         }
         return `/media/${referee.photo}`
     };
