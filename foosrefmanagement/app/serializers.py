@@ -11,6 +11,7 @@ class RefereeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Referee
         fields = '__all__'
+        read_only_fields = ('photo',)
 
 
 class RefereedEventSerializer(serializers.ModelSerializer):
