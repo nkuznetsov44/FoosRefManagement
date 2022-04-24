@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { DataGrid, Column } from 'devextreme-react/data-grid';
+import {
+    DataGrid, Column, FilterRow, HeaderFilter, SearchPanel
+} from 'devextreme-react/data-grid';
 import { dataStoreFactory } from '../../apiDataStore';
 
 const Referees = () => {
@@ -20,7 +22,14 @@ const Referees = () => {
             <DataGrid
                 dataSource={dataStore}
                 showBorders={true}
-                columnAutoWidth={true}>
+                columnAutoWidth={true}
+                rowAlternationEnabled={true}
+                hoverStateEnabled={true}>
+                <FilterRow visible={true} />
+                <SearchPanel visible={true}
+                    width={240}
+                    placeholder="Найти..."
+                />
                 <Column
                     dataField={"first_name"}
                     caption={"Имя"}

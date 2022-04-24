@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom'
-import { DataGrid, Column } from 'devextreme-react/data-grid';
+import { DataGrid, Column, FilterRow, SearchPanel } from 'devextreme-react/data-grid';
 import { api } from '../../auth';
 
 const RefereeCard = (props) => {
@@ -109,7 +109,13 @@ const RefereeProfile = () => {
             <DataGrid
                 dataSource={games}
                 showBorders={true}
-                columnAutoWidth={true}>
+                columnAutoWidth={true}
+                rowAlternationEnabled={true}>
+                <FilterRow visible={true} />
+                <SearchPanel visible={true}
+                    width={240}
+                    placeholder="Найти..."
+                />
                 <Column
                     dataField="referee"
                     caption="Основной рефери"

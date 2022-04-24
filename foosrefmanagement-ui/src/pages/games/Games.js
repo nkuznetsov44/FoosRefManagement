@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-import { DataGrid, Editing, Column, Lookup } from 'devextreme-react/data-grid';
+import {
+    DataGrid, Editing, Column, Lookup
+} from 'devextreme-react/data-grid';
 import SelectBox from 'devextreme-react/select-box';
 import { dataStoreFactory } from '../../apiDataStore';
 
@@ -57,7 +59,8 @@ const Games = () => {
             <DataGrid
                 dataSource={dataStore}
                 showBorders={true}
-                columnAutoWidth={true}>
+                columnAutoWidth={true}
+                rowAlternationEnabled={true}>
                 <Editing
                     mode="row"
                     allowAdding={true}

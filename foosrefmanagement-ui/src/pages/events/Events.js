@@ -22,7 +22,8 @@ const Events = () => {
             <DataGrid
                 dataSource={dataStore}
                 showBorders={true}
-                columnAutoWidth={true}>
+                columnAutoWidth={true}
+                rowAlternationEnabled={true}>
                 <Editing
                     mode="row"
                     allowAdding={true}

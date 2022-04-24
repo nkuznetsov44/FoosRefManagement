@@ -22,8 +22,8 @@ const menuItems = [
 
 const ItemComponent = ({ data }) => {
     const linkStyle = {
-        color: 'grey',
-        textDecorationcolor: 'grey'
+        color: '#666666',
+        textDecorationcolor: '#666666'
     };
 
     const innerStyle = {

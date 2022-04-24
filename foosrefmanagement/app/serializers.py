@@ -5,6 +5,9 @@ from .models import Referee, RefereedGame, RefereedEvent
 
 
 class RefereeSerializer(serializers.ModelSerializer):
+    rank = serializers.CharField(source='get_rank_display')
+    city = serializers.CharField(source='get_city_display')
+
     class Meta:
         model = Referee
         fields = '__all__'
