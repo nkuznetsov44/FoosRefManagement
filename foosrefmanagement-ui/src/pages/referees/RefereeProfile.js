@@ -4,28 +4,67 @@ import { DataGrid, Column } from 'devextreme-react/data-grid';
 import { api } from '../../auth';
 
 const RefereeCard = (props) => {
-    const style = {
-        width: props.width
+    const inlineBlockStyle = {
+        display: "inline-block",
+        verticalAlign: "top",
+        margin: "0px 10px 10px 0px"
+    };
+
+    const CardTextElement = (props) => {
+        const style = {
+            margin: "0px"
+        };
+
+        return (
+            <h4 style={style}>{props.text}</h4>
+        );
+    };
+
+    const getProfilePhotoUrl = (referee) => {
+        if (referee.photo == null) {
+            return '/media/blank_profile_photo.png';
+        }
+        return `/media/${referee.photo}`
     };
 
     return (
-        <div style={style}>
+        <React.Fragment>
             <h2>{`${props.referee.first_name} ${props.referee.last_name}`}</h2>
-            <div className="dx-fieldset" >
-                <div className="dx-field">
-                    <div className="dx-field-label">Ранг:</div>
-                    <div className="dx-field-label">{props.referee.rank}</div>
+            <div>
+                <div style={inlineBlockStyle}>
+                    <img
+                        height="240px" width="180px"
+                        src={getProfilePhotoUrl(props.referee)} 
+                    />
                 </div>
-                <div className="dx-field">
-                <div className="dx-field-label">Город:</div>
-                    <div className="dx-field-label">{props.referee.city}</div>
-                </div>
-                <div className="dx-field">
-                    <div className="dx-field-label">Всего игр:</div>
-                    <div className="dx-field-label">{`${props.games.length}`}</div>
+                <div style={inlineBlockStyle}>
+                    <div>
+                        <div style={inlineBlockStyle}>
+                            <CardTextElement text="Ранг:" />
+                        </div>
+                        <div style={inlineBlockStyle}>
+                            <CardTextElement text={props.referee.rank} />
+                        </div>
+                    </div>
+                    <div>
+                        <div style={inlineBlockStyle}>
+                            <CardTextElement text="Город:" />
+                        </div>
+                        <div style={inlineBlockStyle}>
+                            <CardTextElement text={props.referee.city} />
+                        </div>
+                    </div>
+                    <div className="dx-field">
+                        <div style={inlineBlockStyle}>
+                            <CardTextElement text="Всего игр:" />
+                        </div>
+                        <div style={inlineBlockStyle}>
+                            <CardTextElement text={`${props.games.length}`} />
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </React.Fragment>
     );
 };
 
@@ -65,8 +104,7 @@ const RefereeProfile = () => {
         <React.Fragment>
             <RefereeCard
                 referee={referee}
-                games={games}
-                width="300px">
+                games={games}>
             </RefereeCard>
             <DataGrid
                 dataSource={games}

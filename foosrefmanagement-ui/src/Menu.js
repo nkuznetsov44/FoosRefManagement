@@ -21,33 +21,45 @@ const menuItems = [
 ];
 
 const ItemComponent = ({ data }) => {
-    const style = {
-        margin: "0px 10px 0px 0px"
+    const linkStyle = {
+        color: 'grey',
+        textDecorationcolor: 'grey'
+    };
+
+    const innerStyle = {
+        margin: "0px 10px 0px 0px",
+        textTransform: 'uppercase'
     };
 
     return (
-        <Link to={data.path}>
-            <h4 style={style}>{data.name}</h4>
+        <Link to={data.path} style={linkStyle}>
+            <h4 style={innerStyle}>{data.name}</h4>
         </Link>
     );
 };
 
 const MenuComponent = (props) => {
-    const style = {
+    const menuStyle = {
         display: "inline-block",
         margin: "0px 0px 0px 0px"
     };
 
+    const loginButtonStyle = {
+        display: "inline-block",
+        margin: "0px 0px 0px 0px",
+        float: "right"
+    };
+
     return (
         <React.Fragment>
-            <div style={style}>
+            <div style={menuStyle}>
                 <Menu
                     dataSource={menuItems}
                     displayExpr={"name"}
                     itemComponent={ItemComponent}
                 />
             </div>
-            <div style={style} >
+            <div style={loginButtonStyle} >
                 <LoginButton user={props.user} />
             </div>
         </React.Fragment>

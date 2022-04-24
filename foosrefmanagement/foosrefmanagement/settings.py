@@ -32,7 +32,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-*jif9h=dlttr7dtut9vw8b!padb6a87wwvo^fx1g!utmhe)-c1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(os.getenv('DEBUG', False))
 
 ALLOWED_HOSTS = ['localhost', 'foosref.nkuznetsov.com']
 
@@ -136,6 +136,9 @@ USE_TZ = True
 STATIC_URL = '/django-static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
@@ -155,7 +158,8 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
-    ]
+    ],
+    'UPLOADED_FILES_USE_URL': False,
 }
 
 CORS_ALLOWED_ORIGINS = [

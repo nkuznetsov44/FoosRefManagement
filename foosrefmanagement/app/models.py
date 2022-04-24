@@ -27,6 +27,11 @@ class RefereeCity(models.TextChoices):
     OTHER = 'OTHER', 'Другой'
 
 
+def referee_profile_photo_path(instance, filename):
+    ext = filename.split('.')[-1]
+    return f'profile_photos/{instance.id}.{ext}'
+
+
 class Referee(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
@@ -36,6 +41,7 @@ class Referee(models.Model):
     languages = ArrayField(models.CharField(max_length=2, choices=RefereeLanguage.choices))
     city = models.CharField(max_length=63, choices=RefereeCity.choices, default=RefereeCity.OTHER)
     rank = models.CharField(max_length=63, choices=RefereeRank.choices, default=RefereeRank.ASSISTANT)
+    photo = models.ImageField(upload_to=referee_profile_photo_path, null=True, blank=True)
 
     def get_games(self):
         return RefereedGame.objects.filter(Q(referee__id=self.id) | Q(assistant__id=self.id))
