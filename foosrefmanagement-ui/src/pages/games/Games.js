@@ -49,6 +49,9 @@ const Games = () => {
                 {...cell.column.lookup}
                 onValueChanged={({ value }) => cell.setValue(value)}
                 itemRender={displayReferee}
+                searchEnabled={true}
+                searchMode="contains"
+                searchExpr={["first_name", "last_name"]}
             />
         );
     };
