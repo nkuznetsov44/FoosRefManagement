@@ -34,6 +34,7 @@ services:
       DJANGO_SUPERUSER_PASSWORD: ${DJANGO_SUPERUSER_PASSWORD}
     volumes:
       - staticfiles:/usr/src/app/staticfiles
+      - media:/usr/src/app/media
   nginx:
     build:
       context: ./foosrefmanagement-ui
@@ -44,6 +45,7 @@ services:
       - foosrefmanagement
     volumes:
       - staticfiles:/usr/src/app/staticfiles
+      - media:/usr/src/app/media
 volumes:
   staticfiles:
   postgresdata:

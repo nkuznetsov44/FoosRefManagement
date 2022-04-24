@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import {
-    DataGrid, Column, FilterRow, HeaderFilter, SearchPanel
+    DataGrid, Column, FilterRow, HeaderFilter, SearchPanel, Paging
 } from 'devextreme-react/data-grid';
 import { dataStoreFactory } from '../../apiDataStore';
 
@@ -25,6 +25,7 @@ const Referees = () => {
                 columnAutoWidth={true}
                 rowAlternationEnabled={true}
                 hoverStateEnabled={true}>
+                <Paging enabled={false} />
                 <FilterRow visible={true} />
                 <SearchPanel visible={true}
                     width={240}
