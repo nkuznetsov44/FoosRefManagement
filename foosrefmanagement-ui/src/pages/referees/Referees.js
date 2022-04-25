@@ -23,6 +23,7 @@ const Referees = () => {
                 dataSource={dataStore}
                 showBorders={true}
                 columnAutoWidth={true}
+                columnHidingEnabled={true}
                 rowAlternationEnabled={true}
                 hoverStateEnabled={true}>
                 <Paging enabled={false} />
@@ -37,12 +38,12 @@ const Referees = () => {
                     cellRender={RefereeProfileLinkCellRender}>
                 </Column>
                 <Column dataField={"last_name"} caption={"Фамилия"} />
+                <Column dataField={"city"} caption={"Город"} />
+                <Column dataField={"rank"} caption={"Ранг"} />
                 <Column dataField={"first_name_en"} caption={"First name"} />
                 <Column dataField={"last_name_en"} caption={"Last name"} />
                 <Column dataField={"email"} caption={"Способ связи"} />
                 <Column dataField={"languages"} caption={"Языки"} />
-                <Column dataField={"city"} caption={"Город"} />
-                <Column dataField={"rank"} caption={"Ранг"} />
             </DataGrid>
         </React.Fragment>
     );
