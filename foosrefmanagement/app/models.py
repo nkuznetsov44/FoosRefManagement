@@ -41,6 +41,7 @@ class Referee(models.Model):
     languages = ArrayField(models.CharField(max_length=2, choices=RefereeLanguage.choices))
     city = models.CharField(max_length=63, choices=RefereeCity.choices, default=RefereeCity.OTHER)
     rank = models.CharField(max_length=63, choices=RefereeRank.choices, default=RefereeRank.ASSISTANT)
+    rank_update = models.DateField()
     photo = models.ImageField(upload_to=referee_profile_photo_path, null=True, blank=True)
 
     def get_games(self):
@@ -67,6 +68,32 @@ class RefereedEvent(models.Model):
         return f'RefereedEvent<type="{self.type}", name="{self.name}">'
 
 
+class GameCategory(models.TextChoices):
+    OS = 'OS', 'OS'
+    OD = 'OD', 'OD'
+    WS = 'WS', 'WS'
+    WD = 'WD', 'WD'
+    MD = 'MD', 'MD'
+    AS = 'AS', 'AS'
+    AD = 'AD', 'AD'
+    PRO_AM = 'PRO_AM', 'Pro-Am'
+    COD = 'COD', 'COD'
+    TEAM = 'TEAM', 'Team'
+    OTHER = 'OTHER', 'Other'
+
+
+class GameStage(models.TextChoices):
+    FINAL = 'FINAL', 'Final'
+    SEMI_FINAL = 'SEMI_FINAL', '1/2'
+    QUARTER_FINAL = 'QUARTER_FINAL', '1/4'
+    WB_FINAL = 'WB_FINAL', 'WB Final'
+    WB_SEMIFINAL = 'WB_SEMIFINAL', 'WB Semi-Final'
+    LB_FINAL = 'LB_FINAL', 'LB Final'
+    LB_4 = 'LB_4', 'LB [4]'
+    LB_5_6 = 'LB_5_6', 'LB [5-6]'
+    OTHER = 'OTHER', 'Other'
+
+
 class RefereedGame(models.Model):
     referee = models.ForeignKey(Referee, on_delete=models.PROTECT, related_name='referees')
     assistant = models.ForeignKey(
@@ -76,6 +103,8 @@ class RefereedGame(models.Model):
     first_player = models.CharField(max_length=255)
     second_player = models.CharField(max_length=255)
     date = models.DateField()
+    category = models.CharField(max_length=31, choices=GameCategory.choices, default=GameCategory.OTHER)
+    stage = models.CharField(max_length=31, choices=GameStage.choices, default=GameStage.OTHER)
 
     def __str__(self):
-        return f'RefereedGame<first_player="{self.first_player}", second_player="{self.second_player}">'
+        return f'RefereedGame<date="{self.date}", first_player="{self.first_player}", second_player="{self.second_player}">'

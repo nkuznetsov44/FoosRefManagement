@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { Button } from 'devextreme-react/button';
-import { api, logout } from '../../auth';
+import { logout } from '../../auth';
 
 
 const LoginButton = (props) => {

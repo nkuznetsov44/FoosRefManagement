@@ -24,17 +24,35 @@ class RefereedEventViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.RefereedEventSerializer
 
 
-class RefereeGames(views.APIView):
+class EventTypeLookup(views.APIView):
     def get(self, request):
+        return Response([{
+            'value': choice[0],
+            'display': choice[1]
+        } for choice in models.RefereedEventType.choices])
+
+
+class GameCategoryLookup(views.APIView):
+    def get(self, request):
+        return Response([{
+            'value': choice[0],
+            'display': choice[1]
+        } for choice in models.GameCategory.choices])
+
+
+class GameStageLookup(views.APIView):
+    def get(self, request):
+        return Response([{
+            'value': choice[0],
+            'display': choice[1]
+        } for choice in models.GameStage.choices])
+
+
+class RefereeGames(views.APIView):
+    def get(self, request, referee_id):
         try:
-            referee_id = int(request.GET['id'])
             referee = models.Referee.objects.get(id=referee_id)
-            print(referee.get_games())
             games_serializer = serializers.RefereedGameSerializer(referee.get_games(), many=True)
             return Response(games_serializer.data)
-        except KeyError:
-            return Response('id is required', status=HTTP_400_BAD_REQUEST)
-        except ValueError:
-            return Response('id must be a number', status=HTTP_400_BAD_REQUEST)
         except ObjectDoesNotExist:
             return Response('No referee with required id found', status=HTTP_400_BAD_REQUEST)

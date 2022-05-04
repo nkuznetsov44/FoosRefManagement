@@ -14,6 +14,9 @@ router.register(r'events', views.RefereedEventViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('gamesByReferee', views.RefereeGames.as_view())
-    #path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('gamesByReferee/<int:referee_id>', views.RefereeGames.as_view()),
+    path('lookup/eventType', views.EventTypeLookup.as_view()),
+    path('lookup/gameCategory', views.GameCategoryLookup.as_view()),
+    path('lookup/gameStage', views.GameStageLookup.as_view()),
+    # path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import notify from 'devextreme/ui/notify';
 
 
 export const login = async (username, password) => {
@@ -45,13 +46,12 @@ api.interceptors.response.use(
                 refresh: localStorage.getItem('refresh_token')
             }).then(response => {
                 sessionStorage.setItem('access_token', response.data.access);
-                console.log('Updated access and refresh tokens.');
                 return api(originalReq);
             }).catch(err => {
                 localStorage.removeItem('refresh_token');
                 sessionStorage.removeItem('access_token');
                 sessionStorage.removeItem('user');
-                alert('Login required');
+                notify('Login required', "error", 2000);
             });
         }
     }

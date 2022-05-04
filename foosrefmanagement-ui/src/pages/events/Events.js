@@ -1,20 +1,19 @@
 import React from 'react';
 import { DataGrid, Editing, Column, Lookup } from 'devextreme-react/data-grid';
 import { dataStoreFactory } from '../../apiDataStore';
-
-
-const eventTypes = [
-    { code: 'MASTERS', displayName: 'Masters' },
-    { code: 'PRO_TOUR', displayName: 'Pro Tour'},
-    { code: 'RUSSIAN_CUP_STAGE', displayName: 'Этап чемпионата России'},
-    { code: 'RUSSIAN_CUP_FINAL', displayName: 'Финал чемпионата России'},
-    { code: 'LOCAL_TOURNAMENT', displayName: 'Локальный турнир'},
-    { code: 'TEAMS', displayName: 'Лига'}
-]
+import { api } from '../../auth';
 
 
 const Events = () => {
     const dataStore = dataStoreFactory('/api/events', 'id');
+    const [eventTypes, setEventTypes] = React.useState([]);
+
+    React.useEffect(() => {
+        (async () => {
+            const { data } = await api.get('/api/lookup/eventType');
+            setEventTypes(data);
+        })();
+    }, []);
 
     return (
         <React.Fragment>
@@ -36,13 +35,13 @@ const Events = () => {
                     caption="Тип">
                     <Lookup
                         dataSource={eventTypes}
-                        displayExpr="displayName"
-                        valueExpr="code">
+                        displayExpr="display"
+                        valueExpr="value">
                     </Lookup>
                 </Column>
             </DataGrid>
         </React.Fragment>
     );
-}
+};
 
 export default Events;

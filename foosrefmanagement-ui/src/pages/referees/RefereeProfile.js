@@ -77,21 +77,17 @@ const RefereeProfile = () => {
 
     React.useEffect(() => {
         (async () => {
-            const { data } = await api.get('/api/gamesByReferee', {
-                params: {
-                    id: referee.id
-                }
-            });
+            const { data } = await api.get(`/api/gamesByReferee/${referee.id}`);
             setGames(data);
         })();
-    }, [referee])
+    }, [referee]);
 
     const refRender = ({ value }) => {
         if (value == null) {
             return <div />;
         }
         const text = `${value.first_name} ${value.last_name}`;
-        if (value.id == referee.id) {
+        if (value.id === referee.id) {
             return <div><b>{text}</b></div>;
         } else {
             return <div>{text}</div>;
@@ -101,6 +97,10 @@ const RefereeProfile = () => {
     const eventRender = ({ value }) => {
         return <div>{value && value.name}</div>;
     };
+
+    if (!referee) {
+        return <React.Fragment />
+    }
 
     return (
         <React.Fragment>

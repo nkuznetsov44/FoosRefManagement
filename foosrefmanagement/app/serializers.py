@@ -42,7 +42,9 @@ class RefereedGameSerializer(serializers.ModelSerializer):
             event=event,
             date=validated_data['date'],
             first_player=validated_data['first_player'],
-            second_player=validated_data['second_player']
+            second_player=validated_data['second_player'],
+            category=validated_data['category'],
+            stage=validated_data['stage']
         )
 
     def update(self, instance, validated_data):

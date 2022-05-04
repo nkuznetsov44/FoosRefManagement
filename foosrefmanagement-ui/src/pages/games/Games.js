@@ -5,6 +5,7 @@ import {
 } from 'devextreme-react/data-grid';
 import SelectBox from 'devextreme-react/select-box';
 import { dataStoreFactory } from '../../apiDataStore';
+import { api } from "../../auth";
 
 const displayReferee = (referee) => {
     return referee && `${referee.first_name} ${referee.last_name} (${referee.rank})`;
@@ -16,9 +17,24 @@ const displayEvent = (event) => {
 
 const Games = () => {
     const dataStore = dataStoreFactory('/api/games', 'id');
-
     const [referees, setReferees] = React.useState([]);
     const [events, setEvents] = React.useState([]);
+    const [gameCategories, setGameCategories] = React.useState([]);
+    const [gameStages, setGameStages] = React.useState([]);
+
+    React.useEffect(() => {
+        (async () => {
+            const { data } = await api.get('/api/lookup/gameCategory');
+            setGameCategories(data);
+        })();
+    }, []);
+
+    React.useEffect(() => {
+        (async () => {
+            const { data } = await api.get('/api/lookup/gameStage');
+            setGameStages(data);
+        })();
+    }, []);
 
     React.useEffect(() => {
         (async () => {
@@ -34,12 +50,16 @@ const Games = () => {
         })();
     }, []);
 
-    const EventCellRender = ({ value }) => {
-        return <div>{displayEvent(value)}</div>;
+    const EventCellRender = ({ event }) => {
+        return <div>{displayEvent(event)}</div>;
     };
 
-    const RefereeCellRender = ({ value }) => {
-        return <div>{displayReferee(value)}</div>
+    const RefereeCellRender = ({ referee }) => {
+        return (
+            <Link to="/refereeProfile" state={{ referee: referee.id }}>
+                {displayReferee(referee)}
+            </Link>
+        );
     };
 
     const refereeEditorRender = (cell) => {
@@ -60,6 +80,7 @@ const Games = () => {
         <React.Fragment>
             <h1>Игры</h1>
             <DataGrid
+                columnHidingEnabled={true}
                 dataSource={dataStore}
                 showBorders={true}
                 columnAutoWidth={true}
@@ -71,17 +92,13 @@ const Games = () => {
                     allowUpdating={false}
                 />
                 <Column
-                    dataField={"event"}
-                    caption={"Турнир"}
-                    cellRender={EventCellRender}>
-                    <Lookup
-                        dataSource={events}
-                        displayExpr={displayEvent}>
-                    </Lookup>
+                    dataField="date"
+                    dataType="date"
+                    caption="Дата"
+                    sortOrder="desc">
                 </Column>
-                <Column dataField={"first_player"} caption="Первая команда" />
-                <Column dataField={"second_player"} caption="Вторая команда" />
-                <Column dataField={"date"} dataType={"date"} caption="Дата" />
+                <Column dataField="first_player" caption="Первая команда" />
+                <Column dataField="second_player" caption="Вторая команда" />
                 <Column
                     dataField="referee"
                     caption="Основной рефери"
@@ -93,7 +110,7 @@ const Games = () => {
                     </Lookup>
                 </Column>
                 <Column
-                    dataField={"assistant"}
+                    dataField="assistant"
                     caption="Ассистент"
                     cellRender={RefereeCellRender}
                     editCellRender={refereeEditorRender}>
@@ -102,9 +119,32 @@ const Games = () => {
                         displayExpr={displayReferee}>
                     </Lookup>
                 </Column>
+                <Column
+                    dataField={"event"}
+                    caption={"Турнир"}
+                    cellRender={EventCellRender}>
+                    <Lookup
+                        dataSource={events}
+                        displayExpr={displayEvent}>
+                    </Lookup>
+                </Column>
+                <Column dataField="category" caption="Категория">
+                    <Lookup
+                        dataSource={gameCategories}
+                        displayExpr="display"
+                        valueExpr="value">
+                    </Lookup>
+                </Column>
+                <Column dataField="stage" caption="Стадия">
+                    <Lookup
+                        dataSource={gameStages}
+                        displayExpr="display"
+                        valueExpr="value">
+                    </Lookup>
+                </Column>
             </DataGrid>
         </React.Fragment>
     );
-}
+};
 
 export default Games;
