@@ -44,14 +44,15 @@ const Referees = () => {
                 <Column
                     name="name"
                     caption="Рефери"
+                    allowSearch={true}
                     calculateCellValue={(referee) => {
-                        return `${referee.last_name} ${referee.first_name}`
+                        return `${referee.last_name} ${referee.first_name}`;
                     }}
                     cellRender={RefereeProfileLinkCellRender}
                     sortIndex={1}
-                    sortOrder="desc"
+                    sortOrder="asc"
                     calculateSortValue={(referee) => {
-                        return referee.last_name
+                        return referee.last_name;
                     }}>
                 </Column>
                 <Column dataField="city" caption="Город" />
@@ -60,16 +61,19 @@ const Referees = () => {
                     caption="Ранг"
                     sortIndex={0}
                     sortOrder="desc"
-                    calculateSortValue={(rank) => { return refereeRanks[rank] }}>
+                    calculateSortValue={(referee) => { 
+                        return refereeRanks[referee.rank];
+                    }}>
                 </Column>
                 <Column
                     name="name_en"
                     caption="Name EN"
+                    allowSearch={true}
                     calculateCellValue={(referee) => {
                         return `${referee.first_name_en} ${referee.last_name_en}`
                     }}
                     calculateSortValue={(referee) => {
-                        return referee.last_name_en
+                        return referee.last_name_en;
                     }}>
                 </Column>
                 <Column dataField="email" caption="Способ связи" />
