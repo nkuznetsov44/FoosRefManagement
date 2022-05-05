@@ -57,7 +57,7 @@ const Games = () => {
 
     const RefereeCellRender = ({ data }) => {
         return (
-            <Link to="/refereeProfile" state={{ referee: data.referee }}>
+            <Link to={`/refereeProfile/${data.referee.id}`}>
                 {displayReferee(data.referee)}
             </Link>
         );
