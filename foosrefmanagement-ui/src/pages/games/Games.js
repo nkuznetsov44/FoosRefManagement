@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {
     DataGrid, Editing, Column, Lookup
@@ -50,14 +51,14 @@ const Games = () => {
         })();
     }, []);
 
-    const EventCellRender = ({ event }) => {
-        return <div>{displayEvent(event)}</div>;
+    const EventCellRender = ({ data }) => {
+        return <div>{displayEvent(data.event)}</div>;
     };
 
-    const RefereeCellRender = ({ referee }) => {
+    const RefereeCellRender = ({ data }) => {
         return (
-            <Link to="/refereeProfile" state={{ referee: referee.id }}>
-                {displayReferee(referee)}
+            <Link to="/refereeProfile" state={{ referee: data.referee }}>
+                {displayReferee(data.referee)}
             </Link>
         );
     };

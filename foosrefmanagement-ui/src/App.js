@@ -24,7 +24,7 @@ const App = () => {
             <Route path="/games" element={<Games />} />
             <Route path="/events" element={<Events />} />
             <Route path="/login" element={<LoginForm onLogin={setUser} />} />
-            <Route path="/refereeProfile" element={<RefereeProfile />} />
+            <Route path="/refereeProfile/:id" element={<RefereeProfile />} />
         </Routes>
         </BrowserRouter>
     );

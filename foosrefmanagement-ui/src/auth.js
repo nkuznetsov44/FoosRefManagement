@@ -51,7 +51,7 @@ api.interceptors.response.use(
                 localStorage.removeItem('refresh_token');
                 sessionStorage.removeItem('access_token');
                 sessionStorage.removeItem('user');
-                notify('Login required', "error", 2000);
+                notify('Login required', "error", 5000);
             });
         }
     }

@@ -17,10 +17,10 @@ const refereeRanks = {
 const Referees = () => {
     const dataStore = dataStoreFactory('/api/referees', 'id');
 
-    const RefereeProfileLinkCellRender = (cellData) => {
+    const RefereeProfileLinkCellRender = ({ data, value }) => {
         return (
-            <Link to="/refereeProfile" state={{ referee: cellData.data }}>
-                {cellData.value}
+            <Link to={`/refereeProfile/${data.id}`}>
+                {value}
             </Link>
         );
     };

@@ -16,7 +16,6 @@ const menuItems = [
     {
         name: 'Турниры',
         path: '/events'
-
     }
 ];
 

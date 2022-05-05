@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom';
 import {
     DataGrid, Column, FilterRow, SearchPanel, Paging
 } from 'devextreme-react/data-grid';
@@ -56,12 +56,20 @@ const RefereeCard = (props) => {
                             <CardTextElement text={props.referee.city} />
                         </div>
                     </div>
-                    <div className="dx-field">
+                    <div>
                         <div style={inlineBlockStyle}>
                             <CardTextElement text="Всего игр:" />
                         </div>
                         <div style={inlineBlockStyle}>
                             <CardTextElement text={`${props.games.length}`} />
+                        </div>
+                    </div>
+                    <div>
+                        <div style={inlineBlockStyle}>
+                            <CardTextElement text="Когда стал рефери:" />
+                        </div>
+                        <div style={inlineBlockStyle}>
+                            <CardTextElement text={`${props.referee.rank_update}`} />
                         </div>
                     </div>
                 </div>
@@ -71,16 +79,23 @@ const RefereeCard = (props) => {
 };
 
 const RefereeProfile = () => {
-    const location = useLocation();
-    const { referee } = location.state;
+    const { id } = useParams();
+    const [referee, setReferee] = React.useState();
     const [games, setGames] = React.useState([]);
 
     React.useEffect(() => {
         (async () => {
-            const { data } = await api.get(`/api/gamesByReferee/${referee.id}`);
+            const { data } = await api.get(`/api/referees/${id}`);
+            setReferee(data);
+        })();
+    }, [id]);
+
+    React.useEffect(() => {
+        (async () => {
+            const { data } = await api.get(`/api/gamesByReferee/${id}`);
             setGames(data);
         })();
-    }, [referee]);
+    }, [id]);
 
     const refRender = ({ value }) => {
         if (value == null) {
