@@ -110,6 +110,28 @@ const Games = () => {
                     sortOrder="desc">
                 </Column>
                 <Column
+                    dataField="category"
+                    caption="Категория"
+                    allowSorting={false}
+                    allowFiltering={true}>
+                    <Lookup
+                        dataSource={gameCategories}
+                        displayExpr="display"
+                        valueExpr="value">
+                    </Lookup>
+                </Column>
+                <Column
+                    dataField="stage"
+                    caption="Стадия"
+                    allowSorting={false}
+                    allowFiltering={true}>
+                    <Lookup
+                        dataSource={gameStages}
+                        displayExpr="display"
+                        valueExpr="value">
+                    </Lookup>
+                </Column>
+                <Column
                     dataField="first_player"
                     caption="Первая команда"
                     allowSorting={false}
@@ -162,28 +184,6 @@ const Games = () => {
                         dataSource={events}
                         displayExpr={displayEvent}
                         valueExpr={(value) => value && value.id}>
-                    </Lookup>
-                </Column>
-                <Column
-                    dataField="category"
-                    caption="Категория"
-                    allowSorting={false}
-                    allowFiltering={true}>
-                    <Lookup
-                        dataSource={gameCategories}
-                        displayExpr="display"
-                        valueExpr="value">
-                    </Lookup>
-                </Column>
-                <Column
-                    dataField="stage"
-                    caption="Стадия"
-                    allowSorting={false}
-                    allowFiltering={true}>
-                    <Lookup
-                        dataSource={gameStages}
-                        displayExpr="display"
-                        valueExpr="value">
                     </Lookup>
                 </Column>
             </DataGrid>

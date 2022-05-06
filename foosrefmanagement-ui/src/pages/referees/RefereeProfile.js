@@ -66,7 +66,7 @@ const RefereeCard = (props) => {
                     </div>
                     <div>
                         <div style={inlineBlockStyle}>
-                            <CardTextElement text="Когда стал рефери:" />
+                            <CardTextElement text="Дата сдачи экзамена:" />
                         </div>
                         <div style={inlineBlockStyle}>
                             <CardTextElement text={`${props.referee.rank_update}`} />
@@ -150,6 +150,7 @@ const RefereeProfile = () => {
             <DataGrid
                 dataSource={games}
                 showBorders={true}
+                columnHidingEnabled={true}
                 columnAutoWidth={true}
                 rowAlternationEnabled={true}>
                 <Paging enabled={false} />
