@@ -149,6 +149,14 @@ const RefereeProfile = () => {
                     caption="Турнир"
                     cellRender={eventRender}>
                 </Column>
+                <Column
+                    dataField="stage"
+                    caption="Стадия">
+                </Column>
+                <Column
+                    dataField="category"
+                    caption="Категория">
+                </Column>
                 <Column dataField="first_player" caption="Первая команда" />
                 <Column dataField="second_player" caption="Вторая команда" />
                 <Column dataField="date" dataType="date" caption="Дата" />
