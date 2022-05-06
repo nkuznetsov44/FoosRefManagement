@@ -63,6 +63,14 @@ const Games = () => {
         );
     };
 
+    const AssistantCellRender = ({ data }) => {
+        return (
+            <Link to={`/refereeProfile/${data.assistant.id}`}>
+                {displayReferee(data.assistant)}
+            </Link>
+        );
+    };
+
     const refereeEditorRender = (cell) => {
         return (
             <SelectBox
@@ -113,7 +121,7 @@ const Games = () => {
                 <Column
                     dataField="assistant"
                     caption="Ассистент"
-                    cellRender={RefereeCellRender}
+                    cellRender={AssistantCellRender}
                     editCellRender={refereeEditorRender}>
                     <Lookup
                         dataSource={referees}
