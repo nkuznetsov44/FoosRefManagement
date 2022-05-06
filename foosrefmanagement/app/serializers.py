@@ -70,10 +70,3 @@ class RefereedGameDeserializer(serializers.ModelSerializer):
         if validated_data.get('event'):
             validated_data['event'] = RefereedEvent.objects.get(id=validated_data['event'])
         return super().update(instance, validated_data)
-
-"""
-    def update(self, instance, validated_data):
-        print(instance)
-        print(validated_data)
-        raise UnsupportedOperation()
-"""
