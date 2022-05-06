@@ -14,7 +14,7 @@ const LoginButton = (props) => {
     const Login = () => {
         return (
             <Button
-                width={120}
+                maxWidth={120}
                 text="Login"
                 type="normal"
                 stylingMode="contained"
@@ -30,9 +30,8 @@ const LoginButton = (props) => {
     const Logout = () => {
         return (
             <React.Fragment>
-                <div className="dx-field-label">{`Logged in as ${props.user}`}</div>
                 <Button
-                    width={120}
+                    maxWidth={120}
                     text="Logout"
                     type="normal"
                     stylingMode="contained"

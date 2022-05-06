@@ -6,6 +6,7 @@ import {
 import SelectBox from 'devextreme-react/select-box';
 import { dataStoreFactory } from '../../apiDataStore';
 import { api } from "../../auth";
+import { PropertiesPanel } from 'devextreme-react/diagram';
 
 const displayReferee = (referee) => {
     return referee && `${referee.first_name} ${referee.last_name} (${referee.rank})`;
@@ -15,7 +16,7 @@ const displayEvent = (event) => {
     return event && event.name;
 };
 
-const Games = () => {
+const Games = (props) => {
     const dataStore = dataStoreFactory('/api/games', 'id');
     const [referees, setReferees] = React.useState([]);
     const [events, setEvents] = React.useState([]);
@@ -96,12 +97,14 @@ const Games = () => {
                 showBorders={true}
                 columnAutoWidth={true}
                 rowAlternationEnabled={true}>
-                <Editing
-                    mode="row"
-                    allowAdding={true}
-                    allowDeleting={true}
-                    allowUpdating={true}>
-                </Editing>
+                {   props.isLoggedIn &&
+                    <Editing
+                        mode="row"
+                        allowAdding={true}
+                        allowDeleting={true}
+                        allowUpdating={true}>
+                    </Editing>
+                }
                 <FilterRow visible={true} />
                 <Column
                     dataField="date"
@@ -111,7 +114,7 @@ const Games = () => {
                 </Column>
                 <Column
                     dataField="category"
-                    caption="Категория"
+                    caption="Кат."
                     allowSorting={false}
                     allowFiltering={true}>
                     <Lookup
@@ -130,18 +133,6 @@ const Games = () => {
                         displayExpr="display"
                         valueExpr="value">
                     </Lookup>
-                </Column>
-                <Column
-                    dataField="first_player"
-                    caption="Первая команда"
-                    allowSorting={false}
-                    allowFiltering={true}>
-                </Column>
-                <Column
-                    dataField="second_player"
-                    caption="Вторая команда"
-                    allowSorting={false}
-                    allowFiltering={true}>
                 </Column>
                 <Column
                     dataField="referee"
@@ -185,6 +176,18 @@ const Games = () => {
                         displayExpr={displayEvent}
                         valueExpr={(value) => value && value.id}>
                     </Lookup>
+                </Column>
+                <Column
+                    dataField="first_player"
+                    caption="Команда 1"
+                    allowSorting={false}
+                    allowFiltering={true}>
+                </Column>
+                <Column
+                    dataField="second_player"
+                    caption="Команда 2"
+                    allowSorting={false}
+                    allowFiltering={true}>
                 </Column>
             </DataGrid>
         </React.Fragment>

@@ -13,7 +13,7 @@ const refereeRankOrder = {
     'INTERNATIONAL': 3
 };
 
-const Referees = () => {
+const Referees = (props) => {
     const dataStore = dataStoreFactory('/api/referees', 'id');
     const [refereeRanks, setRefereeRanks] = React.useState([]);
     const [refereeCities, setRefereeCities] = React.useState([]);
@@ -64,15 +64,6 @@ const Referees = () => {
                     calculateSortValue={(referee) => referee && referee.last_name}>
                 </Column>
                 <Column
-                    dataField="city"
-                    caption="Город">
-                    <Lookup
-                        dataSource={refereeCities}
-                        displayExpr="display"
-                        valueExpr="value">
-                    </Lookup>
-                </Column>
-                <Column
                     dataField="rank"
                     caption="Ранг"
                     sortIndex={0}
@@ -80,6 +71,15 @@ const Referees = () => {
                     calculateSortValue={(referee) => referee && refereeRankOrder[referee.rank]}>
                     <Lookup
                         dataSource={refereeRanks}
+                        displayExpr="display"
+                        valueExpr="value">
+                    </Lookup>
+                </Column>
+                <Column
+                    dataField="city"
+                    caption="Город">
+                    <Lookup
+                        dataSource={refereeCities}
                         displayExpr="display"
                         valueExpr="value">
                     </Lookup>

@@ -4,7 +4,7 @@ import { dataStoreFactory } from '../../apiDataStore';
 import { api } from '../../auth';
 
 
-const Events = () => {
+const Events = (props) => {
     const dataStore = dataStoreFactory('/api/events', 'id');
     const [eventTypes, setEventTypes] = React.useState([]);
 
@@ -23,12 +23,14 @@ const Events = () => {
                 showBorders={true}
                 columnAutoWidth={true}
                 rowAlternationEnabled={true}>
-                <Editing
-                    mode="row"
-                    allowAdding={true}
-                    allowDeleting={true}
-                    allowUpdating={true}
-                />
+                {   props.isLoggedIn &&
+                    <Editing
+                        mode="row"
+                        allowAdding={true}
+                        allowDeleting={true}
+                        allowUpdating={true}
+                    />
+                }
                 <Column dataField="name" caption="Название" />
                 <Column
                     dataField="type"
