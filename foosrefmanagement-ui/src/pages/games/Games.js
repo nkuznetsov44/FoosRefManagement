@@ -100,7 +100,7 @@ const Games = () => {
                     mode="row"
                     allowAdding={true}
                     allowDeleting={true}
-                    allowUpdating={false}>
+                    allowUpdating={true}>
                 </Editing>
                 <FilterRow visible={true} />
                 <Column

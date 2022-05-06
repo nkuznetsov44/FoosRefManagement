@@ -18,14 +18,14 @@ const App = () => {
 
     return (
         <BrowserRouter>
-        <MenuComponent user={user} />
-        <Routes>
-            <Route path="/" element={<Referees />} />
-            <Route path="/games" element={<Games />} />
-            <Route path="/events" element={<Events />} />
-            <Route path="/login" element={<LoginForm onLogin={setUser} />} />
-            <Route path="/refereeProfile/:id" element={<RefereeProfile />} />
-        </Routes>
+            <MenuComponent user={user} />
+            <Routes>
+                <Route path="/" element={<Referees />} />
+                <Route path="/games" element={<Games />} />
+                <Route path="/events" element={<Events />} />
+                <Route path="/login" element={<LoginForm onLogin={setUser} />} />
+                <Route path="/refereeProfile/:id" element={<RefereeProfile />} />
+            </Routes>
         </BrowserRouter>
     );
 };

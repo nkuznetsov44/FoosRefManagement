@@ -63,4 +63,17 @@ class RefereedGameDeserializer(serializers.ModelSerializer):
         )
 
     def update(self, instance, validated_data):
+        if validated_data.get('referee'):
+            validated_data['referee'] = Referee.objects.get(id=validated_data['referee'])
+        if validated_data.get('assistant'):
+            validated_data['assistant'] = Referee.objects.get(id=validated_data['assistant'])
+        if validated_data.get('event'):
+            validated_data['event'] = RefereedEvent.objects.get(id=validated_data['event'])
+        return super().update(instance, validated_data)
+
+"""
+    def update(self, instance, validated_data):
+        print(instance)
+        print(validated_data)
         raise UnsupportedOperation()
+"""

@@ -22,7 +22,8 @@ class RefereedGameViewSet(ActionBasedSerializerMixin, viewsets.ModelViewSet):
     queryset = models.RefereedGame.objects.all()
 
     serializer_classes = {
-        'create': serializers.RefereedGameDeserializer
+        'create': serializers.RefereedGameDeserializer,
+        'partial_update': serializers.RefereedGameDeserializer,
     }
     default_serializer_class = serializers.RefereedGameSerializer
 
