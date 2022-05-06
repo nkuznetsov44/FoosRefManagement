@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import {
-    DataGrid, Editing, Column, Lookup
+    DataGrid, Editing, FilterRow, Column, Lookup
 } from 'devextreme-react/data-grid';
 import SelectBox from 'devextreme-react/select-box';
 import { dataStoreFactory } from '../../apiDataStore';
@@ -39,14 +38,14 @@ const Games = () => {
 
     React.useEffect(() => {
         (async () => {
-            const { data } = await axios.get('/api/referees');
+            const { data } = await api.get('/api/referees');
             setReferees(data);
         })();
     }, []);
 
     React.useEffect(() => {
         (async () => {
-            const { data } = await axios.get('/api/events');
+            const { data } = await api.get('/api/events');
             setEvents(data);
         })();
     }, []);
@@ -74,7 +73,7 @@ const Games = () => {
         );
     };
 
-    const refereeEditorRender = (cell) => {
+    const RefereeEditorRender = (cell) => {
         return (
             <SelectBox
                 defaultValue={cell.value}
@@ -101,53 +100,86 @@ const Games = () => {
                     mode="row"
                     allowAdding={true}
                     allowDeleting={true}
-                    allowUpdating={false}
-                />
+                    allowUpdating={false}>
+                </Editing>
+                <FilterRow visible={true} />
                 <Column
                     dataField="date"
                     dataType="date"
                     caption="Дата"
                     sortOrder="desc">
                 </Column>
-                <Column dataField="first_player" caption="Первая команда" />
-                <Column dataField="second_player" caption="Вторая команда" />
+                <Column
+                    dataField="first_player"
+                    caption="Первая команда"
+                    allowSorting={false}
+                    allowFiltering={true}>
+                </Column>
+                <Column
+                    dataField="second_player"
+                    caption="Вторая команда"
+                    allowSorting={false}
+                    allowFiltering={true}>
+                </Column>
                 <Column
                     dataField="referee"
                     caption="Основной рефери"
+                    allowSorting={false}
+                    allowFiltering={true}
+                    alignment="left"
+                    calculateCellValue={(rowData) => rowData && rowData.referee && rowData.referee.id}  // used for filtering
                     cellRender={RefereeCellRender}
-                    editCellRender={refereeEditorRender}>
+                    editCellRender={RefereeEditorRender}>
                     <Lookup
                         dataSource={referees}
-                        displayExpr={displayReferee}>
+                        displayExpr={displayReferee}
+                        valueExpr={(value) => value && value.id}>
                     </Lookup>
                 </Column>
                 <Column
                     dataField="assistant"
                     caption="Ассистент"
+                    allowSorting={false}
+                    allowFiltering={true}
+                    alignment="left"
+                    calculateCellValue={(rowData) => rowData && rowData.assistant && rowData.assistant.id}
                     cellRender={AssistantCellRender}
-                    editCellRender={refereeEditorRender}>
+                    editCellRender={RefereeEditorRender}>
                     <Lookup
                         dataSource={referees}
-                        displayExpr={displayReferee}>
+                        displayExpr={displayReferee}
+                        valueExpr={(value) => value && value.id}>
                     </Lookup>
                 </Column>
                 <Column
                     dataField={"event"}
                     caption={"Турнир"}
+                    allowSorting={false}
+                    allowFiltering={true}
+                    calculateCellValue={(rowData) => rowData && rowData.event && rowData.event.id}
                     cellRender={EventCellRender}>
                     <Lookup
                         dataSource={events}
-                        displayExpr={displayEvent}>
+                        displayExpr={displayEvent}
+                        valueExpr={(value) => value && value.id}>
                     </Lookup>
                 </Column>
-                <Column dataField="category" caption="Категория">
+                <Column
+                    dataField="category"
+                    caption="Категория"
+                    allowSorting={false}
+                    allowFiltering={true}>
                     <Lookup
                         dataSource={gameCategories}
                         displayExpr="display"
                         valueExpr="value">
                     </Lookup>
                 </Column>
-                <Column dataField="stage" caption="Стадия">
+                <Column
+                    dataField="stage"
+                    caption="Стадия"
+                    allowSorting={false}
+                    allowFiltering={true}>
                     <Lookup
                         dataSource={gameStages}
                         displayExpr="display"

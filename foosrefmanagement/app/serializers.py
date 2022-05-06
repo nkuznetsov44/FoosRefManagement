@@ -5,9 +5,6 @@ from .models import Referee, RefereedGame, RefereedEvent
 
 
 class RefereeSerializer(serializers.ModelSerializer):
-    rank = serializers.CharField(source='get_rank_display')
-    city = serializers.CharField(source='get_city_display')
-
     class Meta:
         model = Referee
         fields = '__all__'
@@ -31,11 +28,29 @@ class RefereedGameSerializer(serializers.ModelSerializer):
         depth = 1
 
     def create(self, validated_data):
-        referee = Referee.objects.get(id=self.initial_data['referee']['id'])
+        raise UnsupportedOperation()
+
+    def update(self, instance, validated_data):
+        raise UnsupportedOperation()
+
+
+class RefereedGameDeserializer(serializers.ModelSerializer):
+    referee = serializers.IntegerField(write_only=True)
+    assistant = serializers.IntegerField(write_only=True)
+    event = serializers.IntegerField(write_only=True)
+    category = serializers.CharField(write_only=True)
+    stage = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = RefereedGame
+        fields = '__all__'
+
+    def create(self, validated_data):
+        referee = Referee.objects.get(id=validated_data['referee'])
         assistant = None
         if validated_data.get('assistant'):
-            assistant = Referee.objects.get(id=self.initial_data['assistant']['id'])
-        event = RefereedEvent.objects.get(id=self.initial_data['event']['id'])
+            assistant = Referee.objects.get(id=validated_data['assistant'])
+        event = RefereedEvent.objects.get(id=validated_data['event'])
         return RefereedGame.objects.create(
             referee=referee,
             assistant=assistant,
@@ -48,4 +63,4 @@ class RefereedGameSerializer(serializers.ModelSerializer):
         )
 
     def update(self, instance, validated_data):
-        raise UnsupportedOperation('Updating games is not supported')
+        raise UnsupportedOperation()

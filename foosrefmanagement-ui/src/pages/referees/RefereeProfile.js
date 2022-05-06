@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import {
-    DataGrid, Column, FilterRow, SearchPanel, Paging
+    DataGrid, Column, FilterRow, Paging, Lookup
 } from 'devextreme-react/data-grid';
 import { api } from '../../auth';
 
@@ -82,6 +82,30 @@ const RefereeProfile = () => {
     const { id } = useParams();
     const [referee, setReferee] = React.useState();
     const [games, setGames] = React.useState([]);
+    const [events, setEvents] = React.useState([]);
+    const [gameCategories, setGameCategories] = React.useState([]);
+    const [gameStages, setGameStages] = React.useState([]);
+
+    React.useEffect(() => {
+        (async () => {
+            const { data } = await api.get('/api/lookup/gameCategory');
+            setGameCategories(data);
+        })();
+    }, []);
+
+    React.useEffect(() => {
+        (async () => {
+            const { data } = await api.get('/api/lookup/gameStage');
+            setGameStages(data);
+        })();
+    }, []);
+
+    React.useEffect(() => {
+        (async () => {
+            const { data } = await api.get('/api/events');
+            setEvents(data);
+        })();
+    }, []);
 
     React.useEffect(() => {
         (async () => {
@@ -97,7 +121,7 @@ const RefereeProfile = () => {
         })();
     }, [id]);
 
-    const refRender = ({ value }) => {
+    const RefereeRender = ({ value }) => {
         if (value == null) {
             return <div />;
         }
@@ -109,8 +133,8 @@ const RefereeProfile = () => {
         }
     };
 
-    const eventRender = ({ value }) => {
-        return <div>{value && value.name}</div>;
+    const EventCellRender = ({ data }) => {
+        return <div>{data && data.event && data.event.name}</div>;
     };
 
     if (!referee) {
@@ -130,36 +154,75 @@ const RefereeProfile = () => {
                 rowAlternationEnabled={true}>
                 <Paging enabled={false} />
                 <FilterRow visible={true} />
-                <SearchPanel visible={true}
-                    width={240}
-                    placeholder="Найти..."
-                />
                 <Column
                     dataField="referee"
                     caption="Основной рефери"
-                    cellRender={refRender}>
+                    allowSorting={false}
+                    allowFiltering={false}
+                    cellRender={RefereeRender}>
                 </Column>
                 <Column
                     dataField="assistant"
                     caption="Ассистент"
-                    cellRender={refRender}>
+                    allowSorting={false}
+                    allowFiltering={false}
+                    cellRender={RefereeRender}>
                 </Column>
                 <Column
                     dataField="event"
                     caption="Турнир"
-                    cellRender={eventRender}>
+                    allowSorting={false}
+                    allowFiltering={true}
+                    cellRender={EventCellRender}
+                    calculateCellValue={(rowData) => rowData && rowData.event && rowData.event.id}>
+                    <Lookup
+                        dataSource={events}
+                        displayExpr={(value) => value && value.name}
+                        valueExpr={(value) => value && value.id}>
+                    </Lookup>
                 </Column>
                 <Column
                     dataField="stage"
-                    caption="Стадия">
+                    caption="Стадия"
+                    allowSorting={false}
+                    allowFiltering={true}>
+                    <Lookup
+                        dataSource={gameStages}
+                        displayExpr="display"
+                        valueExpr="value">
+                    </Lookup>
                 </Column>
                 <Column
                     dataField="category"
-                    caption="Категория">
+                    caption="Категория"
+                    allowSorting={false}
+                    allowFiltering={true}>
+                    <Lookup
+                        dataSource={gameCategories}
+                        displayExpr="display"
+                        valueExpr="value">
+                    </Lookup>
                 </Column>
-                <Column dataField="first_player" caption="Первая команда" />
-                <Column dataField="second_player" caption="Вторая команда" />
-                <Column dataField="date" dataType="date" caption="Дата" />
+                <Column
+                    dataField="first_player"
+                    caption="Первая команда"
+                    allowSorting={false}
+                    allowFiltering={true}>
+                </Column>
+                <Column
+                    dataField="second_player"
+                    caption="Вторая команда"
+                    allowSorting={false}
+                    allowFiltering={true}>
+                </Column>
+                <Column
+                    dataField="date"
+                    dataType="date"
+                    caption="Дата"
+                    sortOrder="desc"
+                    allowSorting={true}
+                    allowFiltering={true}>
+                </Column>
             </DataGrid>
         </React.Fragment>
     );

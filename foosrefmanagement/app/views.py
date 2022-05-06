@@ -6,16 +6,25 @@ from . import models
 from . import serializers
 
 
+class ActionBasedSerializerMixin:
+    def get_serializer_class(self):
+        return self.serializer_classes.get(self.action, self.default_serializer_class)
+
+
 class RefereeViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = models.Referee.objects.all()
     serializer_class = serializers.RefereeSerializer
 
 
-class RefereedGameViewSet(viewsets.ModelViewSet):
+class RefereedGameViewSet(ActionBasedSerializerMixin, viewsets.ModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = models.RefereedGame.objects.all()
-    serializer_class = serializers.RefereedGameSerializer
+
+    serializer_classes = {
+        'create': serializers.RefereedGameDeserializer
+    }
+    default_serializer_class = serializers.RefereedGameSerializer
 
 
 class RefereedEventViewSet(viewsets.ModelViewSet):
@@ -24,28 +33,32 @@ class RefereedEventViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.RefereedEventSerializer
 
 
-class EventTypeLookup(views.APIView):
+class LookupView(views.APIView):
     def get(self, request):
         return Response([{
             'value': choice[0],
             'display': choice[1]
-        } for choice in models.RefereedEventType.choices])
+        } for choice in self.model.choices])
 
 
-class GameCategoryLookup(views.APIView):
-    def get(self, request):
-        return Response([{
-            'value': choice[0],
-            'display': choice[1]
-        } for choice in models.GameCategory.choices])
+class EventTypeLookup(LookupView):
+    model = models.RefereedEventType
 
 
-class GameStageLookup(views.APIView):
-    def get(self, request):
-        return Response([{
-            'value': choice[0],
-            'display': choice[1]
-        } for choice in models.GameStage.choices])
+class GameCategoryLookup(LookupView):
+    model = models.GameCategory
+
+
+class GameStageLookup(LookupView):
+    model = models.GameStage
+
+
+class RefereeRankLookup(LookupView):
+    model = models.RefereeRank
+
+
+class RefereeCityLookup(LookupView):
+    model = models.RefereeCity
 
 
 class RefereeGames(views.APIView):
