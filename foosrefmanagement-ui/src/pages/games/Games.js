@@ -64,6 +64,9 @@ const Games = () => {
     };
 
     const AssistantCellRender = ({ data }) => {
+        if (!data.assistant) {
+            return <div />
+        }
         return (
             <Link to={`/refereeProfile/${data.assistant.id}`}>
                 {displayReferee(data.assistant)}
