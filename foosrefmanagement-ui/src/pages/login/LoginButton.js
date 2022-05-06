@@ -24,9 +24,7 @@ const LoginButton = (props) => {
     };
 
     const logoutClick = (e) => {
-        (async () => {
-            await logout();
-        })();
+        logout();
     };
 
     const Logout = () => {
@@ -44,7 +42,7 @@ const LoginButton = (props) => {
         )
     };
 
-    if (props.user != undefined) {
+    if (props.user) {
         return <Logout />;
     }
     return <Login />
