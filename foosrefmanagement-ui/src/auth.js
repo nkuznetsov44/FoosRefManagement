@@ -13,8 +13,8 @@ export const login = async (username, password) => {
     });
     localStorage.setItem('refresh_token', data.refresh);
     sessionStorage.setItem('access_token', data.access);
-    sessionStorage.setItem('user', data.user.username);
-    return data.user.username;
+    sessionStorage.setItem('user', JSON.stringify(data.user));
+    return data.user;
 };
 
 export const api = axios.create({});

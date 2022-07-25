@@ -1,8 +1,7 @@
 import React from 'react';
 import { Menu } from 'devextreme-react';
 import { Link } from 'react-router-dom';
-import LoginButton from './pages/login/LoginButton';
-
+import LoginButton from './pages/login/TelegramLoginButton';
 
 const menuItems = [
     {

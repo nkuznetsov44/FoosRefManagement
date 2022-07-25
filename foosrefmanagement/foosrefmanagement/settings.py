@@ -30,6 +30,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-*jif9h=dlttr7dtut9vw8b!padb6a87wwvo^fx1g!utmhe)-c1'
+# TODO: Make secret key secret :)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.getenv('DEBUG', False))
@@ -145,6 +146,12 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+# Authentication
+
+AUTH_USER_MODEL = 'app.TelegramUser'
+TELEGRAM_BOT_API_TOKEN = os.getenv('TELEGRAM_BOT_API_TOKEN')
+
+
 # Rest Framework
 
 REST_FRAMEWORK = {
@@ -154,7 +161,8 @@ REST_FRAMEWORK = {
     ],
     'DATE_INPUT_FORMATS': ['%Y-%m-%d', '%Y-%m-%dT%H:%M:%S.%f%z'],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication'
+        'app.auth.backends.DRFJWTAuthentication',
+        'app.auth.backends.DRFTelegramAuthentication',
     ],
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
