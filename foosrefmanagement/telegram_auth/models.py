@@ -37,10 +37,7 @@ class TelegramUser(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=255, blank=True, null=True)
     username = models.CharField(max_length=255, blank=True, null=True)
     photo_url = models.CharField(max_length=255, blank=True, null=True)
-
-    @property
-    def is_staff(self):
-        return self.is_superuser
+    is_staff = models.BooleanField(default=False)
 
     def __str__(self):
         if self.username:
