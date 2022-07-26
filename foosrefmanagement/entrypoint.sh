@@ -13,4 +13,4 @@ python manage.py migrate --no-input
 python manage.py collectstatic --no-input --clear
 # python manage.py createsuperuser --no-input --telegram_user_id $DJANGO_SUPERUSER_TELEGRAM_USER_ID
 
-exec "$@"
+gunicorn foosrefmanagement.wsgi:application --bind 0.0.0.0:8000
