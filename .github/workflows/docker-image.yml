@@ -16,3 +16,22 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+        
+      - name: Build and push foosrefmanagement
+        uses: docker/build-push-action@v2
+        with:
+          context: ./foosrefmanagement
+          file: ./foosrefmanagement/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/foosrefmanagement:github-actions
+          
+      - name: Build and push foosrefmanagement-ui
+        uses: docker/build-push-action@v2
+        with:
+          context: ./foosrefmanagement-ui
+          file: ./foosrefmanagement/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/foosrefmanagement-ui:github-actions
