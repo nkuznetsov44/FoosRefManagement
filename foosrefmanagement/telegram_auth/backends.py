@@ -4,13 +4,14 @@ import time
 import hashlib
 import hmac
 from django.conf import settings
-from rest_framework.exceptions import AuthenticationFailed
+from django.contrib.auth.backends import BaseBackend
 from rest_framework.authentication import BaseAuthentication, get_authorization_header
-from ..models import TelegramUser
+from rest_framework.exceptions import AuthenticationFailed
+from .models import TelegramUser
 
 
-ONE_DAY_IN_SECONDS = 86400
 ONE_HOUR_IN_SECONDS = 3600
+ONE_DAY_IN_SECONDS = 86400
 
 
 class TelegramAuthenticationError(AuthenticationFailed):
@@ -21,42 +22,25 @@ class TelegramDataNotValid(TelegramAuthenticationError):
     pass
 
 
-class JWTAuthenticationError(AuthenticationFailed):
-    pass
+class TelegramAuthentication(BaseBackend):
+    def authenticate(self, request, *, data: Dict[str, Any]) -> Optional[TelegramUser]:
+        _data = data.copy()
 
-
-class DRFTelegramAuthentication:
-    def authenticate(self, request):
-        request_data = request.POST.copy()
         try:
-            user = self._auth_from_request_data(request_data)
-            token_payload = {
-                **request_data,
-                'token_create_date': int(time.time())
-            }
-            encoded_jwt = jwt.encode(token_payload, settings.SECRET_KEY, algorithm='HS256')
-            return user, encoded_jwt
-        except:
-            return None
-
-    def _auth_from_request_data(self, request_data: Dict[str, Any]) -> Optional[TelegramUser]:
-        try:
-            telegram_user_id = request_data['id']
-            auth_date = request_data['auth_date']
-            hash = request_data.pop('hash')
+            telegram_user_id = _data['id']
+            auth_date = _data['auth_date']
+            hash = _data.pop('hash')
         except KeyError as ke:
             raise TelegramAuthenticationError('"id", "auth_date" and "hash" fields are required') from ke
 
-        data_check_string = '\n'.join(
-            f'{key}={value}' for key, value in sorted(request_data.items()).items()
-        )
-
+        data_check_string = '\n'.join(f'{key}={value}' for key, value in sorted(_data.items()))
         self._verify_telegram_data(hash, data_check_string, auth_date)
 
         try:
             return TelegramUser.objects.get(telegram_user_id=telegram_user_id)
-        except TelegramUser.DoesNotExist:
-            return None
+        except TelegramUser.DoesNotExist as dne:
+            # TODO: logger
+            raise TelegramAuthenticationError(f'User with id = "{telegram_user_id}" does not exist') from dne
 
     def _verify_telegram_data(self, hash: str, data_check_string: str, auth_date: str) -> None:
         secret_key = hashlib.sha256(settings.TELEGRAM_BOT_API_TOKEN.encode()).digest()
@@ -66,13 +50,24 @@ class DRFTelegramAuthentication:
         unix_time_auth_date = int(auth_date)
 
         if unix_time_now - unix_time_auth_date > ONE_DAY_IN_SECONDS:
+            # TODO: logger
             raise TelegramDataNotValid('Authentication data is outdated.')
 
         if _hash != hash:
+            # TODO: logger
+            print(_hash)
             raise TelegramDataNotValid(
                 'Data integrity was not verified. Hash recieved from authentication data does not match '
                 'the calculated hash based on bot token.'
             )
+
+
+class JWTAuthenticationError(AuthenticationFailed):
+    pass
+
+
+class JWTSessionExpired(JWTAuthenticationError):
+    pass
 
 
 class DRFJWTAuthentication(BaseAuthentication):
@@ -96,14 +91,14 @@ class DRFJWTAuthentication(BaseAuthentication):
             # If authentication is attempted but fails, raise an AuthenticationFailed exception.
             # An error response will be returned immediately, regardless of any permissions checks,
             # and without checking any other authentication schemes.
-            raise AuthenticationFailed('Authentication header is incorrect')
+            raise JWTAuthenticationError('Authentication header is incorrect')
 
         prefix = auth_header[0].decode('utf-8')
         token = auth_header[1].decode('utf-8')
 
         auth_header_prefix = self.authentication_header_prefix.lower()
         if prefix.lower() != auth_header_prefix:
-            raise AuthenticationFailed('Authentication header prefix is incorrect')
+            raise JWTAuthenticationError('Authentication header prefix is incorrect')
 
         return token
 
@@ -118,4 +113,4 @@ class DRFJWTAuthentication(BaseAuthentication):
         try:
             user = TelegramUser.objects.get(pk=payload['id'])
         except TelegramUser.DoesNotExist:
-            raise AuthenticationFailed('User does not exist')
+            raise JWTAuthenticationError('User does not exist')

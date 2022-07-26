@@ -42,7 +42,9 @@ ALLOWED_HOSTS = ['localhost', 'foosref.nkuznetsov.com']
 
 INSTALLED_APPS = [
     'app.apps.AppConfig',
+    'telegram_auth.apps.AuthConfig',
     'rest_framework',
+    'rest_framework_simplejwt',
     'corsheaders',
     'django_better_admin_arrayfield',
     'django.contrib.admin',
@@ -148,8 +150,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Authentication
 
-AUTH_USER_MODEL = 'app.TelegramUser'
+AUTH_USER_MODEL = 'telegram_auth.TelegramUser'
+AUTHENTICATION_BACKENDS = ['telegram_auth.backends.TelegramAuthentication']
 TELEGRAM_BOT_API_TOKEN = os.getenv('TELEGRAM_BOT_API_TOKEN')
+
+
+# Simple JWT
+
+SIMPLE_JWT = {
+    'USER_ID_FIELD': 'telegram_user_id',
+}
 
 
 # Rest Framework
@@ -161,8 +171,7 @@ REST_FRAMEWORK = {
     ],
     'DATE_INPUT_FORMATS': ['%Y-%m-%d', '%Y-%m-%dT%H:%M:%S.%f%z'],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'app.auth.backends.DRFJWTAuthentication',
-        'app.auth.backends.DRFTelegramAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',

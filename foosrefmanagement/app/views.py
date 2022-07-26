@@ -69,4 +69,4 @@ class RefereeGames(views.APIView):
             games_serializer = serializers.RefereedGameSerializer(referee.get_games(), many=True)
             return Response(games_serializer.data)
         except ObjectDoesNotExist:
-            return Response('No referee with required id found', status=HTTP_400_BAD_REQUEST)
+            return Response(f'No referee with id = "{referee_id}" found', status=status.HTTP_400_BAD_REQUEST)
