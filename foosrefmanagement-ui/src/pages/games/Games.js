@@ -6,7 +6,6 @@ import {
 import SelectBox from 'devextreme-react/select-box';
 import { dataStoreFactory } from '../../apiDataStore';
 import { api } from "../../auth";
-import { PropertiesPanel } from 'devextreme-react/diagram';
 
 const displayReferee = (referee) => {
     return referee && `${referee.first_name} ${referee.last_name} (${referee.rank})`;
@@ -22,6 +21,10 @@ const Games = (props) => {
     const [events, setEvents] = React.useState([]);
     const [gameCategories, setGameCategories] = React.useState([]);
     const [gameStages, setGameStages] = React.useState([]);
+
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    // TODO: allow editing only user's games
+    const allowGamesEditing = Boolean(user);
 
     React.useEffect(() => {
         (async () => {
@@ -97,7 +100,7 @@ const Games = (props) => {
                 showBorders={true}
                 columnAutoWidth={true}
                 rowAlternationEnabled={true}>
-                {   props.isLoggedIn &&
+                {   allowGamesEditing &&
                     <Editing
                         mode="row"
                         allowAdding={true}

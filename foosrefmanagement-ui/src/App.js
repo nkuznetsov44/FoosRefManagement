@@ -7,7 +7,6 @@ import {
     Route
 } from "react-router-dom";
 import MenuComponent from './Menu';
-import LoginForm from './pages/login/LoginForm';
 import Games from './pages/games/Games';
 import Events from './pages/events/Events';
 import Referees from './pages/referees/Referees';
@@ -15,25 +14,13 @@ import RefereeProfile from './pages/referees/RefereeProfile';
 
 
 const App = () => {
-    const [user, setUser] = React.useState(sessionStorage.getItem('user'));
-    const [isLoggedIn, setIsLoggedIn] = React.useState(Boolean(user));
-
-    React.useEffect(() => {
-        if (user) {
-            setIsLoggedIn(true);
-        } else {
-            setIsLoggedIn(false);
-        }
-    }, [user]);
-
     return (
         <BrowserRouter>
-            <MenuComponent user={user} />
+            <MenuComponent />
             <Routes>
-                <Route path="/" element={<Referees isLoggedIn={isLoggedIn} />} />
-                <Route path="/games" element={<Games isLoggedIn={isLoggedIn} />} />
-                <Route path="/events" element={<Events isLoggedIn={isLoggedIn} />} />
-                <Route path="/login" element={<LoginForm onLogin={setUser} />} />
+                <Route path="/" element={<Referees />} />
+                <Route path="/games" element={<Games />} />
+                <Route path="/events" element={<Events />} />
                 <Route path="/refereeProfile/:id" element={<RefereeProfile />} />
             </Routes>
         </BrowserRouter>

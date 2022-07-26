@@ -1,8 +1,7 @@
 import React from 'react';
 import { Menu } from 'devextreme-react';
 import { Link } from 'react-router-dom';
-import LoginButton from './pages/login/LoginButton';
-
+import UserInfoOrLoginButton from './pages/user/UserInfoOrLoginButton';
 
 const menuItems = [
     {
@@ -37,13 +36,13 @@ const ItemComponent = ({ data }) => {
     );
 };
 
-const MenuComponent = (props) => {
+const MenuComponent = () => {
     const menuStyle = {
         display: "inline-block",
         margin: "0px 0px 0px 0px"
     };
 
-    const loginButtonStyle = {
+    const userInfoStyle = {
         display: "inline-block",
         margin: "0px 0px 0px 0px",
         float: "right"
@@ -58,8 +57,8 @@ const MenuComponent = (props) => {
                     itemComponent={ItemComponent}
                 />
             </div>
-            <div style={loginButtonStyle} >
-                <LoginButton user={props.user} />
+            <div style={userInfoStyle} >
+                <UserInfoOrLoginButton />
             </div>
         </React.Fragment>
     );

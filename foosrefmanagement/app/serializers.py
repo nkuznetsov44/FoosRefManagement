@@ -1,4 +1,3 @@
-from datetime import datetime
 from io import UnsupportedOperation
 from rest_framework import serializers
 from .models import Referee, RefereedGame, RefereedEvent
