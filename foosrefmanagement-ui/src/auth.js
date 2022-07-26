@@ -3,7 +3,7 @@ import notify from 'devextreme/ui/notify';
 
 
 export const login = async (telegramDataOnauth) => {
-    const { data } = await axios.post('/api/auth/token', telegramDataOnauth, {
+    const { data } = await axios.post('/api/auth/token/', telegramDataOnauth, {
         headers: {
             "Content-Type": "application/json"
         }
