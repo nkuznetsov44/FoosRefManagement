@@ -26,7 +26,7 @@ jobs:
           context: ./foosrefmanagement
           file: ./foosrefmanagement/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/foosrefmanagement:github-actions
+          tags: ${{ secrets.DOCKER_USERNAME }}/foosrefmanagement-app:github-actions
           
       - name: Build and push foosrefmanagement-ui
         uses: docker/build-push-action@v2
