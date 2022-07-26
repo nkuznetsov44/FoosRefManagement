@@ -39,4 +39,4 @@ class TelegramLoginTokenObtainPairSerializer(serializers.Serializer):
 class TelegramUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = TelegramUser
-        fields = '__all__'
+        fields = ('telegram_user_id', 'is_superuser', 'first_name', 'last_name', 'username', 'photo_url')

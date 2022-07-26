@@ -8,6 +8,10 @@ const Events = (props) => {
     const dataStore = dataStoreFactory('/api/events', 'id');
     const [eventTypes, setEventTypes] = React.useState([]);
 
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    // TODO: allow editing only for superuser
+    const allowTournamentsEditing = Boolean(user);
+
     React.useEffect(() => {
         (async () => {
             const { data } = await api.get('/api/lookup/eventType');
@@ -23,7 +27,7 @@ const Events = (props) => {
                 showBorders={true}
                 columnAutoWidth={true}
                 rowAlternationEnabled={true}>
-                {   props.isLoggedIn &&
+                {   allowTournamentsEditing &&
                     <Editing
                         mode="row"
                         allowAdding={true}

@@ -2,19 +2,21 @@ import axios from 'axios';
 import notify from 'devextreme/ui/notify';
 
 
-export const login = async (username, password) => {
-    const { data } = await axios.post('/api/auth/login/', {
-        username: username,
-        password: password
-    }, {
+export const login = async (telegramDataOnauth) => {
+    const { data } = await axios.post('/api/token', telegramDataOnauth, {
         headers: {
             "Content-Type": "application/json"
         }
     });
     localStorage.setItem('refresh_token', data.refresh);
     sessionStorage.setItem('access_token', data.access);
-    sessionStorage.setItem('user', JSON.stringify(data.user));
-    return data.user;
+    sessionStorage.setItem('user', JSON.stringify({
+        id: data.id,
+        first_name: data.first_name,
+        last_name: data.last_name,
+        username: data.username,
+        photo_url: data.photo_url
+    }));
 };
 
 export const api = axios.create({});
@@ -51,7 +53,7 @@ api.interceptors.response.use(
                 localStorage.removeItem('refresh_token');
                 sessionStorage.removeItem('access_token');
                 sessionStorage.removeItem('user');
-                notify('Login required', "error", 5000);
+                notify('Login required', 'error', 5000);
             });
         }
     }
