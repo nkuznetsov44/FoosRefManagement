@@ -152,6 +152,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'telegram_auth.TelegramUser'
 AUTHENTICATION_BACKENDS = ['telegram_auth.backends.TelegramAuthentication']
+TELEGRAM_AUTH_DATA_LIFETIME = 86400  # seconds
 TELEGRAM_BOT_API_TOKEN = os.getenv('TELEGRAM_BOT_API_TOKEN')
 
 
