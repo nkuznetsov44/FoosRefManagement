@@ -35,7 +35,7 @@ SECRET_KEY = 'django-insecure-*jif9h=dlttr7dtut9vw8b!padb6a87wwvo^fx1g!utmhe)-c1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.getenv('DEBUG', False))
 
-ALLOWED_HOSTS = ['localhost', 'foosref.nkuznetsov.com']
+ALLOWED_HOSTS = ['localhost'] + os.getenv('DJANGO_ALLOWED_HOSTS', '').split(',')
 
 
 # Application definition
@@ -180,14 +180,5 @@ REST_FRAMEWORK = {
     'UPLOADED_FILES_USE_URL': False,
 }
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost",
-    "http://localhost:8080",
-    "https://foosref.nkuznetsov.com"
-]
-
-CSRF_TRUSTED_ORIGINS = [
-    "http://localhost",
-    "http://localhost:8080",
-    "https://foosref.nkuznetsov.com"
-]
+CORS_ALLOWED_ORIGINS = ["http://localhost"] + os.getenv('DJANGO_CORS_ALLOWED_ORIGINS', '').split(',')
+CSRF_TRUSTED_ORIGINS = ["http://localhost"] + os.getenv('DJANGO_CORS_ALLOWED_ORIGINS', '').split(',')
