@@ -1,5 +1,5 @@
 upstream foosrefmanagement {
-    server foosrefmanagement:8000;
+    server ${APP_HOST}:8000;
 }
 
 server {
