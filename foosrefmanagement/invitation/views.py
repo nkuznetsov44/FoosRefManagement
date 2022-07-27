@@ -68,13 +68,14 @@ def create_and_bind_user_with_token(request):
             if not user:
                 raise AuthenticationFailed('Unexpected authentication error')
         return HttpResponseRedirect(redirect_to=f'/refereeProfile/{user.referee.id}')
-    except InvitationToken.DoesNotExist:
+    except InvitationToken.DoesNotExist as dne:
+        print(dne)  # TODO: logger
         return Response(f'invitationToken {token_str} does not exist',  status=status.HTTP_400_BAD_REQUEST)
     except InvitationTokenError as ite:
-        # TODO: logger
+        print(ite)  # TODO: logger
         error_desc = getattr(ite, 'message', str(ite))
         return Response(f'Invitation token error: {error_desc}', status=status.HTTP_400_BAD_REQUEST)
     except TelegramAuthenticationError as tae:
-        # TODO: logger
+        print(tae)  # TODO: logger
         error_desc = getattr(tae, 'message', str(tae))
         return Response(f'Telegram authentication error: {error_desc}', status=status.HTTP_403_FORBIDDEN)
