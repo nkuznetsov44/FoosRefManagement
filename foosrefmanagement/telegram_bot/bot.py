@@ -2,6 +2,7 @@ import requests
 import json
 from typing import Optional, Dict, Any
 from django.conf import settings
+from app.models import Referee
 
 
 TELEGRAM_API_URL = 'https://api.telegram.org'
@@ -85,3 +86,30 @@ class TelegramBot:
             }
         )
         return self._check_response(response)
+
+    def send_invitation_link(self, from_telegram_user_id: int, for_referee_id: int, invitation_token: str):
+        def get_invitation_message_text(referee: Referee) -> str:
+            return (
+                'Пожалуйста, перешлите это сообщение рефери '
+                f'{referee.first_name} {referee.last_name}.\n\n'
+                'Чтобы привязать свой аккаунт Telegram '
+                f'к личному кабинету рефери {referee.first_name} {referee.last_name}, '
+                'перейдите по ссылке-приглашению. Приглашение действует 24 часа.\n'
+                # TODO: format invitation time from settings.INVITATION_TOKEN_LIFETIME
+                'Пожалуйста, во всплывающем окне разрешите боту присылать вам уведомления от сайта.'
+            )
+
+        referee = Referee.objects.get(id=for_referee_id)
+        self.send_message(
+            from_telegram_user_id,
+            text=get_invitation_message_text(referee),
+            reply_markup={
+                'inline_keyboard' : [[{
+                    'text' : 'Перейти по ссылке-приглашению',
+                    'login_url' : {
+                        'url': f'{settings.APP_HOST}/api/invitations/complete?invitationToken={invitation_token}',
+                        'request_write_access': True
+                    }
+                }]]
+            }
+        )

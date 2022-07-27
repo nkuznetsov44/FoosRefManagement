@@ -3,7 +3,32 @@ import { useParams } from 'react-router-dom';
 import {
     DataGrid, Column, FilterRow, Paging, Lookup
 } from 'devextreme-react/data-grid';
+import { Button } from 'devextreme-react/button';
 import { api } from '../../auth';
+import axios from 'axios';
+import notify from 'devextreme/ui/notify';
+
+const IssueInvitationMessageButton = (props) => {
+    const issueInvitationMessage = () => {
+        (async () => {
+            const { data } = await axios.post('/api/invitations/issue/', {
+                refereeId: props.refereeId
+            });
+            //console.log(data);
+            notify('Приглашение отправлено в Telegram', 'success', 5000);
+        })();
+    };
+
+    return (
+        <Button
+            width={120}
+            text="Отправить ссылку-приглашение"
+            type="normal"
+            stylingMode="contained"
+            onClick={issueInvitationMessage}
+        />
+    )
+}
 
 const RefereeCard = (props) => {
     const inlineBlockStyle = {
@@ -11,6 +36,10 @@ const RefereeCard = (props) => {
         verticalAlign: "top",
         margin: "0px 10px 10px 0px"
     };
+
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    // TODO: allow send invitations only for referees with unbound telegram accounts
+    const allowSendInvitations = Boolean(user);
 
     const CardTextElement = (props) => {
         const style = {
@@ -70,6 +99,11 @@ const RefereeCard = (props) => {
                         </div>
                         <div style={inlineBlockStyle}>
                             <CardTextElement text={`${props.referee.rank_update}`} />
+                        </div>
+                    </div>
+                    <div>
+                        <div style={inlineBlockStyle}>
+                            <IssueInvitationMessageButton refereeId={props.referee.id} />
                         </div>
                     </div>
                 </div>

@@ -48,8 +48,8 @@ class InvitationTokenTestCase(TestCase):
         )
 
         johndoe_referee = Referee.objects.get(first_name='John', last_name='Doe')
-        token = InvitationToken.objects.get(uuid=token.uuid)
-        another_token = InvitationToken.objects.get(uuid=another_token.uuid)
+        token = InvitationToken.objects.get(token=token.token)
+        another_token = InvitationToken.objects.get(token=another_token.token)
 
         self.assertEquals(johndoe_referee.user, johndoe)
         self.assertEquals(token.status, InvitationTokenStatus.COMPLETED)

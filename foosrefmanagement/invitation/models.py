@@ -1,6 +1,6 @@
 from typing import Optional
-import uuid
 import time
+import secrets
 from django.conf import settings
 from django.db import models, transaction
 from app.models import Referee
@@ -18,13 +18,18 @@ class InvitationTokenStatus(models.TextChoices):
 
 
 class InvitationTokenManager(models.Manager):
+    @staticmethod
+    def _generate_token():
+        return secrets.token_urlsafe()
+
     def issue_token(self, issued_by_telegram_user_id: int, issued_for_referee_id: int):
         issued_for = Referee.objects.get(id=issued_for_referee_id)
         if issued_for.user:
             raise InvitationTokenError(f'Referee {issued_for} is already linked to user {issued_for.user}')
         issued_by = TelegramUser.objects.get(telegram_user_id=issued_by_telegram_user_id)
-        
+
         token = InvitationToken(
+            token=self._generate_token(),
             issued_by=issued_by,
             issue_timestamp=int(time.time()),
             issued_for_referee=issued_for,
@@ -32,13 +37,14 @@ class InvitationTokenManager(models.Manager):
         )
         token.save()
 
+        #TODO: log token issued
         return token
 
 
 class InvitationToken(models.Model):
     objects = InvitationTokenManager()
 
-    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    token = models.CharField(max_length=63, primary_key=True)
     issued_by = models.ForeignKey(TelegramUser, on_delete=models.CASCADE, related_name='issued_invitation_tokens')
     issue_timestamp = models.IntegerField()
     issued_for_referee = models.ForeignKey(Referee, on_delete=models.CASCADE, related_name='invitation_tokens')
@@ -88,8 +94,9 @@ class InvitationToken(models.Model):
         (
             InvitationToken.objects
             .filter(issued_for_referee=self.issued_for_referee)
-            .exclude(uuid=self.uuid)
+            .exclude(token=self.token)
             .update(status=InvitationTokenStatus.CANCELLED)
         )
 
+        #TODO: log token used
         return user
