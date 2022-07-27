@@ -55,16 +55,18 @@ def create_and_bind_user_with_token(request):
         return Response('Parameter "id" (telegram user id) is required', status=status.HTTP_400_BAD_REQUEST)
 
     try:
+        print(token_str)
         token = InvitationToken.objects.get(token=token_str)
+        print(token)
         with transaction.atomic():
-            user = token.create_and_bind_user(
+            token.create_and_bind_user(
                 telegram_user_id=telegram_user_id,
                 first_name=params.get('first_name'),
                 last_name=params.get('last_name'),
                 username=params.get('username'),
                 photo_url=params.get('photo_url')
             )
-            user = authenticate(request, data=params)
+            user = authenticate(request, data=params)  # validates that data comes from telegram
             if not user:
                 raise AuthenticationFailed('Unexpected authentication error')
         return HttpResponseRedirect(redirect_to=f'/refereeProfile/{user.referee.id}')
