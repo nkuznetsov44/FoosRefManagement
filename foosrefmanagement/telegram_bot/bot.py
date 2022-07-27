@@ -100,7 +100,7 @@ class TelegramBot:
             )
 
         referee = Referee.objects.get(id=for_referee_id)
-        self.send_message(
+        return self.send_message(
             from_telegram_user_id,
             text=get_invitation_message_text(referee),
             reply_markup={

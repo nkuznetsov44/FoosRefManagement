@@ -10,11 +10,15 @@ import notify from 'devextreme/ui/notify';
 const IssueInvitationMessageButton = (props) => {
     const issueInvitationMessage = () => {
         (async () => {
-            const { data } = await api.post('/api/invitations/issue/', {
-                refereeId: props.refereeId
-            });
-            //console.log(data);
-            notify('Приглашение отправлено в Telegram', 'success', 5000);
+            try {
+                await api.post('/api/invitations/issue/', {
+                    refereeId: props.refereeId
+                });
+                notify('Приглашение отправлено в Telegram', 'success', 5000);
+            } catch {
+                notify('Ошибка отправки приглашения', 'error', 5000);
+            }
+            
         })();
     };
 
