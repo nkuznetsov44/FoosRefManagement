@@ -41,14 +41,16 @@ def issue_invitation_url(request):
         return Response(f'Invitation token issue failed because of telegram api error {error_desc}')
 
 
-@api_view(['POST'])
+@api_view(['GET'])
 @permission_classes([AllowAny])
 def create_and_bind_user_with_token(request):
-    token_str = request.data.pop('invitationToken')
+    params = dict(request.query_params)
+
+    token_str = params.pop('invitationToken')
     if not token_str:
         return Response('Parameter "invitationToken" is required', status=status.HTTP_400_BAD_REQUEST)
 
-    telegram_user_id = request.data.get('id')
+    telegram_user_id = params.get('id')
     if not telegram_user_id:
         return Response('Parameter "id" (telegram user id) is required', status=status.HTTP_400_BAD_REQUEST)
 
@@ -57,12 +59,12 @@ def create_and_bind_user_with_token(request):
         with transaction.atomic():
             user = token.create_and_bind_user(
                 telegram_user_id=telegram_user_id,
-                first_name=request.data.get('first_name'),
-                last_name=request.data.get('last_name'),
-                username=request.data.get('username'),
-                photo_url=request.data.get('photo_url')
+                first_name=params.get('first_name'),
+                last_name=params.get('last_name'),
+                username=params.get('username'),
+                photo_url=params.get('photo_url')
             )
-            user = authenticate(request, data=request.data)
+            user = authenticate(request, data=params)
             if not user:
                 raise AuthenticationFailed('Unexpected authentication error')
         return HttpResponseRedirect(redirect_to=f'/refereeProfile/{user.referee.id}')
