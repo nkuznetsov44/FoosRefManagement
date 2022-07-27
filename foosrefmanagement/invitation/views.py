@@ -44,9 +44,7 @@ def issue_invitation_url(request):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def create_and_bind_user_with_token(request):
-    print(request.query_params)
-    params = dict(request.query_params)
-    print(params)
+    params = {key: value[0] for key, value in dict(request.query_params).items()}
 
     token_str = params.pop('invitationToken')
     if not token_str:
@@ -57,9 +55,7 @@ def create_and_bind_user_with_token(request):
         return Response('Parameter "id" (telegram user id) is required', status=status.HTTP_400_BAD_REQUEST)
 
     try:
-        print(token_str)
         token = InvitationToken.objects.get(token=token_str)
-        print(token)
         with transaction.atomic():
             token.create_and_bind_user(
                 telegram_user_id=telegram_user_id,
