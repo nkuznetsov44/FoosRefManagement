@@ -45,6 +45,7 @@ def issue_invitation_url(request):
 @permission_classes([AllowAny])
 def create_and_bind_user_with_token(request):
     params = dict(request.query_params)
+    print(params)
 
     token_str = params.pop('invitationToken')
     if not token_str:
