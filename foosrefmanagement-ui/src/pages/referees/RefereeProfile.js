@@ -104,11 +104,13 @@ const RefereeCard = (props) => {
                             <CardTextElement text={`${props.referee.rank_update}`} />
                         </div>
                     </div>
-                    <div>
-                        <div style={inlineBlockStyle}>
-                            <IssueInvitationMessageButton refereeId={props.referee.id} />
+                    { allowSendInvitations &&
+                        <div>
+                            <div style={inlineBlockStyle}>
+                                <IssueInvitationMessageButton refereeId={props.referee.id} />
+                            </div>
                         </div>
-                    </div>
+                    }
                 </div>
             </div>
         </React.Fragment>
