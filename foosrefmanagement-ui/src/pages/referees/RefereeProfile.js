@@ -5,13 +5,12 @@ import {
 } from 'devextreme-react/data-grid';
 import { Button } from 'devextreme-react/button';
 import { api } from '../../auth';
-import axios from 'axios';
 import notify from 'devextreme/ui/notify';
 
 const IssueInvitationMessageButton = (props) => {
     const issueInvitationMessage = () => {
         (async () => {
-            const { data } = await axios.post('/api/invitations/issue/', {
+            const { data } = await api.post('/api/invitations/issue/', {
                 refereeId: props.refereeId
             });
             //console.log(data);
