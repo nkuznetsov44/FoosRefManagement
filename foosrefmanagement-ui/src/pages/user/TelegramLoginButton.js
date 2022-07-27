@@ -8,17 +8,17 @@ const LoginButton = () => {
     const navigate = useNavigate();
 
     const handleTelegramResponse = (dataOnauth) => {
-        // console.log(dataOnauth);
         (async () => {
             try {
                 await login(dataOnauth);
-                navigate('/', { replace: true });
             }
             catch(e) {
+                //TODO: Display "detail" from error response
                 notify('Login failed', 'error', 5000);
                 console.log(e);
             }
         })();
+        navigate('/', { replace: true });
     };
 
     return (

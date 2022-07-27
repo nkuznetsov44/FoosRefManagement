@@ -35,7 +35,7 @@ SECRET_KEY = 'django-insecure-*jif9h=dlttr7dtut9vw8b!padb6a87wwvo^fx1g!utmhe)-c1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.getenv('DEBUG', False))
 
-ALLOWED_HOSTS = ['localhost'] + os.getenv('DJANGO_ALLOWED_HOSTS', '').split(',')
+ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', 'localhost').split(',')
 
 
 # Application definition
@@ -43,6 +43,7 @@ ALLOWED_HOSTS = ['localhost'] + os.getenv('DJANGO_ALLOWED_HOSTS', '').split(',')
 INSTALLED_APPS = [
     'app.apps.AppConfig',
     'telegram_auth.apps.AuthConfig',
+    'invitation.apps.InvitationConfig',
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
@@ -152,8 +153,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'telegram_auth.TelegramUser'
 AUTHENTICATION_BACKENDS = ['telegram_auth.backends.TelegramAuthentication']
-TELEGRAM_AUTH_DATA_LIFETIME = 86400  # seconds
+TELEGRAM_AUTH_DATA_LIFETIME = 86400  # day in seconds
 TELEGRAM_BOT_API_TOKEN = os.getenv('TELEGRAM_BOT_API_TOKEN')
+INVITATION_TOKEN_LIFETIME = 86400  # day in seconds
 
 
 # Simple JWT
@@ -180,5 +182,5 @@ REST_FRAMEWORK = {
     'UPLOADED_FILES_USE_URL': False,
 }
 
-CORS_ALLOWED_ORIGINS = ["http://localhost"] + os.getenv('DJANGO_CORS_ALLOWED_ORIGINS', '').split(',')
-CSRF_TRUSTED_ORIGINS = ["http://localhost"] + os.getenv('DJANGO_CORS_ALLOWED_ORIGINS', '').split(',')
+CORS_ALLOWED_ORIGINS = os.getenv('DJANGO_CORS_ALLOWED_ORIGINS', 'http://localhost').split(',')
+CSRF_TRUSTED_ORIGINS = os.getenv('DJANGO_CORS_ALLOWED_ORIGINS', 'http://localhost').split(',')
