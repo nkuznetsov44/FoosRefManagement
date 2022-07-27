@@ -13,10 +13,10 @@ from telegram_auth.backends import TelegramAuthenticationError
 from telegram_bot.bot import TelegramBot, TelegramApiError
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 @permission_classes([IsAdminUser|IsReferee])
 def issue_invitation_url(request):
-    issued_for_referee_id = request.GET.get('refereeId')
+    issued_for_referee_id = request.data.get('refereeId')
     if not issued_for_referee_id:
         return Response('Parameter "refereeId" is required', status=status.HTTP_400_BAD_REQUEST)
 
