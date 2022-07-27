@@ -44,6 +44,7 @@ def issue_invitation_url(request):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def create_and_bind_user_with_token(request):
+    print(request.query_params)
     params = dict(request.query_params)
     print(params)
 
