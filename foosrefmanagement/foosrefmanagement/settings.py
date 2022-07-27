@@ -157,7 +157,7 @@ AUTHENTICATION_BACKENDS = ['telegram_auth.backends.TelegramAuthentication']
 TELEGRAM_AUTH_DATA_LIFETIME = 86400  # day in seconds
 TELEGRAM_BOT_API_TOKEN = os.getenv('TELEGRAM_BOT_API_TOKEN')
 INVITATION_TOKEN_LIFETIME = 86400  # day in seconds
-APP_HOST = os.getenv('APP_HOST')
+APP_HOST = os.getenv('APP_EXTERNAL_HOST')
 
 
 # Simple JWT
