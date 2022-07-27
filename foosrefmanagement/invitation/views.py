@@ -4,10 +4,12 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAdminUser, AllowAny
 from django.db import transaction
 from django.contrib.auth import authenticate
+from django.conf import settings
 from telegram_auth.permissions import IsReferee
 from .models import InvitationToken, InvitationTokenError
 from telegram_auth.serializers import TelegramUserSerializer
 from telegram_auth.backends import TelegramAuthenticationError
+from telegram_bot.bot import TelegramBot
 
 
 @api_view(['GET'])
@@ -20,9 +22,20 @@ def issue_invitation_url(request):
         issued_by_telegram_user_id=request.user.telegram_user_id,
         issued_for_referee_id=issued_for_referee_id
     )
-    return Response({
-        'token': invitation_token.uuid
-    })
+    TelegramBot().send_message(
+        request.user.telegram_user_id,
+        text='Join invitation',
+        reply_markup={
+            'inline_keyboard' : [[{
+                'text' : 'Open invitation link',
+                'login_url' : {
+                    'url': f'{settings.APP_HOST}/api/invitations/complete?invitationToken={invitation_token.uuid}',
+                    'request_write_access': True
+                }
+            }]]
+        }
+    )
+    return Response(status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
