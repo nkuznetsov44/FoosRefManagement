@@ -1,7 +1,8 @@
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import viewsets, views, status
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
+from rest_framework.permissions import IsAdminUser
+from telegram_auth.permissions import ReadOnly, IsReferee, IsNationalReferee
 from . import models
 from . import serializers
 
@@ -12,13 +13,13 @@ class ActionBasedSerializerMixin:
 
 
 class RefereeViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsNationalReferee|IsAdminUser|ReadOnly,)
     queryset = models.Referee.objects.all()
     serializer_class = serializers.RefereeSerializer
 
 
 class RefereedGameViewSet(ActionBasedSerializerMixin, viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsReferee|IsAdminUser|ReadOnly,)
     queryset = models.RefereedGame.objects.all()
 
     serializer_classes = {
@@ -29,7 +30,7 @@ class RefereedGameViewSet(ActionBasedSerializerMixin, viewsets.ModelViewSet):
 
 
 class RefereedEventViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsReferee|IsAdminUser|ReadOnly,)
     queryset = models.RefereedEvent.objects.all()
     serializer_class = serializers.RefereedEventSerializer
 
