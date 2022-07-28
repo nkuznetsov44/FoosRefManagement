@@ -19,7 +19,7 @@ export const login = async (telegramDataOnauth) => {
         photo_url: data.photo_url
     };
     sessionStorage.setItem('user', JSON.stringify(user));
-    store.dispatch(loginAction(user));
+    store.dispatch(loginAction(user));  //TODO: doesn't work, maybe need createAsyncThunk
 };
 
 export const logout = () => {
