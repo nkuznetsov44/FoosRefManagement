@@ -1,6 +1,7 @@
 import axios from 'axios';
 import notify from 'devextreme/ui/notify';
-
+import { store } from './store/store';
+import { login as loginAction, logout as logoutAction } from './store/userSlice'
 
 export const login = async (telegramDataOnauth) => {
     const { data } = await axios.post('/api/auth/token/', telegramDataOnauth, {
@@ -10,23 +11,25 @@ export const login = async (telegramDataOnauth) => {
     });
     localStorage.setItem('refresh_token', data.refresh);
     sessionStorage.setItem('access_token', data.access);
-    sessionStorage.setItem('user', JSON.stringify({
+    const user = {
         id: data.id,
         first_name: data.first_name,
         last_name: data.last_name,
         username: data.username,
         photo_url: data.photo_url
-    }));
+    };
+    sessionStorage.setItem('user', JSON.stringify(user));
+    store.dispatch(loginAction(user));
 };
-
-export const api = axios.create({});
 
 export const logout = () => {
     localStorage.removeItem('refresh_token');
     sessionStorage.removeItem('access_token');
     sessionStorage.removeItem('user');
-    window.location.reload()
+    store.dispatch(logoutAction());
 };
+
+export const api = axios.create({});
 
 api.interceptors.request.use(
     req => {

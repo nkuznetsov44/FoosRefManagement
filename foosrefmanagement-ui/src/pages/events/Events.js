@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { DataGrid, Editing, Column, Lookup } from 'devextreme-react/data-grid';
 import { dataStoreFactory } from '../../apiDataStore';
 import { api } from '../../auth';
@@ -8,8 +9,7 @@ const Events = (props) => {
     const dataStore = dataStoreFactory('/api/events', 'id');
     const [eventTypes, setEventTypes] = React.useState([]);
 
-    const user = JSON.parse(sessionStorage.getItem('user'));
-    // TODO: allow editing only for superuser
+    const user = useSelector((state) => state.user.user);
     const allowTournamentsEditing = Boolean(user);
 
     React.useEffect(() => {

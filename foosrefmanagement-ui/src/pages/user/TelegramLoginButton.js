@@ -1,12 +1,9 @@
 import React from 'react';
-import { useNavigate } from "react-router-dom";
 import notify from 'devextreme/ui/notify';
 import TelegramLoginButton from 'react-telegram-login';
 import { login } from '../../auth';
 
 const LoginButton = () => {
-    const navigate = useNavigate();
-
     const handleTelegramResponse = (dataOnauth) => {
         (async () => {
             try {
@@ -18,7 +15,6 @@ const LoginButton = () => {
                 console.log(e);
             }
         })();
-        navigate('/', { replace: true });
     };
 
     return (

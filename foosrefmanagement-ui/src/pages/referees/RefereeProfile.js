@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import {
     DataGrid, Column, FilterRow, Paging, Lookup
@@ -24,8 +25,8 @@ const IssueInvitationMessageButton = (props) => {
 
     return (
         <Button
-            width={120}
-            text="Отправить ссылку-приглашение"
+            width={200}
+            text="Отправить приглашение"
             type="normal"
             stylingMode="contained"
             onClick={issueInvitationMessage}
@@ -40,7 +41,7 @@ const RefereeCard = (props) => {
         margin: "0px 10px 10px 0px"
     };
 
-    const user = JSON.parse(sessionStorage.getItem('user'));
+    const user = useSelector((state) => state.user.user);
     // TODO: allow send invitations only for referees with unbound telegram accounts
     const allowSendInvitations = Boolean(user);
 

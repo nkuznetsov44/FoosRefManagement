@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
     DataGrid, Editing, FilterRow, Column, Lookup
@@ -22,7 +23,7 @@ const Games = (props) => {
     const [gameCategories, setGameCategories] = React.useState([]);
     const [gameStages, setGameStages] = React.useState([]);
 
-    const user = JSON.parse(sessionStorage.getItem('user'));
+    const user = useSelector((state) => state.user.user);
     // TODO: allow editing only user's games
     const allowGamesEditing = Boolean(user);
 
