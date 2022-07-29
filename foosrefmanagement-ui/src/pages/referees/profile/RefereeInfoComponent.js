@@ -51,6 +51,9 @@ const RefereeInfoComponent = ({ referee }) => {
 
     // TODO: calculate number of referee games on backend and show in info component
     // TODO: calculate number of "important" (e.g. finals and semifinals) games on backend and show in info component
+    if (!referee) {
+        return <React.Fragment />;
+    }
     return (
         <React.Fragment>
             <h2>{`${referee.first_name} ${referee.last_name}`}</h2>

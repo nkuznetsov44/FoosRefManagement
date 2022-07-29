@@ -57,7 +57,6 @@ const RefereeGamesComponent = ({ refereeId }) => {
     if (!refereeId) {
         return <React.Fragment />;
     }
-
     return (
         <DataGrid
             dataSource={games}
