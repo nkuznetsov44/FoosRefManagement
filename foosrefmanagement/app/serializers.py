@@ -1,6 +1,7 @@
 from io import UnsupportedOperation
 from rest_framework import serializers
 from .models import Referee, RefereedGame, RefereedEvent
+from telegram_auth.models import TelegramUser
 
 
 class RefereeSerializer(serializers.ModelSerializer):
@@ -35,7 +36,7 @@ class RefereedGameSerializer(serializers.ModelSerializer):
 
 class RefereedGameDeserializer(serializers.ModelSerializer):
     referee = serializers.IntegerField(write_only=True)
-    assistant = serializers.IntegerField(write_only=True)
+    assistant = serializers.IntegerField(write_only=True, required=False)
     event = serializers.IntegerField(write_only=True)
     category = serializers.CharField(write_only=True)
     stage = serializers.CharField(write_only=True)
@@ -69,3 +70,9 @@ class RefereedGameDeserializer(serializers.ModelSerializer):
         if validated_data.get('event'):
             validated_data['event'] = RefereedEvent.objects.get(id=validated_data['event'])
         return super().update(instance, validated_data)
+
+
+class RefereeBoundUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TelegramUser
+        fields = ('username', 'first_name', 'last_name', 'photo_url', 'is_superuser')

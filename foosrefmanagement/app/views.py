@@ -71,3 +71,19 @@ class RefereeGames(views.APIView):
             return Response(games_serializer.data)
         except ObjectDoesNotExist:
             return Response(f'No referee with id = "{referee_id}" found', status=status.HTTP_400_BAD_REQUEST)
+
+
+class RefereeBoundUser(views.APIView):
+    permission_classes = (IsReferee|IsAdminUser,)
+
+    def get(self, request, referee_id):
+        try:
+            referee = models.Referee.objects.get(id=referee_id)
+            try:
+                bound_user = referee.user
+                referee_bound_user_serializer = serializers.RefereeBoundUserSerializer(referee.user)
+                return Response(referee_bound_user_serializer.data)
+            except ObjectDoesNotExist:
+                return Response(None)
+        except ObjectDoesNotExist:
+            return Response(f'No referee with id = "{referee_id}" found', status=status.HTTP_400_BAD_REQUEST)

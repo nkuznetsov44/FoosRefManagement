@@ -30,13 +30,16 @@ const UserInfoOrLoginButton = () => {
             }
             return user.first_name;
         }
-        return `$<User id="${user.id}">`;
+        return `id="${user.id}"`;
     };
 
     if (user) {
         return (
             <React.Fragment>
                 <div>Logged in as {displayUser(user)}</div>
+                {   user.referee && 
+                    <div>{`${user.referee.first_name} ${user.referee.last_name} (${user.referee.rank})`}</div>
+                }
                 <LogoutButton />
             </React.Fragment>
         )

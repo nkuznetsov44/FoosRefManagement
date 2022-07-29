@@ -10,7 +10,7 @@ import MenuComponent from './Menu';
 import Games from './pages/games/Games';
 import Events from './pages/events/Events';
 import Referees from './pages/referees/Referees';
-import RefereeProfile from './pages/referees/RefereeProfile';
+import RefereeProfile from './pages/referees/profile/RefereeProfile';
 
 
 const App = () => {

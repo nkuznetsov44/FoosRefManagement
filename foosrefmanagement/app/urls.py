@@ -12,6 +12,7 @@ router.register(r'events', views.RefereedEventViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('gamesByReferee/<int:referee_id>', views.RefereeGames.as_view()),
+    path('refereeBoundUser/<int:referee_id>', views.RefereeBoundUser.as_view()),
     path('lookup/eventType', views.EventTypeLookup.as_view()),
     path('lookup/gameCategory', views.GameCategoryLookup.as_view()),
     path('lookup/gameStage', views.GameStageLookup.as_view()),

@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import {
-    DataGrid, Column, FilterRow, Lookup, Paging
+    DataGrid, Column, FilterRow, Lookup, Paging, Editing
 } from 'devextreme-react/data-grid';
 import { dataStoreFactory } from '../../apiDataStore';
 import { api } from "../../auth";
@@ -17,6 +18,9 @@ const Referees = (props) => {
     const dataStore = dataStoreFactory('/api/referees', 'id');
     const [refereeRanks, setRefereeRanks] = React.useState([]);
     const [refereeCities, setRefereeCities] = React.useState([]);
+
+    const user = useSelector((state) => state.user.user);
+    const allowRefereeEditing = user && user.referee/* && user.referee.rank == 'NATIONAL'*/;  // TODO: uncomment
 
     React.useEffect(() => {
         (async () => {
@@ -50,6 +54,14 @@ const Referees = (props) => {
                 columnHidingEnabled={true}
                 rowAlternationEnabled={true}
                 hoverStateEnabled={true}>
+                {   allowRefereeEditing &&
+                    <Editing
+                        mode="row"
+                        allowAdding={true}
+                        allowDeleting={true}
+                        allowUpdating={true}>
+                    </Editing>
+                }
                 <Paging enabled={false} />
                 <FilterRow visible={true} />
                 <Column

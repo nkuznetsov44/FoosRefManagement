@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
+from app.serializers import RefereeSerializer
 from .models import TelegramUser
 
 
@@ -37,6 +38,8 @@ class TelegramLoginTokenObtainPairSerializer(serializers.Serializer):
 
 
 class TelegramUserSerializer(serializers.ModelSerializer):
+    referee = RefereeSerializer(required=False)
+
     class Meta:
         model = TelegramUser
-        fields = ('telegram_user_id', 'is_superuser', 'first_name', 'last_name', 'username', 'photo_url')
+        fields = ('telegram_user_id', 'is_superuser', 'first_name', 'last_name', 'username', 'photo_url', 'referee')
