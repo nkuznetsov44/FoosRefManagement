@@ -1,4 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+//import { login } from '../auth';
+
+/*const loginThunk = createAsyncThunk(
+    'user/login',
+    async (thunkAPI) => {
+        return await login();
+    }
+);*/
 
 const initialState = {
     user: JSON.parse(sessionStorage.getItem('user'))
@@ -9,7 +17,7 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         login: (state, action) => {
-            state.user = action.user;
+            state.user = action.payload;
         },
         logout: (state) => {
             state.user = null;

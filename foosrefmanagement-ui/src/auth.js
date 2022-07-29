@@ -20,6 +20,7 @@ export const login = async (telegramDataOnauth) => {
     };
     sessionStorage.setItem('user', JSON.stringify(user));
     store.dispatch(loginAction(user));  //TODO: doesn't work, maybe need createAsyncThunk
+    // return user;
 };
 
 export const logout = () => {
@@ -53,9 +54,7 @@ api.interceptors.response.use(
                 sessionStorage.setItem('access_token', response.data.access);
                 return api(originalReq);
             }).catch(err => {
-                localStorage.removeItem('refresh_token');
-                sessionStorage.removeItem('access_token');
-                sessionStorage.removeItem('user');
+                logout();
                 notify('Login required', 'error', 5000);
             });
         }
