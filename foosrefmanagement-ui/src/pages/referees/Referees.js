@@ -20,7 +20,7 @@ const Referees = (props) => {
     const [refereeCities, setRefereeCities] = React.useState([]);
 
     const user = useSelector((state) => state.user.user);
-    const allowRefereeEditing = user && user.referee/* && user.referee.rank == 'NATIONAL'*/;  // TODO: uncomment
+    const allowRefereeEditing = Boolean(user)/* && user.referee && user.referee.rank == 'NATIONAL'*/;  // TODO: uncomment
 
     React.useEffect(() => {
         (async () => {
@@ -104,7 +104,6 @@ const Referees = (props) => {
                     calculateCellValue={(referee) => referee && `${referee.first_name_en} ${referee.last_name_en}`}
                     calculateSortValue={(referee) => referee && referee.last_name_en}>
                 </Column>
-                <Column dataField="email" caption="Способ связи" />
                 <Column dataField="languages" caption="Языки" />
             </DataGrid>
         </React.Fragment>
