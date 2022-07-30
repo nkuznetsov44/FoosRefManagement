@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Menu } from 'devextreme-react';
 import { Link } from 'react-router-dom';
 import UserInfoOrLoginButton from './pages/user/UserInfoOrLoginButton';
@@ -6,15 +7,23 @@ import UserInfoOrLoginButton from './pages/user/UserInfoOrLoginButton';
 const menuItems = [
     {
         name: 'Рефери',
-        path: '/'
+        path: '/',
+        loginRequired: false
     },
     {
         name: 'Игры',
-        path: '/games'
+        path: '/games',
+        loginRequired: false
     },
     {
         name: 'Турниры',
-        path: '/events'
+        path: '/events',
+        loginRequired: false
+    },
+    {
+        name: 'Users',
+        path: '/users',
+        loginRequired: true
     }
 ];
 
@@ -28,6 +37,12 @@ const ItemComponent = ({ data }) => {
         margin: "0px 5px 0px 0px",
         textTransform: 'uppercase'
     };
+
+    const user = useSelector((state) => state.user.user);
+
+    if (!user && data.loginRequired) {
+        return <React.Fragment />;
+    }
 
     return (
         <Link to={data.path} style={linkStyle}>

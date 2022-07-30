@@ -1,10 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {
     DataGrid, Column, FilterRow, Lookup, Paging, Editing, Form
 } from 'devextreme-react/data-grid';
 import { SimpleItem } from 'devextreme-react/form';
+import RefereeProfileLinkCellRender from './RefereeProfileCellRender';
 import { dataStoreFactory } from '../../apiDataStore';
 import { api } from "../../auth";
 
@@ -15,7 +15,7 @@ const refereeRankOrder = {
     'INTERNATIONAL': 3
 };
 
-const Referees = (props) => {
+const Referees = () => {
     const dataStore = dataStoreFactory('/api/referees', 'id');
     const [refereeRanks, setRefereeRanks] = React.useState([]);
     const [refereeCities, setRefereeCities] = React.useState([]);
@@ -44,14 +44,6 @@ const Referees = (props) => {
             setRefereeLanguges(data);
         })();
     }, []);
-
-    const RefereeProfileLinkCellRender = ({ data, value }) => {
-        return (
-            <Link to={`/refereeProfile/${data.id}`}>
-                {value}
-            </Link>
-        );
-    };
 
     return (
         <React.Fragment>

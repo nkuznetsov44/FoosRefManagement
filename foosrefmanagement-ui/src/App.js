@@ -11,7 +11,7 @@ import Games from './pages/games/Games';
 import Events from './pages/events/Events';
 import Referees from './pages/referees/Referees';
 import RefereeProfile from './pages/referees/profile/RefereeProfile';
-
+import Users from './pages/user/Users';
 
 const App = () => {
     return (
@@ -22,6 +22,7 @@ const App = () => {
                 <Route path="/games" element={<Games />} />
                 <Route path="/events" element={<Events />} />
                 <Route path="/refereeProfile/:id" element={<RefereeProfile />} />
+                <Route path="/users" element={<Users />} />
             </Routes>
         </BrowserRouter>
     );
