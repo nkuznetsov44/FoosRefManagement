@@ -37,17 +37,6 @@ const BoundUserComponent = ({ user }) => {
         margin: "0px 10px 10px 0px"
     };
 
-    // TODO: refactor repearing element with referee info component
-    const CardTextElement = (props) => {
-        const style = {
-            margin: "0px"
-        };
-
-        return (
-            <h4 style={style}>{props.text}</h4>
-        );
-    };
-
     // TODO: refactor display user to common functions
     const displayUser = (user) => {
         if (!user)
@@ -66,10 +55,12 @@ const BoundUserComponent = ({ user }) => {
     return (
         <React.Fragment>
             <div style={inlineBlockStyle}>
-                <CardTextElement text={"Связанный аккаунт Telegram:"} />
+                <h4 style={{margin: "0px"}}>Связанный аккаунт Telegram:</h4>
             </div>
             <div style={inlineBlockStyle}>
-                <CardTextElement text={displayUser(user)} />
+                <h4 style={{margin: "0px"}}>
+                    <a href="tg://user?id=123456789">{displayUser(user)}</a>
+                </h4>
             </div>
         </React.Fragment>
     );
