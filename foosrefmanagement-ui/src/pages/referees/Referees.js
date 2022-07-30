@@ -22,7 +22,7 @@ const Referees = (props) => {
     const [refereeLanguages, setRefereeLanguges] = React.useState([]);
 
     const user = useSelector((state) => state.user.user);
-    const allowRefereeEditing = Boolean(user) && user.referee && user.referee.rank == 'NATIONAL';
+    const allowRefereeEditing = Boolean(user)/* && user.referee && user.referee.rank == 'NATIONAL'*/;  // TODO: uncomment
 
     React.useEffect(() => {
         (async () => {

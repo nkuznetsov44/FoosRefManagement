@@ -59,7 +59,7 @@ const BoundUserComponent = ({ user }) => {
             </div>
             <div style={inlineBlockStyle}>
                 <h4 style={{margin: "0px"}}>
-                    <a href="tg://user?id=123456789">{displayUser(user)}</a>
+                    <a href={`tg://user?id=${user.id}`}>{displayUser(user)}</a>
                 </h4>
             </div>
         </React.Fragment>
