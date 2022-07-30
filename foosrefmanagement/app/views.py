@@ -63,6 +63,10 @@ class RefereeCityLookup(LookupView):
     model = models.RefereeCity
 
 
+class RefereeLanguageLookup(LookupView):
+    model = models.RefereeLanguage
+
+
 class RefereeGames(views.APIView):
     def get(self, request, referee_id):
         try:
@@ -79,11 +83,10 @@ class RefereeBoundUser(views.APIView):
     def get(self, request, referee_id):
         try:
             referee = models.Referee.objects.get(id=referee_id)
-            try:
-                bound_user = referee.user
-                referee_bound_user_serializer = serializers.RefereeBoundUserSerializer(referee.user)
-                return Response(referee_bound_user_serializer.data)
-            except ObjectDoesNotExist:
+            bound_user = referee.user
+            if not bound_user:
                 return Response(None)
+            referee_bound_user_serializer = serializers.RefereeBoundUserSerializer(referee.user)
+            return Response(referee_bound_user_serializer.data)
         except ObjectDoesNotExist:
             return Response(f'No referee with id = "{referee_id}" found', status=status.HTTP_400_BAD_REQUEST)

@@ -18,7 +18,7 @@ const RefereeProfile = () => {
     return (
         <React.Fragment>
             <RefereeInfoComponent referee={referee}/>
-            <RefereeGamesComponent refereeId={id} />
+            <RefereeGamesComponent refereeId={Number(id)} />
         </React.Fragment>
     );
 };

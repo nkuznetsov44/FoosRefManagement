@@ -2,8 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {
-    DataGrid, Column, FilterRow, Lookup, Paging, Editing
+    DataGrid, Column, FilterRow, Lookup, Paging, Editing, Form
 } from 'devextreme-react/data-grid';
+import { SimpleItem } from 'devextreme-react/form';
 import { dataStoreFactory } from '../../apiDataStore';
 import { api } from "../../auth";
 
@@ -18,6 +19,7 @@ const Referees = (props) => {
     const dataStore = dataStoreFactory('/api/referees', 'id');
     const [refereeRanks, setRefereeRanks] = React.useState([]);
     const [refereeCities, setRefereeCities] = React.useState([]);
+    const [refereeLanguages, setRefereeLanguges] = React.useState([]);
 
     const user = useSelector((state) => state.user.user);
     const allowRefereeEditing = Boolean(user)/* && user.referee && user.referee.rank == 'NATIONAL'*/;  // TODO: uncomment
@@ -33,6 +35,13 @@ const Referees = (props) => {
         (async () => {
             const { data } = await api.get('/api/lookup/refereeCity');
             setRefereeCities(data);
+        })();
+    }, []);
+
+    React.useEffect(() => {
+        (async () => {
+            const { data } = await api.get('/api/lookup/refereeLanguage');
+            setRefereeLanguges(data);
         })();
     }, []);
 
@@ -56,10 +65,20 @@ const Referees = (props) => {
                 hoverStateEnabled={true}>
                 {   allowRefereeEditing &&
                     <Editing
-                        mode="row"
+                        mode="form"
                         allowAdding={true}
                         allowDeleting={true}
                         allowUpdating={true}>
+                        <Form>
+                            <SimpleItem dataField="first_name" />
+                            <SimpleItem dataField="last_name" />
+                            <SimpleItem dataField="first_name_en" />
+                            <SimpleItem dataField="last_name_en" />
+                            <SimpleItem dataField="rank" />
+                            <SimpleItem dataField="rank_update" editorType="dxDateBox" />
+                            <SimpleItem dataField="city" />
+                            <SimpleItem dataField="languages" editorType="dxTagBox" />
+                        </Form>
                     </Editing>
                 }
                 <Paging enabled={false} />
@@ -96,15 +115,20 @@ const Referees = (props) => {
                         valueExpr="value">
                     </Lookup>
                 </Column>
+                <Column dataField="first_name" visible={false}></Column>
+                <Column dataField="last_name" visible={false}></Column>
+                <Column dataField="first_name_en" visible={false}></Column>
+                <Column dataField="last_name_en" visible={false}></Column>
                 <Column
-                    name="name_en"
-                    caption="Name EN"
-                    allowFiltering={true}
-                    allowSorting={true}
-                    calculateCellValue={(referee) => referee && `${referee.first_name_en} ${referee.last_name_en}`}
-                    calculateSortValue={(referee) => referee && referee.last_name_en}>
+                    dataField="languages"
+                    visible={false}>
+                    <Lookup
+                        dataSource={refereeLanguages}
+                        displayExpr="display"
+                        valueExpr="value">
+                    </Lookup>
                 </Column>
-                <Column dataField="languages" caption="Языки" />
+                <Column dataField="rank_update" dataType="date" visible={false}></Column>
             </DataGrid>
         </React.Fragment>
     );

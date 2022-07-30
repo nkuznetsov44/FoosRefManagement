@@ -18,4 +18,5 @@ urlpatterns = [
     path('lookup/gameStage', views.GameStageLookup.as_view()),
     path('lookup/refereeRank', views.RefereeRankLookup.as_view()),
     path('lookup/refereeCity', views.RefereeCityLookup.as_view()),
+    path('lookup/refereeLanguage', views.RefereeLanguageLookup.as_view()),
 ]

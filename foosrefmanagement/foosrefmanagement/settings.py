@@ -183,6 +183,3 @@ REST_FRAMEWORK = {
     ],
     'UPLOADED_FILES_USE_URL': False,
 }
-
-CORS_ALLOWED_ORIGINS = os.getenv('DJANGO_CORS_ALLOWED_ORIGINS', 'http://localhost').split(',')
-CSRF_TRUSTED_ORIGINS = os.getenv('DJANGO_CORS_ALLOWED_ORIGINS', 'http://localhost').split(',')
