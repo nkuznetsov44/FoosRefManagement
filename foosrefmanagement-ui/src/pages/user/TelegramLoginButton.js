@@ -2,6 +2,7 @@ import React from 'react';
 import notify from 'devextreme/ui/notify';
 import TelegramLoginButton from 'react-telegram-login';
 import { login } from '../../auth';
+import settings from '../../appSettings';
 
 const LoginButton = () => {
     const handleTelegramResponse = (dataOnauth) => {
@@ -20,7 +21,7 @@ const LoginButton = () => {
     return (
         <TelegramLoginButton
             dataOnauth={handleTelegramResponse}
-            botName="FoosRefManagementBot"  // TODO: to frontend conf
+            botName={settings.telegramBotName}
         />
     )
 };

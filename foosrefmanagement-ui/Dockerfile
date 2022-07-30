@@ -4,6 +4,7 @@ COPY package.json ./
 COPY package-lock.json ./
 RUN npm install
 COPY . ./
+RUN ["envreplace", "appSettings.js"]
 RUN npm run build
 
 FROM nginx:1.21-alpine
