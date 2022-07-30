@@ -4,7 +4,7 @@ import {
     DataGrid, Column, FilterRow, Lookup, Paging, Editing, Form
 } from 'devextreme-react/data-grid';
 import { SimpleItem } from 'devextreme-react/form';
-import RefereeProfileLinkCellRender from './RefereeProfileCellRender';
+import RefereeProfileLinkRender from './RefereeProfileLinkRender';
 import { dataStoreFactory } from '../../apiDataStore';
 import { api } from "../../auth";
 
@@ -45,6 +45,10 @@ const Referees = () => {
         })();
     }, []);
 
+    const RefereeProfileLinkCellRender = ({ data, value }) => {
+        return <RefereeProfileLinkRender referee={data}/>;
+    };
+
     return (
         <React.Fragment>
             <h1>Рефери</h1>
@@ -80,7 +84,6 @@ const Referees = () => {
                     caption="Рефери"
                     allowFiltering={true}
                     allowSorting={true}
-                    calculateCellValue={(referee) => referee && `${referee.last_name} ${referee.first_name}`}
                     cellRender={RefereeProfileLinkCellRender}
                     sortIndex={1}
                     sortOrder="asc"

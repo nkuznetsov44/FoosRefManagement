@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from 'devextreme-react/button';
 import { api } from '../../../auth';
+import displayUser from '../../user/displayUser';
 import notify from 'devextreme/ui/notify';
 
 const IssueInvitationMessageButton = ({ refereeId }) => {
@@ -35,21 +36,6 @@ const BoundUserComponent = ({ user }) => {
         display: "inline-block",
         verticalAlign: "top",
         margin: "0px 10px 10px 0px"
-    };
-
-    // TODO: refactor display user to common functions
-    const displayUser = (user) => {
-        if (!user)
-            return null;
-        if (user.username)
-            return `@${user.username}`;
-        if (user.first_name) {
-            if (user.last_name) {
-                return `${user.first_name} ${user.last_name}`;
-            }
-            return user.first_name;
-        }
-        return `id="${user.id}"`;
     };
 
     return (

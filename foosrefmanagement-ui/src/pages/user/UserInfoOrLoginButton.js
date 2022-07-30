@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Button } from 'devextreme-react/button';
 import TelegramLoginButton from './TelegramLoginButton';
 import { logout } from '../../auth';
+import displayUser from './displayUser';
 
 const LogoutButton = () => {
     return (
@@ -18,20 +19,6 @@ const LogoutButton = () => {
 
 const UserInfoOrLoginButton = () => {
     const user = useSelector((state) => state.user.user);
-
-    const displayUser = (user) => {
-        if (!user)
-            return null;
-        if (user.username)
-            return `@${user.username}`;
-        if (user.first_name) {
-            if (user.last_name) {
-                return `${user.first_name} ${user.last_name}`;
-            }
-            return user.first_name;
-        }
-        return `id="${user.id}"`;
-    };
 
     if (user) {
         return (

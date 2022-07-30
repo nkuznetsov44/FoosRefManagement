@@ -3,12 +3,14 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework.exceptions import AuthenticationFailed
+from rest_framework import viewsets
 from django.db import transaction
 from django.contrib.auth import authenticate
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from telegram_auth.permissions import IsReferee
 from .models import InvitationToken, InvitationTokenError
+from .serializers import InvitationTokenSerializer
 from telegram_auth.backends import TelegramAuthenticationError
 from telegram_bot.bot import TelegramBot, TelegramApiError
 
@@ -82,3 +84,10 @@ def create_and_bind_user_with_token(request):
         print(tae)  # TODO: logger
         error_desc = getattr(tae, 'message', str(tae))
         return Response(f'Telegram authentication error: {error_desc}', status=status.HTTP_403_FORBIDDEN)
+
+
+class InvitationTokenViewSet(viewsets.ModelViewSet):
+    http_method_names = ['get']
+    serializer_class = InvitationTokenSerializer
+    permission_classes = (IsReferee|IsAdminUser,)
+    queryset = InvitationToken.objects.all()
