@@ -86,7 +86,7 @@ class RefereeBoundUser(views.APIView):
             bound_user = referee.user
             if not bound_user:
                 return Response(None)
-            referee_bound_user_serializer = serializers.RefereeBoundUserSerializer(referee.user)
+            referee_bound_user_serializer = serializers.RefereeBoundUserSerializer(bound_user)
             return Response(referee_bound_user_serializer.data)
         except ObjectDoesNotExist:
             return Response(f'No referee with id = "{referee_id}" found', status=status.HTTP_400_BAD_REQUEST)

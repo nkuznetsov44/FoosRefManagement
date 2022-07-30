@@ -38,7 +38,10 @@ def issue_invitation_url(request):
     except TelegramApiError as tae:
         # TODO: logger
         error_desc = getattr(tae, 'message', str(tae))
-        return Response(f'Invitation token issue failed because of telegram api error {error_desc}')
+        return Response(
+            f'Invitation token issue failed because of telegram api error {error_desc}',
+            status=status.HTTP_400_BAD_REQUEST
+        )
 
 
 @api_view(['GET'])

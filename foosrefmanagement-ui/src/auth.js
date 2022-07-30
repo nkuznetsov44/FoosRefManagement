@@ -58,5 +58,6 @@ api.interceptors.response.use(
                 notify('Login required', 'error', 5000);
             });
         }
+        throw(err);
     }
 );
