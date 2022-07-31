@@ -81,7 +81,6 @@ const MenuComponent = () => {
                     dataSource={menuItems}
                     displayExpr={"name"}
                     itemComponent={ItemComponent}
-                    adaptivityEnabled={true}
                 />
             </div>
             <div style={userInfoStyle} >
