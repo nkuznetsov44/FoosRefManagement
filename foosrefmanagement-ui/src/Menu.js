@@ -53,12 +53,10 @@ const ItemComponent = ({ data }) => {
 
 const MenuComponent = () => {
     const menuStyle = {
-        display: "inline-block",
-        margin: "0px 0px 0px 0px"
+        margin: "0px 0px 0px 0px",
     };
 
     const userInfoStyle = {
-        display: "inline-block",
         margin: "0px 0px 0px 0px",
         float: "right"
     };

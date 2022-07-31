@@ -22,6 +22,7 @@ const LoginButton = () => {
         <TelegramLoginButton
             dataOnauth={handleTelegramResponse}
             botName={settings.telegramBotName}
+            buttonSize="medium"
         />
     )
 };
