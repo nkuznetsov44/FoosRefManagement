@@ -1,0 +1,5 @@
+const settings = {
+    telegramBotName: "${TELEGRAM_BOT_NAME}"
+};
+
+export default settings;

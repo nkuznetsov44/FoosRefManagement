@@ -1,7 +1,9 @@
 name: Publish Docker image
 
 on:
-  push
+  push:
+    branches:    
+      - 'master'
 
 jobs:
   push_to_registry:
@@ -25,6 +27,7 @@ jobs:
         with:
           context: ./foosrefmanagement
           file: ./foosrefmanagement/Dockerfile
+          build-args: TELEGRAM_BOT_NAME=${{ secrets.TELEGRAM_BOT_NAME }}
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/foosrefmanagement-app:github-actions
           

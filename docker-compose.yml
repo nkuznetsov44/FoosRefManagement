@@ -12,7 +12,7 @@ services:
   adminer:
     image: adminer
     ports:
-      - ${PG_ADMIN_PORT}:8080
+      - 8081:8080
   foosrefmanagement:
     image: nkuznetsov44/foosrefmanagement
     build:
@@ -21,16 +21,18 @@ services:
     depends_on:
       - postgres
     environment:
-      ENVIRONMENT: ${ENVIRONMENT}
+      ENVIRONMENT: "DOCKER"
       DEFAULT_DATABASE_NAME: ${DEFAULT_DATABASE_NAME}
       DEFAULT_DATABASE_USER: ${DEFAULT_DATABASE_USER}
       DEFAULT_DATABASE_PASSWORD: ${DEFAULT_DATABASE_PASSWORD}
       DEFAULT_DATABASE_HOST: postgres
       DEFAULT_DATABASE_PORT: 5432
-      DJANGO_SUPERUSER_EMAIL: ${DJANGO_SUPERUSER_EMAIL}
+      DJANGO_SUPERUSER_TELEGRAM_ID: ${DJANGO_SUPERUSER_TELEGRAM_ID}
       DJANGO_SUPERUSER_PASSWORD: ${DJANGO_SUPERUSER_PASSWORD}
       TELEGRAM_BOT_API_TOKEN: ${TELEGRAM_BOT_API_TOKEN}
-      DJANGO_SUPERUSER_TELEGRAM_USER_ID: ${DJANGO_SUPERUSER_TELEGRAM_USER_ID}
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
+      APP_EXTERNAL_HOST: ${APP_EXTERNAL_HOST}
+      DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}
     volumes:
       - staticfiles:/usr/src/app/staticfiles
       - media:/usr/src/app/media
@@ -38,8 +40,10 @@ services:
     build:
       context: ./foosrefmanagement-ui
       dockerfile: Dockerfile
+      args:
+        TELEGRAM_BOT_NAME: ${TELEGRAM_BOT_NAME}
     ports:
-      - ${WEBAPP_PORT}:80
+      - 8080:80
     depends_on:
       - foosrefmanagement
     environment:

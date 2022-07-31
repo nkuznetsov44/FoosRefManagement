@@ -16,4 +16,3 @@ RUN chmod +x /usr/src/app/entrypoint.sh
 COPY . .
 
 ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
-# CMD ["gunicorn", "--bind", ":8000", "foosrefmanagement.wsgi:application"]
