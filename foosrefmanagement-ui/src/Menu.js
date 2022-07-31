@@ -52,7 +52,17 @@ const ItemComponent = ({ data }) => {
 };
 
 const MenuComponent = () => {
+    const containerStyle = {
+        minWidth: "485px",
+    };
+
+    const iconStyle = {
+        display: "inline-block",
+        margin: "0px 10px 0px 0px",
+    };
+
     const menuStyle = {
+        display: "inline-block",
         margin: "0px 0px 0px 0px",
     };
 
@@ -62,18 +72,22 @@ const MenuComponent = () => {
     };
 
     return (
-        <React.Fragment>
+        <div style={containerStyle}>
+            <div style={iconStyle}>
+                <img height="inherit" src="/static-media/fsk.png" />
+            </div>
             <div style={menuStyle}>
                 <Menu
                     dataSource={menuItems}
                     displayExpr={"name"}
                     itemComponent={ItemComponent}
+                    adaptivityEnabled={true}
                 />
             </div>
             <div style={userInfoStyle} >
                 <UserInfoOrLoginButton />
             </div>
-        </React.Fragment>
+        </div>
     );
 };
 
