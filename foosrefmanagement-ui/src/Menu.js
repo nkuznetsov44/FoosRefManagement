@@ -74,7 +74,9 @@ const MenuComponent = () => {
     return (
         <div style={containerStyle}>
             <div style={iconStyle}>
-                <img height="inherit" src="/static-media/fsk.png" />
+                <h4 style={{margin: "0px"}}>
+                    <img height="inherit" src="/static-media/fsk.png" />
+                </h4>
             </div>
             <div style={menuStyle}>
                 <Menu
