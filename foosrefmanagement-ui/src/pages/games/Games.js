@@ -8,26 +8,13 @@ import {
 import SelectBox from 'devextreme-react/select-box';
 import { dataStoreFactory } from '../../apiDataStore';
 import { api } from "../../auth";
-
-const displayReferee = (referee) => {
-    // TODO: make in icon for each rank
-    const shortRankDisplayLookup = {
-        'ASSISTANT': "Asst",
-        'REGIONAL': "Reg",
-        'NATIONAL': "Nat",
-        'INTERNATIONAL': "Int"
-    };
-    return (
-        referee &&
-        `${referee.first_name} ${referee.last_name} (${shortRankDisplayLookup[referee.rank]})`
-    );
-};
+import { displayRefereeShort } from '../referees/displayReferee';
 
 const displayEvent = (event) => {
     return event && event.name;
 };
 
-const Games = (props) => {
+const Games = () => {
     const dataStore = dataStoreFactory('/api/games', 'id');
     const [referees, setReferees] = React.useState([]);
     const [events, setEvents] = React.useState([]);
@@ -73,7 +60,7 @@ const Games = (props) => {
     const RefereeCellRender = ({ data }) => {
         return (
             <Link to={`/refereeProfile/${data.referee.id}`}>
-                {displayReferee(data.referee)}
+                {displayRefereeShort(data.referee)}
             </Link>
         );
     };
@@ -84,7 +71,7 @@ const Games = (props) => {
         }
         return (
             <Link to={`/refereeProfile/${data.assistant.id}`}>
-                {displayReferee(data.assistant)}
+                {displayRefereeShort(data.assistant)}
             </Link>
         );
     };
@@ -95,7 +82,7 @@ const Games = (props) => {
                 defaultValue={cell.value}
                 {...cell.column.lookup}
                 onValueChanged={({ value }) => cell.setValue(value)}
-                itemRender={displayReferee}
+                itemRender={displayRefereeShort}
                 searchEnabled={true}
                 searchMode="contains"
                 searchExpr={["first_name", "last_name"]}
@@ -155,7 +142,7 @@ const Games = (props) => {
                     editCellRender={RefereeEditorRender}>
                     <Lookup
                         dataSource={referees}
-                        displayExpr={displayReferee}
+                        displayExpr={displayRefereeShort}
                         valueExpr={(value) => value && value.id}>
                     </Lookup>
                 </Column>
@@ -170,7 +157,7 @@ const Games = (props) => {
                     editCellRender={RefereeEditorRender}>
                     <Lookup
                         dataSource={referees}
-                        displayExpr={displayReferee}
+                        displayExpr={displayRefereeShort}
                         valueExpr={(value) => value && value.id}>
                     </Lookup>
                 </Column>

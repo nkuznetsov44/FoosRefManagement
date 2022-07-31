@@ -75,6 +75,9 @@ def create_and_bind_user_with_token(request):
             )
             user = authenticate(request, data=params)  # validates that data comes from telegram
             if not user:
+                logger.warning(
+                    f'Token is correct but authentication did not return user object {request}'
+                )
                 raise AuthenticationFailed('Unexpected authentication error')
         return HttpResponseRedirect(redirect_to=f'/refereeProfile/{user.referee.id}')
     except InvitationToken.DoesNotExist as dne:

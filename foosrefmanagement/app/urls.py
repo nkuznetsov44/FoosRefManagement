@@ -13,6 +13,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('gamesByReferee/<int:referee_id>', views.RefereeGames.as_view()),
     path('refereeBoundUser/<int:referee_id>', views.RefereeBoundUser.as_view()),
+    path('refereeByUser/<int:telegram_user_id>', views.RefereeByUser.as_view()),
     path('lookup/eventType', views.EventTypeLookup.as_view()),
     path('lookup/gameCategory', views.GameCategoryLookup.as_view()),
     path('lookup/gameStage', views.GameStageLookup.as_view()),

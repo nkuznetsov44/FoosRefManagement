@@ -10,6 +10,13 @@ const RefereeInfoComponent = ({ referee }) => {
         margin: "0px 10px 10px 0px"
     };
 
+    const badgeUrl = {
+        'ASSISTANT': '/static-media/assistant-referee-badge.jpg',
+        'REGIONAL': '/static-media/regional-referee-badge.jpg',
+        'NATIONAL': '/static-media/national-referee-badge.jpg',
+        'INTERNATIONAL': '/static-media/international-referee-badge.jpg',
+    }
+
     const [cities, setCities] = React.useState({});
     const [ranks, setRanks] = React.useState({});
 
@@ -43,7 +50,7 @@ const RefereeInfoComponent = ({ referee }) => {
     };
 
     const getProfilePhotoUrl = (referee) => {
-        if (referee.photo == null) {
+        if (!referee.photo) {
             return '/static-media/unknown_referee.png';
         }
         return `/media/${referee.photo}`
@@ -56,7 +63,19 @@ const RefereeInfoComponent = ({ referee }) => {
     }
     return (
         <React.Fragment>
-            <h2>{`${referee.first_name} ${referee.last_name}`}</h2>
+            <div>
+                <div style={inlineBlockStyle}>
+                    <h2>
+                        <img
+                            height="38px" width="38px"
+                            src={badgeUrl[referee.rank]} 
+                        />
+                    </h2>
+                </div>
+                <div style={inlineBlockStyle}>
+                    <h2>{`${referee.first_name} ${referee.last_name}`}</h2>
+                </div>
+            </div>
             <div>
                 <div style={inlineBlockStyle}>
                     <img
@@ -67,18 +86,18 @@ const RefereeInfoComponent = ({ referee }) => {
                 <div style={inlineBlockStyle}>
                     <div>
                         <div style={inlineBlockStyle}>
-                            <CardTextElement text="Ранг:" />
-                        </div>
-                        <div style={inlineBlockStyle}>
-                            <CardTextElement text={ranks[referee.rank]} />
-                        </div>
-                    </div>
-                    <div>
-                        <div style={inlineBlockStyle}>
                             <CardTextElement text="Город:" />
                         </div>
                         <div style={inlineBlockStyle}>
                             <CardTextElement text={cities[referee.city]} />
+                        </div>
+                    </div>
+                    <div>
+                        <div style={inlineBlockStyle}>
+                            <CardTextElement text="Ранг:" />
+                        </div>
+                        <div style={inlineBlockStyle}>
+                            <CardTextElement text={ranks[referee.rank]} />
                         </div>
                     </div>
                     <div>

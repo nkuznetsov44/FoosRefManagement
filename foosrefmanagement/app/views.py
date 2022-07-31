@@ -6,6 +6,8 @@ from rest_framework import viewsets, views
 from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser
 from telegram_auth.permissions import ReadOnly, IsReferee, IsNationalReferee
+from telegram_auth.models import TelegramUser
+from app.serializers import RefereeSerializer
 from . import models
 from . import serializers
 
@@ -113,3 +115,17 @@ class RefereeBoundUser(views.APIView):
             return Response(referee_bound_user_serializer.data)
         except ObjectDoesNotExist:
             return BadRequestResponse(f'No referee with id = "{referee_id}" found')
+
+
+class RefereeByUser(views.APIView):
+    permission_classes = (IsReferee|IsAdminUser,)
+
+    def get(self, request, telegram_user_id):
+        try:
+            user = TelegramUser.objects.get(telegram_user_id=telegram_user_id)
+            return Response(RefereeSerializer(user.referee).data)
+        except ObjectDoesNotExist:
+            return BadRequestResponse(
+                f'User with id = "{telegram_user_id} does not exist '
+                'or not bound to referee'
+            )
