@@ -53,7 +53,7 @@ const ItemComponent = ({ data }) => {
 
 const MenuComponent = () => {
     const containerStyle = {
-        minWidth: "485px",
+        minWidth: "505px",
     };
 
     const iconStyle = {
