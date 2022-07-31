@@ -9,7 +9,17 @@ import { dataStoreFactory } from '../../apiDataStore';
 import { api } from "../../auth";
 
 const displayReferee = (referee) => {
-    return referee && `${referee.first_name} ${referee.last_name} (${referee.rank})`;
+    // TODO: make in icon for each rank
+    const shortRankDisplayLookup = {
+        'ASSISTANT': "Asst",
+        'REGIONAL': "Reg",
+        'NATIONAL': "Nat",
+        'INTERNATIONAL': "Int"
+    };
+    return (
+        referee &&
+        `${referee.first_name} ${referee.last_name} (${shortRankDisplayLookup[referee.rank]})`
+    );
 };
 
 const displayEvent = (event) => {
@@ -103,7 +113,7 @@ const Games = (props) => {
                 rowAlternationEnabled={true}>
                 {   allowGamesEditing &&
                     <Editing
-                        mode="row"
+                        mode="form"
                         allowAdding={true}
                         allowDeleting={true}
                         allowUpdating={true}>

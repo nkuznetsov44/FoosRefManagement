@@ -74,6 +74,7 @@ const Referees = () => {
                             <SimpleItem dataField="rank_update" editorType="dxDateBox" />
                             <SimpleItem dataField="city" />
                             <SimpleItem dataField="languages" editorType="dxTagBox" />
+                            <SimpleItem dataField="is_active" />
                         </Form>
                     </Editing>
                 }
@@ -85,14 +86,15 @@ const Referees = () => {
                     allowFiltering={true}
                     allowSorting={true}
                     cellRender={RefereeProfileLinkCellRender}
-                    sortIndex={1}
+                    sortIndex={2}
                     sortOrder="asc"
-                    calculateSortValue={(referee) => referee && referee.last_name}>
+                    calculateSortValue={(referee) => referee && referee.last_name}
+                    calculateCellValue={(referee) => `${referee.first_name} ${referee.last_name}`}>
                 </Column>
                 <Column
                     dataField="rank"
                     caption="Ранг"
-                    sortIndex={0}
+                    sortIndex={1}
                     sortOrder="desc"
                     calculateSortValue={(referee) => referee && refereeRankOrder[referee.rank]}>
                     <Lookup
@@ -110,12 +112,13 @@ const Referees = () => {
                         valueExpr="value">
                     </Lookup>
                 </Column>
-                <Column dataField="first_name" visible={false}></Column>
-                <Column dataField="last_name" visible={false}></Column>
-                <Column dataField="first_name_en" visible={false}></Column>
-                <Column dataField="last_name_en" visible={false}></Column>
+                <Column dataField="first_name" caption="Имя" visible={false}></Column>
+                <Column dataField="last_name" caption="Фамилия" visible={false}></Column>
+                <Column dataField="first_name_en" caption="Имя (EN)" visible={false}></Column>
+                <Column dataField="last_name_en" caption="Фамилия (EN)" visible={false}></Column>
                 <Column
                     dataField="languages"
+                    caption="Языки"
                     visible={false}>
                     <Lookup
                         dataSource={refereeLanguages}
@@ -123,7 +126,19 @@ const Referees = () => {
                         valueExpr="value">
                     </Lookup>
                 </Column>
-                <Column dataField="rank_update" dataType="date" visible={false}></Column>
+                <Column
+                    dataField="rank_update"
+                    caption="Дата сдачи экзамена"
+                    dataType="date"
+                    visible={false}>
+                </Column>
+                <Column
+                    dataField="is_active"
+                    caption="Активный"
+                    visible={false}
+                    sortIndex={0}
+                    sortOrder="desc">
+                </Column>
             </DataGrid>
         </React.Fragment>
     );

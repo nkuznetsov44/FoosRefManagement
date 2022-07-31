@@ -75,4 +75,4 @@ class RefereedGameDeserializer(serializers.ModelSerializer):
 class RefereeBoundUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = TelegramUser
-        fields = ('username', 'first_name', 'last_name', 'photo_url', 'is_superuser')
+        fields = ('username', 'first_name', 'last_name', 'photo_url')

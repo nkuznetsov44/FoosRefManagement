@@ -31,7 +31,7 @@ class InvitationTokenManager(models.Manager):
         token = InvitationToken(
             token=self._generate_token(),
             issued_by=issued_by,
-            issue_timestamp=int(time.time()),
+            expires_at=int(time.time()) + settings.INVITATION_TOKEN_LIFETIME,
             issued_for_referee=issued_for,
             status=InvitationTokenStatus.ISSUED
         )
@@ -46,7 +46,7 @@ class InvitationToken(models.Model):
 
     token = models.CharField(max_length=63, primary_key=True)
     issued_by = models.ForeignKey(TelegramUser, on_delete=models.CASCADE, related_name='issued_invitation_tokens')
-    issue_timestamp = models.IntegerField()
+    expires_at = models.IntegerField()
     issued_for_referee = models.ForeignKey(Referee, on_delete=models.CASCADE, related_name='invitation_tokens')
     status = models.CharField(
         max_length=63, choices=InvitationTokenStatus.choices, default=InvitationTokenStatus.ISSUED
@@ -54,7 +54,7 @@ class InvitationToken(models.Model):
 
     @property
     def is_expired(self):
-        return int(time.time()) - self.issue_timestamp > settings.INVITATION_TOKEN_LIFETIME
+        return int(time.time()) > self.expires_at
 
     @property
     def is_valid(self):

@@ -67,13 +67,14 @@ const Users = () => {
                     dataField="issued_by"
                     calculateDisplayValue={(token) => displayUser(token.issued_by)}>
                 </Column>
-                <Column dataField="issue_timestamp" />
                 <Column
                     dataField="issued_for_referee"
                     cellRender={IssuedForRefereeProfileLinkCellRender}
                     calculateDisplayValue={(token) => token.issued_for_referee}>
                 </Column>
                 <Column dataField="status" />
+                <Column dataField="expires_at" />
+                <Column dataField="is_expired" />
             </DataGrid>
         </React.Fragment>
     );

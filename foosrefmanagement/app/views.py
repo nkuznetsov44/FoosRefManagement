@@ -17,6 +17,14 @@ class RefereeViewSet(viewsets.ModelViewSet):
     queryset = models.Referee.objects.all()
     serializer_class = serializers.RefereeSerializer
 
+    def destroy(self, request, pk=None):
+        if not pk:
+            return super().destroy(request, pk)
+        referee = self.queryset.get(pk=pk)
+        referee.is_active = False
+        referee.save()
+        return Response(referee.id)
+
 
 class RefereedGameViewSet(ActionBasedSerializerMixin, viewsets.ModelViewSet):
     permission_classes = (IsReferee|IsAdminUser|ReadOnly,)
@@ -33,6 +41,10 @@ class RefereedEventViewSet(viewsets.ModelViewSet):
     permission_classes = (IsReferee|IsAdminUser|ReadOnly,)
     queryset = models.RefereedEvent.objects.all()
     serializer_class = serializers.RefereedEventSerializer
+
+    def destroy(self, request, pk=None):
+        # TODO: catch ProtectedError and send error message when deleting event with games
+        return super().destroy(request, pk)
 
 
 class LookupView(views.APIView):

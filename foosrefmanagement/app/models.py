@@ -44,6 +44,7 @@ class Referee(models.Model):
     rank = models.CharField(max_length=63, choices=RefereeRank.choices, default=RefereeRank.ASSISTANT)
     rank_update = models.DateField()
     photo = models.ImageField(upload_to=referee_profile_photo_path, null=True, blank=True)
+    is_active = models.BooleanField(default=True)
     user = models.OneToOneField(TelegramUser, null=True, related_name='referee', on_delete=models.CASCADE)
 
     def get_games(self):

@@ -10,4 +10,4 @@ class InvitationTokenSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = InvitationToken
-        fields = ('issued_by', 'issue_timestamp', 'issued_for_referee', 'status')
+        fields = ('issued_by', 'issued_for_referee', 'expires_at', 'is_expired', 'status')
