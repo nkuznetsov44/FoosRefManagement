@@ -1,10 +1,14 @@
 from typing import Optional
+import logging
 import time
 import secrets
 from django.conf import settings
 from django.db import models, transaction
 from app.models import Referee
 from telegram_auth.models import TelegramUser
+
+
+logger = logging.getLogger(__name__)
 
 
 class InvitationTokenError(ValueError):
@@ -37,7 +41,7 @@ class InvitationTokenManager(models.Manager):
         )
         token.save()
 
-        #TODO: log token issued
+        logger.info(f'Token issued {token}')
         return token
 
 
@@ -60,6 +64,10 @@ class InvitationToken(models.Model):
     def is_valid(self):
         return self.status == InvitationTokenStatus.ISSUED
 
+    def cancel(self):
+        self.status = InvitationTokenStatus.CANCELLED
+        self.save()
+
     @transaction.atomic
     def create_and_bind_user(
         self,
@@ -70,10 +78,10 @@ class InvitationToken(models.Model):
         photo_url: Optional[str] = None
     ):
         if self.is_expired:
-            # TODO: logger
+            logger.info(f'Token {self} expired')
             raise InvitationTokenError('Token expired')
         if not self.is_valid:
-            # TODO: logger
+            logger.info(f'Token {self} is invalid')
             raise InvitationTokenError('Token is invalid')
 
         user = TelegramUser(
@@ -98,5 +106,5 @@ class InvitationToken(models.Model):
             .update(status=InvitationTokenStatus.CANCELLED)
         )
 
-        #TODO: log token used
+        logger.info(f'Token {self} used')
         return user

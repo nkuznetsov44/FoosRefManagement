@@ -1,7 +1,7 @@
 import axios from 'axios';
 import notify from 'devextreme/ui/notify';
 import { store } from './store/store';
-import { login as loginAction, logout as logoutAction } from './store/userSlice'
+import { login as loginAction, logout as logoutAction } from './store/userSlice';
 
 export const login = async (telegramDataOnauth) => {
     const { data } = await axios.post('/api/auth/token/', telegramDataOnauth, {

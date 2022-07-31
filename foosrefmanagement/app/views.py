@@ -1,10 +1,16 @@
+import logging
 from django.core.exceptions import ObjectDoesNotExist
-from rest_framework import viewsets, views, status
+from django.db.models import ProtectedError
+from common.http_response import BadRequestResponse
+from rest_framework import viewsets, views
 from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser
 from telegram_auth.permissions import ReadOnly, IsReferee, IsNationalReferee
 from . import models
 from . import serializers
+
+
+logger = logging.getLogger(__name__)
 
 
 class ActionBasedSerializerMixin:
@@ -43,8 +49,13 @@ class RefereedEventViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.RefereedEventSerializer
 
     def destroy(self, request, pk=None):
-        # TODO: catch ProtectedError and send error message when deleting event with games
-        return super().destroy(request, pk)
+        try:
+            return super().destroy(request, pk)
+        except ProtectedError as pe:
+            return BadRequestResponse(
+                f'Can\'t delete tournament id="{pk}" because it has games bound to it. '
+                'Cancelling operation on protected error.'
+            )
 
 
 class LookupView(views.APIView):
@@ -86,7 +97,7 @@ class RefereeGames(views.APIView):
             games_serializer = serializers.RefereedGameSerializer(referee.get_games(), many=True)
             return Response(games_serializer.data)
         except ObjectDoesNotExist:
-            return Response(f'No referee with id = "{referee_id}" found', status=status.HTTP_400_BAD_REQUEST)
+            return BadRequestResponse(f'No referee with id = "{referee_id}" found')
 
 
 class RefereeBoundUser(views.APIView):
@@ -101,4 +112,4 @@ class RefereeBoundUser(views.APIView):
             referee_bound_user_serializer = serializers.RefereeBoundUserSerializer(bound_user)
             return Response(referee_bound_user_serializer.data)
         except ObjectDoesNotExist:
-            return Response(f'No referee with id = "{referee_id}" found', status=status.HTTP_400_BAD_REQUEST)
+            return BadRequestResponse(f'No referee with id = "{referee_id}" found')

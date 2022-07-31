@@ -1,7 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import DataGrid from '../../common/DataGrid';
 import {
-    DataGrid, Column, FilterRow, Lookup, Paging, Editing, Form
+    Column, FilterRow, Lookup, Paging, Editing, Form
 } from 'devextreme-react/data-grid';
 import { SimpleItem } from 'devextreme-react/form';
 import RefereeProfileLinkRender from './RefereeProfileLinkRender';
@@ -22,7 +23,9 @@ const Referees = () => {
     const [refereeLanguages, setRefereeLanguges] = React.useState([]);
 
     const user = useSelector((state) => state.user.user);
-    const allowRefereeEditing = Boolean(user)/* && user.referee && user.referee.rank == 'NATIONAL'*/;  // TODO: uncomment
+    // TODO: now user info from /api/auth/token doesnt have bound referee info.
+    // Need permission management system bound to user.
+    const allowRefereeEditing = Boolean(user)/* && user.referee && user.referee.rank == 'NATIONAL'*/;
 
     React.useEffect(() => {
         (async () => {
@@ -54,10 +57,7 @@ const Referees = () => {
             <h1>Рефери</h1>
             <DataGrid
                 dataSource={dataStore}
-                showBorders={true}
-                columnAutoWidth={true}
                 columnHidingEnabled={true}
-                rowAlternationEnabled={true}
                 hoverStateEnabled={true}>
                 {   allowRefereeEditing &&
                     <Editing

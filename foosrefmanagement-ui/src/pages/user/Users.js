@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { DataGrid, Column } from 'devextreme-react/data-grid';
+import DataGrid from '../../common/DataGrid';
+import { Column } from 'devextreme-react/data-grid';
 import RefereeProfileLinkRender from '../referees/RefereeProfileLinkRender';
 import { api } from "../../auth";
 import displayUser from './displayUser';
@@ -40,12 +41,7 @@ const Users = () => {
     return (
         <React.Fragment>
             <h3>Users</h3>
-            <DataGrid
-                columnHidingEnabled={true}
-                showBorders={true}
-                columnAutoWidth={true}
-                rowAlternationEnabled={true}
-                dataSource={users}>
+            <DataGrid columnHidingEnabled={true} dataSource={users}>
                 <Column dataField="telegram_user_id" />
                 <Column dataField="username" />
                 <Column dataField="first_name" />
@@ -57,12 +53,7 @@ const Users = () => {
                 </Column>
             </DataGrid>
             <h3>Intitation tokens</h3>
-            <DataGrid
-                columnHidingEnabled={true}
-                showBorders={true}
-                columnAutoWidth={true}
-                rowAlternationEnabled={true}
-                dataSource={invitationTokens}>
+            <DataGrid columnHidingEnabled={true} dataSource={invitationTokens}>
                 <Column
                     dataField="issued_by"
                     calculateDisplayValue={(token) => displayUser(token.issued_by)}>

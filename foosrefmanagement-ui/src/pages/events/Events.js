@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { DataGrid, Editing, Column, Lookup } from 'devextreme-react/data-grid';
+import DataGrid from '../../common/DataGrid';
+import { Editing, Column, Lookup } from 'devextreme-react/data-grid';
 import { dataStoreFactory } from '../../apiDataStore';
 import { api } from '../../auth';
-
 
 const Events = (props) => {
     const dataStore = dataStoreFactory('/api/events', 'id');
@@ -22,11 +22,7 @@ const Events = (props) => {
     return (
         <React.Fragment>
             <h1>Турниры</h1>
-            <DataGrid
-                dataSource={dataStore}
-                showBorders={true}
-                columnAutoWidth={true}
-                rowAlternationEnabled={true}>
+            <DataGrid dataSource={dataStore}>
                 {   allowTournamentsEditing &&
                     <Editing
                         mode="row"

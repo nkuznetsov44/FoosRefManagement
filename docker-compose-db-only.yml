@@ -13,6 +13,6 @@ services:
   adminer:
     image: adminer
     ports:
-      - ${PG_ADMIN_PORT}:8080
+      - 8081:8080
 volumes:
   postgresdata:

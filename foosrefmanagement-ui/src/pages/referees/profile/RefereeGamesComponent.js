@@ -1,6 +1,7 @@
 import React from 'react';
+import DataGrid from '../../../common/DataGrid';
 import {
-    DataGrid, Column, FilterRow, Paging, Lookup
+    Column, FilterRow, Paging, Lookup
 } from 'devextreme-react/data-grid';
 import { api } from '../../../auth';
 
@@ -58,12 +59,7 @@ const RefereeGamesComponent = ({ refereeId }) => {
         return <React.Fragment />;
     }
     return (
-        <DataGrid
-            dataSource={games}
-            showBorders={true}
-            columnHidingEnabled={true}
-            columnAutoWidth={true}
-            rowAlternationEnabled={true}>
+        <DataGrid dataSource={games} columnHidingEnabled={true}>
             <Paging enabled={false} />
             <FilterRow visible={true} />
             <Column

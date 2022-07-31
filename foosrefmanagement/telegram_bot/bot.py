@@ -1,5 +1,6 @@
 import requests
 import json
+from datetime import datetime
 from typing import Optional, Dict, Any
 from django.conf import settings
 from app.models import Referee
@@ -87,15 +88,24 @@ class TelegramBot:
         )
         return self._check_response(response)
 
-    def send_invitation_link(self, from_telegram_user_id: int, for_referee_id: int, invitation_token: str):
+    def send_invitation_link(
+        self,
+        from_telegram_user_id: int,
+        for_referee_id: int,
+        invitation_token: str,
+        expires_timestamp: int
+    ):
         def get_invitation_message_text(referee: Referee) -> str:
+            readable_expire_date = (
+                datetime.fromtimestamp(expires_timestamp)
+                .strftime("%Y-%m-%d %H:%M:%S")
+            )
             return (
                 'Пожалуйста, перешлите это сообщение рефери '
                 f'{referee.first_name} {referee.last_name}.\n\n'
                 'Чтобы привязать свой аккаунт Telegram '
                 f'к личному кабинету рефери {referee.first_name} {referee.last_name}, '
-                'перейдите по ссылке-приглашению. Приглашение действует 24 часа.\n'
-                # TODO: format invitation time from settings.INVITATION_TOKEN_LIFETIME
+                f'перейдите по ссылке-приглашению. Приглашение действует до {readable_expire_date}.\n'
                 'Пожалуйста, во всплывающем окне разрешите боту присылать вам уведомления от сайта.'
             )
 

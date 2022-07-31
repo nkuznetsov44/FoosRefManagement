@@ -1,5 +1,5 @@
 from typing import Dict, Any, Optional
-import jwt
+import logging
 import time
 import hashlib
 import hmac
@@ -7,6 +7,9 @@ from django.conf import settings
 from django.contrib.auth.backends import BaseBackend
 from rest_framework.exceptions import AuthenticationFailed
 from .models import TelegramUser
+
+
+logger = logging.getLogger(__name__)
 
 
 class TelegramAuthenticationError(AuthenticationFailed):
@@ -34,7 +37,7 @@ class TelegramAuthentication(BaseBackend):
         try:
             return TelegramUser.objects.get(telegram_user_id=telegram_user_id)
         except TelegramUser.DoesNotExist as dne:
-            # TODO: logger
+            logger.exception('Telegram authentication error', dne)
             raise TelegramAuthenticationError(f'User with id = "{telegram_user_id}" does not exist') from dne
 
     def _verify_telegram_data(self, hash: str, data_check_string: str, auth_date: str) -> None:
@@ -45,12 +48,14 @@ class TelegramAuthentication(BaseBackend):
         unix_time_auth_date = int(auth_date)
 
         if unix_time_now - unix_time_auth_date > settings.TELEGRAM_AUTH_DATA_LIFETIME:
-            # TODO: logger
+            logger.warning(f'Telegram authentication error: data {unix_time_auth_date} is outdated')
             raise TelegramDataNotValid('Authentication data is outdated.')
 
         if _hash != hash:
-            # TODO: logger
-            print(_hash)
+            logger.warning(
+                'Telegram authentication error: data integrity not verified. '
+                f'Expected hash "{_hash}", got "{hash}"'
+            )
             raise TelegramDataNotValid(
                 'Data integrity was not verified. Hash recieved from authentication data does not match '
                 'the calculated hash based on bot token.'

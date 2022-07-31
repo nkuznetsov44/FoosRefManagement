@@ -38,6 +38,37 @@ ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', 'localhost').split(',')
 CSRF_TRUSTED_ORIGINS = os.getenv('APP_EXTERNAL_HOST', 'localhost').split(',')
 
 
+# Logging
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+}
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -45,6 +76,7 @@ INSTALLED_APPS = [
     'telegram_auth.apps.AuthConfig',
     'invitation.apps.InvitationConfig',
     'telegram_bot.apps.TelegramBotConfig',
+    'common.apps.CommonConfig',
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',

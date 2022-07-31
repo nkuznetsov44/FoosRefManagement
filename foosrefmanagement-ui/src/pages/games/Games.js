@@ -1,8 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import DataGrid from '../../common/DataGrid';
 import {
-    DataGrid, Editing, FilterRow, Column, Lookup
+    Editing, FilterRow, Column, Lookup
 } from 'devextreme-react/data-grid';
 import SelectBox from 'devextreme-react/select-box';
 import { dataStoreFactory } from '../../apiDataStore';
@@ -105,12 +106,7 @@ const Games = (props) => {
     return (
         <React.Fragment>
             <h1>Игры</h1>
-            <DataGrid
-                columnHidingEnabled={true}
-                dataSource={dataStore}
-                showBorders={true}
-                columnAutoWidth={true}
-                rowAlternationEnabled={true}>
+            <DataGrid columnHidingEnabled={true} dataSource={dataStore}>
                 {   allowGamesEditing &&
                     <Editing
                         mode="form"
