@@ -1,33 +1,33 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Menu } from 'devextreme-react';
+import Toolbar, { Item } from 'devextreme-react/toolbar';
 import { Link } from 'react-router-dom';
 import UserInfoOrLoginButton from './pages/user/UserInfoOrLoginButton';
 
 const menuItems = [
     {
-        name: 'Рефери',
+        text: 'Рефери',
         path: '/',
         loginRequired: false
     },
     {
-        name: 'Игры',
+        text: 'Игры',
         path: '/games',
         loginRequired: false
     },
     {
-        name: 'Турниры',
+        text: 'Турниры',
         path: '/events',
         loginRequired: false
     },
     {
-        name: 'Users',
+        text: 'Users',
         path: '/users',
         loginRequired: true
     }
 ];
 
-const ItemComponent = ({ data }) => {
+const MenuItemRender = ({ item }) => {
     const linkStyle = {
         color: '#666666',
         textDecorationcolor: '#666666'
@@ -38,55 +38,37 @@ const ItemComponent = ({ data }) => {
         textTransform: 'uppercase'
     };
 
-    const user = useSelector((state) => state.user.user);
-
-    if (!user && data.loginRequired) {
-        return <React.Fragment />;
-    }
-
     return (
-        <Link to={data.path} style={linkStyle}>
-            <h4 style={innerStyle}>{data.name}</h4>
+        <Link to={item.path} style={linkStyle}>
+            <h5 style={innerStyle}>{item.text}</h5>
         </Link>
     );
 };
 
 const MenuComponent = () => {
-    const containerStyle = {
-        minWidth: "505px",
-    };
-
-    const iconStyle = {
-        display: "inline-block",
-        margin: "0px 10px 0px 0px",
-    };
-
-    const menuStyle = {
-        display: "inline-block",
-        margin: "0px 0px 0px 0px",
-    };
-
-    const userInfoStyle = {
-        margin: "0px 0px 0px 0px",
-        float: "right"
-    };
+    const user = useSelector((state) => state.user.user);
 
     return (
-        <div style={containerStyle}>
-            <div style={iconStyle}>
-                <img height="16px" src="/static-media/fsk.png" />
-            </div>
-            <div style={menuStyle}>
-                <Menu
-                    dataSource={menuItems}
-                    displayExpr={"name"}
-                    itemComponent={ItemComponent}
-                />
-            </div>
-            <div style={userInfoStyle} >
-                <UserInfoOrLoginButton />
-            </div>
-        </div>
+        <React.Fragment>
+            <Toolbar>
+                <Item location="before">
+                    <img height="16px" src="/static-media/fsk.png" />
+                </Item>
+                {menuItems
+                    .filter((value, index) => !value.loginRequired || user || false)
+                    .map((value, index) => {
+                        return (
+                            <Item location="before">
+                                <MenuItemRender item={value} />
+                            </Item>
+                        );
+                    })
+                }
+                <Item location="after">
+                    <UserInfoOrLoginButton />
+                </Item>
+            </Toolbar>
+        </React.Fragment>
     );
 };
 
