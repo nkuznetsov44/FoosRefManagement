@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import Toolbar, { Item } from 'devextreme-react/toolbar';
+import DropDownButton from 'devextreme-react/drop-down-button';
 import { Link } from 'react-router-dom';
 import UserInfoOrLoginButton from './pages/user/UserInfoOrLoginButton';
 
@@ -27,54 +28,132 @@ const menuItems = [
     }
 ];
 
-const MenuItemRender = ({ item }) => {
-    const linkStyle = {
-        color: '#666666',
-        textDecorationcolor: '#666666'
+const DesktopMenuComponent = ({ items }) => {
+    const MenuItemRender = ({ item }) => {
+        const linkStyle = {
+            color: '#666666',
+            textDecorationcolor: '#666666'
+        };
+    
+        const innerStyle = {
+            margin: "0px 10px 0px 0px",
+            textTransform: 'uppercase'
+        };
+    
+        return (
+            <Link to={item.path} style={linkStyle}>
+                <h4 style={innerStyle}>{item.text}</h4>
+            </Link>
+        );
     };
 
-    const innerStyle = {
-        margin: "0px 5px 0px 0px",
-        textTransform: 'uppercase'
+    const toolbarStyle = {
+        backgroundColor: "#eee",
+    };
+
+    const fskLogoStyle = {
+        height: "36px",
+        margin: "0px 10px 0px 0px",
+    };
+
+    const buttonContainerStyle = {
+        position: "relative",
+        top: "50%"
     };
 
     return (
-        <Link to={item.path} style={linkStyle}>
-            <h4 style={innerStyle}>{item.text}</h4>
-        </Link>
+        <Toolbar style={toolbarStyle}>
+            <Item location="before">
+                <img
+                    style={fskLogoStyle}
+                    //src="/static-media/fsk.png"
+                    src="https://rtsf.ru/images/logo.png"
+                />
+            </Item>
+            {items.map((value, index) => {
+                    return (
+                        <Item location="before">
+                            <MenuItemRender item={value} />
+                        </Item>
+                    );
+                })
+            }
+            <Item location="after">
+                <div style={buttonContainerStyle}>
+                    <UserInfoOrLoginButton />
+                </div>
+            </Item>
+        </Toolbar>
+    );
+};
+
+const MobileMenuComponent = ({ items }) => {
+    const MenuItemRender = (item) => {
+        const linkStyle = {
+            color: '#666666',
+            textDecoration: "none",
+        };
+
+        return (
+            <Link to={item.path} style={linkStyle}>
+                <div>{item.text}</div>
+            </Link>
+        );
+    };
+
+    const toolbarStyle = {
+        backgroundColor: "#eee",
+    };
+
+    const fskLogoStyle = {
+        height: "36px",
+        margin: "0px 10px 0px 0px",
+    };
+
+    const buttonContainerStyle = {
+        position: "relative",
+        top: "50%"
+    };
+
+    return (
+        <Toolbar style={toolbarStyle}>
+            <Item location="before">
+                <img
+                    style={fskLogoStyle}
+                    src="/static-media/fsk.png"
+                    //src="https://rtsf.ru/images/logo.png"
+                />
+            </Item>
+            <Item location="before">
+                <DropDownButton
+                    text="Разделы"
+                    items={items}
+                    itemRender={MenuItemRender}
+                />
+            </Item>
+            <Item location="after">
+                <div style={buttonContainerStyle}>
+                    <UserInfoOrLoginButton />
+                </div>
+            </Item>
+        </Toolbar>
     );
 };
 
 const MenuComponent = () => {
     const user = useSelector((state) => state.user.user);
 
-    const topToolbarStyle = {
-        backgroundColor: "#ddd"
-    };
-
+    if (window.innerWidth < 720) {
+        return (
+            <MobileMenuComponent
+                items={menuItems.filter((value, index) => !value.loginRequired || user || false)}
+            />
+        );
+    }
     return (
-        <React.Fragment>
-            <Toolbar style={topToolbarStyle}>
-                <Item location="before" locateInMenu="never">
-                    <img height="36px" src="/static-media/fsk.png" />
-                </Item>
-                <Item location="after">
-                    <UserInfoOrLoginButton />
-                </Item>
-            </Toolbar>
-            <Toolbar>
-                {menuItems
-                    .filter((value, index) => !value.loginRequired || user || false)
-                    .map((value, index) => {
-                        return (
-                            <Item location="before">
-                                <MenuItemRender item={value} />
-                            </Item>
-                        );
-                    })
-                }
-            </Toolbar>
-        </React.Fragment>
+        <DesktopMenuComponent
+            items={menuItems.filter((value, index) => !value.loginRequired || user || false)}
+        />
     );
 };
 
