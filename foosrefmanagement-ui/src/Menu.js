@@ -33,16 +33,29 @@ const MenuItemRender = ({ item }) => {
         textDecorationcolor: '#666666'
     };
 
-    const innerStyle = {
-        margin: "0px 5px 0px 0px",
-        textTransform: 'uppercase'
-    };
+    if (window.innerWidth < 520) {
+        const innerStyle = {
+            margin: "0px 2px 0px 0px",
+        };
 
-    return (
-        <Link to={item.path} style={linkStyle}>
-            <h5 style={innerStyle}>{item.text}</h5>
-        </Link>
-    );
+        return (
+            <Link to={item.path} style={linkStyle}>
+                <div style={innerStyle}>{item.text}</div>
+            </Link>
+        );
+    }
+    else {
+        const innerStyle = {
+            margin: "0px 5px 0px 0px",
+            textTransform: 'uppercase'
+        };
+
+        return (
+            <Link to={item.path} style={linkStyle}>
+                <h4 style={innerStyle}>{item.text}</h4>
+            </Link>
+        );
+    }
 };
 
 const MenuComponent = () => {
@@ -51,7 +64,7 @@ const MenuComponent = () => {
     return (
         <React.Fragment>
             <Toolbar>
-                <Item location="before">
+                <Item location="before" locateInMenu="never">
                     <img height="16px" src="/static-media/fsk.png" />
                 </Item>
                 {menuItems
