@@ -52,7 +52,7 @@ const MenuComponent = () => {
         <React.Fragment>
             <Toolbar>
                 <Item location="before" locateInMenu="never">
-                    <img height="36px" src="https://rtsf.ru/images/logo.png" />
+                    <img height="36px" src="/static-media/fsk.png" />
                 </Item>
                 <Item location="after">
                     <UserInfoOrLoginButton />
