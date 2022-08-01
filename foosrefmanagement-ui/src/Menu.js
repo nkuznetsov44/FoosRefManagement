@@ -48,9 +48,13 @@ const MenuItemRender = ({ item }) => {
 const MenuComponent = () => {
     const user = useSelector((state) => state.user.user);
 
+    const topToolbarStyle = {
+        backgroundColor: "#ddd"
+    };
+
     return (
         <React.Fragment>
-            <Toolbar>
+            <Toolbar style={topToolbarStyle}>
                 <Item location="before" locateInMenu="never">
                     <img height="36px" src="/static-media/fsk.png" />
                 </Item>
