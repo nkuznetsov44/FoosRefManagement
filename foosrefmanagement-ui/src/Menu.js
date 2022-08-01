@@ -129,6 +129,7 @@ const MobileMenuComponent = ({ items }) => {
                     text="Разделы"
                     items={items}
                     itemRender={MenuItemRender}
+                    stylingMode="text"
                 />
             </Item>
             <Item location="after">
