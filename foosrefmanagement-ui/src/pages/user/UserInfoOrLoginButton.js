@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Button } from 'devextreme-react/button';
+import Box, { Item } from 'devextreme-react/box';
 import TelegramLoginButton from './TelegramLoginButton';
 import { logout } from '../../auth';
 import displayUser from './displayUser';
@@ -34,12 +35,16 @@ const UserInfoOrLoginButton = () => {
 
     if (user) {
         return (
-            <React.Fragment>
-                <div>{displayUser(user)}</div>
-                {referee && <div>{displayRefereeShort(referee)}</div>}
-                <LogoutButton />
-            </React.Fragment>
-        )
+            <Box direction="row" width="100%">
+                <Item ratio={1}>
+                    <div>{displayUser(user)}</div>
+                    {referee && <div>{displayRefereeShort(referee)}</div>}
+                </Item>
+                <Item ratio={1}>
+                    <LogoutButton />
+                </Item>
+            </Box>
+        );
     }
 
     return <TelegramLoginButton />;

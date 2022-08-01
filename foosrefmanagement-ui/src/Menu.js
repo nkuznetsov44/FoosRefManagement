@@ -33,29 +33,16 @@ const MenuItemRender = ({ item }) => {
         textDecorationcolor: '#666666'
     };
 
-    if (window.innerWidth < 520) {
-        const innerStyle = {
-            margin: "0px 2px 0px 0px",
-        };
+    const innerStyle = {
+        margin: "0px 5px 0px 0px",
+        textTransform: 'uppercase'
+    };
 
-        return (
-            <Link to={item.path} style={linkStyle}>
-                <div style={innerStyle}>{item.text}</div>
-            </Link>
-        );
-    }
-    else {
-        const innerStyle = {
-            margin: "0px 5px 0px 0px",
-            textTransform: 'uppercase'
-        };
-
-        return (
-            <Link to={item.path} style={linkStyle}>
-                <h4 style={innerStyle}>{item.text}</h4>
-            </Link>
-        );
-    }
+    return (
+        <Link to={item.path} style={linkStyle}>
+            <h4 style={innerStyle}>{item.text}</h4>
+        </Link>
+    );
 };
 
 const MenuComponent = () => {
@@ -65,8 +52,13 @@ const MenuComponent = () => {
         <React.Fragment>
             <Toolbar>
                 <Item location="before" locateInMenu="never">
-                    <img height="16px" src="/static-media/fsk.png" />
+                    <img height="36px" src="https://rtsf.ru/images/logo.png" />
                 </Item>
+                <Item location="after">
+                    <UserInfoOrLoginButton />
+                </Item>
+            </Toolbar>
+            <Toolbar>
                 {menuItems
                     .filter((value, index) => !value.loginRequired || user || false)
                     .map((value, index) => {
@@ -77,9 +69,6 @@ const MenuComponent = () => {
                         );
                     })
                 }
-                <Item location="after">
-                    <UserInfoOrLoginButton />
-                </Item>
             </Toolbar>
         </React.Fragment>
     );
