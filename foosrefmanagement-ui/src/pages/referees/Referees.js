@@ -4,6 +4,7 @@ import DataGrid from '../../common/DataGrid';
 import {
     Column, FilterRow, Lookup, Paging, Editing, Form
 } from 'devextreme-react/data-grid';
+import TagBox from "devextreme/ui/tag_box";  // noqa: needed for tagbox edit
 import { SimpleItem } from 'devextreme-react/form';
 import RefereeProfileLinkRender from './RefereeProfileLinkRender';
 import { dataStoreFactory } from '../../apiDataStore';

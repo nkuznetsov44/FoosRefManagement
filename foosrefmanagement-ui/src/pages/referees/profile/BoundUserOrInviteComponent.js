@@ -8,10 +8,9 @@ const IssueInvitationMessageButton = ({ refereeId }) => {
     const issueInvitationMessage = () => {
         (async () => {
             try {
-                const response = await api.post('/api/invitations/issue/', {
+                await api.post('/api/invitations/issue/', {
                     refereeId: refereeId
                 });
-                console.log(response);
                 notify('Приглашение отправлено в Telegram', 'success', 5000);
             } catch (err) {
                 console.log(err);
