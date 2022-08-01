@@ -35,10 +35,12 @@ const UserInfoOrLoginButton = () => {
     }, [user]);
 
     if (user) {
-        <React.Fragment>
-            <div>{displayUser(user)}</div>
-            {referee && <div>{displayRefereeShort(referee)}</div>}
-        </React.Fragment>
+        return (
+            <React.Fragment>
+                <div>{displayUser(user)}</div>
+                {referee && <div>{displayRefereeShort(referee)}</div>}
+            </React.Fragment>
+        );
     }
 
     return <TelegramLoginButton />;
