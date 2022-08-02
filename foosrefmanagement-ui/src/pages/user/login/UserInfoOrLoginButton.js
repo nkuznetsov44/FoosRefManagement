@@ -4,8 +4,10 @@ import TelegramLoginButton from './TelegramLoginButton';
 import displayUser from '../displayUser';
 import { displayRefereeShort } from '../../referees/displayReferee';
 import { api } from '../../../auth';
+import Protected from '../../../common/permissions/protect';
+import { requireLoggedIn, requireNotLoggedIn } from '../../../common/permissions/requirements';
 
-const UserInfoOrLoginButton = () => {
+const UserInfo = () => {
     const user = useSelector((state) => state.user.user);
     const [referee, setReferee] = React.useState();
 
@@ -18,16 +20,25 @@ const UserInfoOrLoginButton = () => {
         }
     }, [user]);
 
-    if (user) {
-        return (
-            <React.Fragment>
-                <div>{displayUser(user)}</div>
-                {referee && <div>{displayRefereeShort(referee)}</div>}
-            </React.Fragment>
-        );
-    }
+    return (
+        <React.Fragment>
+            <div>{displayUser(user)}</div>
+            {referee && <div>{displayRefereeShort(referee)}</div>}
+        </React.Fragment>
+    );
+};
 
-    return <TelegramLoginButton />;
+const UserInfoOrLoginButton = () => {
+    return (
+        <React.Fragment>
+            <Protected require={requireLoggedIn}>
+                <UserInfo />
+            </Protected>
+            <Protected require={requireNotLoggedIn}>
+                <TelegramLoginButton />
+            </Protected>
+        </React.Fragment>
+    );
 };
 
 export default UserInfoOrLoginButton;

@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import DataGrid from '../../common/DataGrid';
 import {
@@ -9,6 +8,8 @@ import SelectBox from 'devextreme-react/select-box';
 import { dataStoreFactory } from '../../common/apiDataStore';
 import { api } from "../../auth";
 import { displayRefereeShort } from '../referees/displayReferee';
+import { requireLoggedIn } from '../../common/permissions/requirements';
+import Protected from '../../common/permissions/protect';
 
 const displayEvent = (event) => {
     return event && event.name;
@@ -20,10 +21,6 @@ const Games = () => {
     const [events, setEvents] = React.useState([]);
     const [gameCategories, setGameCategories] = React.useState([]);
     const [gameStages, setGameStages] = React.useState([]);
-
-    const user = useSelector((state) => state.user.user);
-    // TODO: allow editing only user's games
-    const allowGamesEditing = Boolean(user);
 
     React.useEffect(() => {
         (async () => {
@@ -94,14 +91,14 @@ const Games = () => {
         <React.Fragment>
             <h1>Игры</h1>
             <DataGrid columnHidingEnabled={true} dataSource={dataStore}>
-                {   allowGamesEditing &&
+                <Protected require={requireLoggedIn}>
                     <Editing
                         mode="form"
                         allowAdding={true}
                         allowDeleting={true}
                         allowUpdating={true}>
                     </Editing>
-                }
+                </Protected>
                 <FilterRow visible={true} />
                 <Column
                     dataField="date"

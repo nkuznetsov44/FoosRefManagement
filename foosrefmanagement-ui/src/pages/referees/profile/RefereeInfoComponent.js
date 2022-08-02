@@ -1,7 +1,8 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import BoundUserOrInviteComponent from './BoundUserOrInviteComponent';
 import { api } from '../../../auth';
+import Protected from '../../../common/permissions/protect';
+import { requireLoggedIn } from '../../../common/permissions/requirements';
 
 const RefereeInfoComponent = ({ referee }) => {
     const inlineBlockStyle = {
@@ -19,9 +20,6 @@ const RefereeInfoComponent = ({ referee }) => {
 
     const [cities, setCities] = React.useState({});
     const [ranks, setRanks] = React.useState({});
-
-    const user = useSelector((state) => state.user.user);
-    const allowGetBoundUserOrInvite = Boolean(user);
 
     React.useEffect(() => {
         (async () => {
@@ -108,11 +106,11 @@ const RefereeInfoComponent = ({ referee }) => {
                             <CardTextElement text={`${referee.rank_update}`} />
                         </div>
                     </div>
-                    { allowGetBoundUserOrInvite &&
+                    <Protected require={requireLoggedIn}>
                         <div>
                             <BoundUserOrInviteComponent refereeId={referee.id} />
                         </div>
-                    }
+                    </Protected>
                 </div>
             </div>
         </React.Fragment>
