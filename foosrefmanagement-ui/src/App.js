@@ -6,7 +6,7 @@ import {
     Routes,
     Route
 } from "react-router-dom";
-import MenuComponent from './Menu';
+import MenuComponent from './menu/Menu';
 import Games from './pages/games/Games';
 import Events from './pages/events/Events';
 import Referees from './pages/referees/Referees';

@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import DataGrid from '../../common/DataGrid';
 import { Editing, Column, Lookup } from 'devextreme-react/data-grid';
-import { dataStoreFactory } from '../../apiDataStore';
+import { dataStoreFactory } from '../../common/apiDataStore';
 import { api } from '../../auth';
 
 const Events = (props) => {

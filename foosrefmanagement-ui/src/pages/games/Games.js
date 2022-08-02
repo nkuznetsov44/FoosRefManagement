@@ -6,7 +6,7 @@ import {
     Editing, FilterRow, Column, Lookup
 } from 'devextreme-react/data-grid';
 import SelectBox from 'devextreme-react/select-box';
-import { dataStoreFactory } from '../../apiDataStore';
+import { dataStoreFactory } from '../../common/apiDataStore';
 import { api } from "../../auth";
 import { displayRefereeShort } from '../referees/displayReferee';
 

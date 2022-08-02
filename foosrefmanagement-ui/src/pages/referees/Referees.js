@@ -7,7 +7,7 @@ import {
 import TagBox from "devextreme/ui/tag_box";  // noqa: needed for tagbox edit
 import { SimpleItem } from 'devextreme-react/form';
 import RefereeProfileLinkRender from './RefereeProfileLinkRender';
-import { dataStoreFactory } from '../../apiDataStore';
+import { dataStoreFactory } from '../../common/apiDataStore';
 import { api } from "../../auth";
 
 const refereeRankOrder = {

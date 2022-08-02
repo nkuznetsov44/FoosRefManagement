@@ -1,5 +1,5 @@
 import CustomStore from 'devextreme/data/custom_store';
-import { api } from './auth';
+import { api } from '../auth';
 
 export const dataStoreFactory = (endpoint, idField) => {
     return new CustomStore({
