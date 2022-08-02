@@ -3,9 +3,11 @@ import DataGrid from '../../../common/DataGrid';
 import {
     Column, FilterRow, Paging, Lookup
 } from 'devextreme-react/data-grid';
-import { api } from '../../../auth';
+import { useAxios } from '../../../auth/AxiosInstanceProvider';
 
 const RefereeGamesComponent = ({ refereeId }) => {
+    const { api } = useAxios();
+
     const [games, setGames] = React.useState([]);
     const [events, setEvents] = React.useState([]);
     const [gameCategories, setGameCategories] = React.useState([]);

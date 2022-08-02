@@ -1,6 +1,6 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Breakpoint } from 'react-socks';
+import { useAuth } from '../auth/AuthProvider';
 import MobileMenuComponent from './MobileMenu';
 import DesktopMenuComponent from './DesktopMenu';
 
@@ -28,7 +28,7 @@ const menuItems = [
 ];
 
 const MenuComponent = () => {
-    const user = useSelector((state) => state.user.user);
+    const { user } = useAuth();
 
     const filterItems = (items) => {
         return items.filter((value, index) => !value.loginRequired || user || false);

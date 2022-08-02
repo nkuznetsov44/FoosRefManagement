@@ -1,17 +1,18 @@
 import './index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { store } from './store/store';
-import { Provider } from 'react-redux';
-import  { BreakpointProvider } from 'react-socks';
+import { BreakpointProvider } from 'react-socks';
+import { AuthProvider } from './auth/AuthProvider';
+import { AxiosInstanceProvider } from './auth/AxiosInstanceProvider';
 import App from './App';
 
-
 ReactDOM.render(
-    <Provider store={store}>
-        <BreakpointProvider>
-            <App />
-        </BreakpointProvider>
-    </Provider>,
+    <BreakpointProvider>
+        <AuthProvider>
+            <AxiosInstanceProvider>
+                <App />
+            </AxiosInstanceProvider>
+        </AuthProvider>
+    </BreakpointProvider>,
     document.getElementById('root')
 );

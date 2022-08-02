@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import DataGrid from '../../common/DataGrid';
 import {
     Column, FilterRow, Lookup, Paging, Editing, Form
@@ -8,7 +7,10 @@ import TagBox from "devextreme/ui/tag_box";  // noqa: needed for tagbox edit
 import { SimpleItem } from 'devextreme-react/form';
 import RefereeProfileLinkRender from './RefereeProfileLinkRender';
 import { dataStoreFactory } from '../../common/apiDataStore';
-import { api } from "../../auth";
+import { requireLoggedIn } from '../../permissions/requirements';
+import { displayRefereeName } from './displayReferee';
+import { useAxios } from '../../auth/AxiosInstanceProvider';
+import { useAuth } from '../../auth/AuthProvider';
 
 const refereeRankOrder = {
     'ASSISTANT': 0,
@@ -18,15 +20,12 @@ const refereeRankOrder = {
 };
 
 const Referees = () => {
-    const dataStore = dataStoreFactory('/api/referees', 'id');
+    const { api } = useAxios();
+    const { user } = useAuth();
+    const dataStore = dataStoreFactory(api, '/api/referees', 'id');
     const [refereeRanks, setRefereeRanks] = React.useState([]);
     const [refereeCities, setRefereeCities] = React.useState([]);
     const [refereeLanguages, setRefereeLanguges] = React.useState([]);
-
-    const user = useSelector((state) => state.user.user);
-    // TODO: now user info from /api/auth/token doesnt have bound referee info.
-    // Need permission management system bound to user.
-    const allowRefereeEditing = Boolean(user)/* && user.referee && user.referee.rank == 'NATIONAL'*/;
 
     React.useEffect(() => {
         (async () => {
@@ -50,9 +49,10 @@ const Referees = () => {
     }, []);
 
     const RefereeProfileLinkCellRender = ({ data, value }) => {
-        return <RefereeProfileLinkRender referee={data}/>;
+        return <RefereeProfileLinkRender referee={data} displayValue={displayRefereeName} />;
     };
 
+    // TODO: requireNationalReferee(user)
     return (
         <React.Fragment>
             <h1>Рефери</h1>
@@ -60,25 +60,23 @@ const Referees = () => {
                 dataSource={dataStore}
                 columnHidingEnabled={true}
                 hoverStateEnabled={true}>
-                {   allowRefereeEditing &&
-                    <Editing
-                        mode="form"
-                        allowAdding={true}
-                        allowDeleting={true}
-                        allowUpdating={true}>
-                        <Form>
-                            <SimpleItem dataField="first_name" />
-                            <SimpleItem dataField="last_name" />
-                            <SimpleItem dataField="first_name_en" />
-                            <SimpleItem dataField="last_name_en" />
-                            <SimpleItem dataField="rank" />
-                            <SimpleItem dataField="rank_update" editorType="dxDateBox" />
-                            <SimpleItem dataField="city" />
-                            <SimpleItem dataField="languages" editorType="dxTagBox" />
-                            <SimpleItem dataField="is_active" />
-                        </Form>
-                    </Editing>
-                }
+                <Editing
+                    mode="form"
+                    allowAdding={requireLoggedIn(user)}
+                    allowDeleting={requireLoggedIn(user)}
+                    allowUpdating={requireLoggedIn(user)}>
+                    <Form>
+                        <SimpleItem dataField="first_name" />
+                        <SimpleItem dataField="last_name" />
+                        <SimpleItem dataField="first_name_en" />
+                        <SimpleItem dataField="last_name_en" />
+                        <SimpleItem dataField="rank" />
+                        <SimpleItem dataField="rank_update" editorType="dxDateBox" />
+                        <SimpleItem dataField="city" />
+                        <SimpleItem dataField="languages" editorType="dxTagBox" />
+                        <SimpleItem dataField="is_active" />
+                    </Form>
+                </Editing>
                 <Paging enabled={false} />
                 <FilterRow visible={true} />
                 <Column

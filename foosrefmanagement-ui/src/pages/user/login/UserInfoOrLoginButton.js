@@ -1,12 +1,15 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import TelegramLoginButton from './TelegramLoginButton';
 import displayUser from '../displayUser';
-import { displayRefereeShort } from '../../referees/displayReferee';
-import { api } from '../../../auth';
+import { displayRefereeWithRankShort } from '../../referees/displayReferee';
+import { useAuth } from '../../../auth/AuthProvider';
+import { useAxios } from '../../../auth/AxiosInstanceProvider';
+import Protected from '../../../permissions/protect';
+import { requireLoggedIn, requireNotLoggedIn } from '../../../permissions/requirements';
 
-const UserInfoOrLoginButton = () => {
-    const user = useSelector((state) => state.user.user);
+const UserInfo = () => {
+    const { api } = useAxios();
+    const { user } = useAuth();
     const [referee, setReferee] = React.useState();
 
     React.useEffect(() => {
@@ -18,16 +21,25 @@ const UserInfoOrLoginButton = () => {
         }
     }, [user]);
 
-    if (user) {
-        return (
-            <React.Fragment>
-                <div>{displayUser(user)}</div>
-                {referee && <div>{displayRefereeShort(referee)}</div>}
-            </React.Fragment>
-        );
-    }
+    return (
+        <React.Fragment>
+            <div>{displayUser(user)}</div>
+            {referee && <div>{displayRefereeWithRankShort(referee)}</div>}
+        </React.Fragment>
+    );
+};
 
-    return <TelegramLoginButton />;
+const UserInfoOrLoginButton = () => {
+    return (
+        <React.Fragment>
+            <Protected require={requireLoggedIn}>
+                <UserInfo />
+            </Protected>
+            <Protected require={requireNotLoggedIn}>
+                <TelegramLoginButton />
+            </Protected>
+        </React.Fragment>
+    );
 };
 
 export default UserInfoOrLoginButton;

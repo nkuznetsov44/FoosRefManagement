@@ -1,19 +1,20 @@
 import React from 'react';
 import notify from 'devextreme/ui/notify';
 import TelegramLoginButton from 'react-telegram-login';
-import { login } from '../../../auth';
 import settings from '../../../appSettings';
+import { useAuth } from '../../../auth/AuthProvider';
 
 const LoginButton = () => {
+    const { login } = useAuth();
+
     const handleTelegramResponse = (dataOnauth) => {
         (async () => {
             try {
                 await login(dataOnauth);
             }
             catch(e) {
-                //TODO: Display "detail" from error response
+                console.error(e);
                 notify('Login failed', 'error', 5000);
-                console.log(e);
             }
         })();
     };
