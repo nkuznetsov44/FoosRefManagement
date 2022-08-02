@@ -2,11 +2,13 @@ import React from 'react';
 import DataGrid from '../../common/DataGrid';
 import { Column } from 'devextreme-react/data-grid';
 import RefereeProfileLinkRender from '../referees/RefereeProfileLinkRender';
-import { api } from "../../auth/auth";
 import displayUser from './displayUser';
 import { displayRefereeName } from '../referees/displayReferee';
+import { useAxios } from '../../auth/AxiosInstanceProvider';
 
 const IntitationTokensTable = () => {
+    const { api } = useAxios();
+
     const [invitationTokens, setInvitationTokens] = React.useState([]);
 
     React.useEffect(() => {

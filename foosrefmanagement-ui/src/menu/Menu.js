@@ -1,6 +1,6 @@
 import React from 'react';
 import { Breakpoint } from 'react-socks';
-import { useAuth } from '../auth/auth';
+import { useAuth } from '../auth/AuthProvider';
 import MobileMenuComponent from './MobileMenu';
 import DesktopMenuComponent from './DesktopMenu';
 

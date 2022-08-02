@@ -5,18 +5,19 @@ import {
 } from 'devextreme-react/data-grid';
 import SelectBox from 'devextreme-react/select-box';
 import { dataStoreFactory } from '../../common/apiDataStore';
-import { api } from "../../auth/auth";
 import { displayRefereeWithRankShort } from '../referees/displayReferee';
 import { requireLoggedIn } from '../../permissions/requirements';
 import Protected from '../../permissions/protect';
 import RefereeProfileLinkRender from '../referees/RefereeProfileLinkRender';
+import { useAxios } from '../../auth/AxiosInstanceProvider';
 
 const displayEvent = (event) => {
     return event && event.name;
 };
 
 const Games = () => {
-    const dataStore = dataStoreFactory('/api/games', 'id');
+    const { api } = useAxios()
+    const dataStore = dataStoreFactory(api, '/api/games', 'id');
     const [referees, setReferees] = React.useState([]);
     const [events, setEvents] = React.useState([]);
     const [gameCategories, setGameCategories] = React.useState([]);

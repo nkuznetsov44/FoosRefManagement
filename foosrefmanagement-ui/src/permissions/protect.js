@@ -1,4 +1,4 @@
-import { useAuth } from '../auth/auth';
+import { useAuth } from '../auth/AuthProvider';
 
 const Protected = ({ require, children }) => {
     const { user } = useAuth();

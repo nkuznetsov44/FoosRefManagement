@@ -2,9 +2,10 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import RefereeInfoComponent from './RefereeInfoComponent';
 import RefereeGamesComponent from './RefereeGamesComponent';
-import { api } from '../../../auth/auth';
+import { useAxios } from '../../../auth/AxiosInstanceProvider';
 
 const RefereeProfile = () => {
+    const { api } = useAxios();
     const { id } = useParams();
     const [referee, setReferee] = React.useState();
 

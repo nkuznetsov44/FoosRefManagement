@@ -1,10 +1,12 @@
 import React from 'react';
 import BoundUserOrInviteComponent from './BoundUserOrInviteComponent';
-import { api } from '../../../auth/auth';
 import Protected from '../../../permissions/protect';
 import { requireLoggedIn } from '../../../permissions/requirements';
+import { useAxios } from '../../../auth/AxiosInstanceProvider';
 
 const RefereeInfoComponent = ({ referee }) => {
+    const { api } = useAxios();
+
     const inlineBlockStyle = {
         display: "inline-block",
         verticalAlign: "top",

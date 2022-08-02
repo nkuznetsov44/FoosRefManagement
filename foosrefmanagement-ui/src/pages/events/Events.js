@@ -2,12 +2,13 @@ import React from 'react';
 import DataGrid from '../../common/DataGrid';
 import { Editing, Column, Lookup } from 'devextreme-react/data-grid';
 import { dataStoreFactory } from '../../common/apiDataStore';
-import { api } from '../../auth/auth';
 import Protected from '../../permissions/protect';
 import { requireLoggedIn } from '../../permissions/requirements';
+import { useAxios } from '../../auth/AxiosInstanceProvider';
 
 const Events = () => {
-    const dataStore = dataStoreFactory('/api/events', 'id');
+    const { api } = useAxios();
+    const dataStore = dataStoreFactory(api, '/api/events', 'id');
     const [eventTypes, setEventTypes] = React.useState([]);
 
     React.useEffect(() => {

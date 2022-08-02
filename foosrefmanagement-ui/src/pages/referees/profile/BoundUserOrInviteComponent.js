@@ -1,10 +1,12 @@
 import React from 'react';
 import { Button } from 'devextreme-react/button';
-import { api } from '../../../auth/auth';
 import displayUser from '../../user/displayUser';
 import notify from 'devextreme/ui/notify';
+import { useAxios } from '../../../auth/AxiosInstanceProvider';
 
 const IssueInvitationMessageButton = ({ refereeId }) => {
+    const { api } = useAxios();
+
     const issueInvitationMessage = () => {
         (async () => {
             try {
@@ -52,6 +54,8 @@ const BoundUserComponent = ({ user }) => {
 };
 
 const BoundUserOrInviteComponent = ({ refereeId }) => {
+    const { api } = useAxios();
+
     const [boundUser, setBoundUser] = React.useState();
 
     React.useEffect(() => {

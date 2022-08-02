@@ -2,10 +2,11 @@ import React from 'react';
 import DataGrid from '../../common/DataGrid';
 import { Column } from 'devextreme-react/data-grid';
 import RefereeProfileLinkRender from '../referees/RefereeProfileLinkRender';
-import { api } from "../../auth/auth";
 import { displayRefereeName } from '../referees/displayReferee';
+import { useAxios } from '../../auth/AxiosInstanceProvider';
 
 const UsersTable = () => {
+    const { api } = useAxios();
     const [users, setUsers] = React.useState([]);
 
     React.useEffect(() => {

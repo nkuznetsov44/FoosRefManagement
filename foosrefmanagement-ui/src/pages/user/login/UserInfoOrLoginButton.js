@@ -2,11 +2,13 @@ import React from 'react';
 import TelegramLoginButton from './TelegramLoginButton';
 import displayUser from '../displayUser';
 import { displayRefereeWithRankShort } from '../../referees/displayReferee';
-import { api, useAuth } from '../../../auth/auth';
+import { useAuth } from '../../../auth/AuthProvider';
+import { useAxios } from '../../../auth/AxiosInstanceProvider';
 import Protected from '../../../permissions/protect';
 import { requireLoggedIn, requireNotLoggedIn } from '../../../permissions/requirements';
 
 const UserInfo = () => {
+    const { api } = useAxios();
     const { user } = useAuth();
     const [referee, setReferee] = React.useState();
 

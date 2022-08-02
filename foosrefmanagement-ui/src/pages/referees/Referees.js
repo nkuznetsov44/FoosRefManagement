@@ -7,10 +7,10 @@ import TagBox from "devextreme/ui/tag_box";  // noqa: needed for tagbox edit
 import { SimpleItem } from 'devextreme-react/form';
 import RefereeProfileLinkRender from './RefereeProfileLinkRender';
 import { dataStoreFactory } from '../../common/apiDataStore';
-import { api } from "../../auth/auth";
 import Protected from '../../permissions/protect';
 import { requireLoggedIn } from '../../permissions/requirements';
 import { displayRefereeName } from './displayReferee';
+import { useAxios } from '../../auth/AxiosInstanceProvider';
 
 const refereeRankOrder = {
     'ASSISTANT': 0,
@@ -20,7 +20,8 @@ const refereeRankOrder = {
 };
 
 const Referees = () => {
-    const dataStore = dataStoreFactory('/api/referees', 'id');
+    const { api } = useAxios();
+    const dataStore = dataStoreFactory(api, '/api/referees', 'id');
     const [refereeRanks, setRefereeRanks] = React.useState([]);
     const [refereeCities, setRefereeCities] = React.useState([]);
     const [refereeLanguages, setRefereeLanguges] = React.useState([]);

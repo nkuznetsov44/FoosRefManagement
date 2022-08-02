@@ -2,7 +2,7 @@ import React from 'react';
 import notify from 'devextreme/ui/notify';
 import TelegramLoginButton from 'react-telegram-login';
 import settings from '../../../appSettings';
-import { useAuth } from '../../../auth/auth';
+import { useAuth } from '../../../auth/AuthProvider';
 
 const LoginButton = () => {
     const { login } = useAuth();
