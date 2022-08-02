@@ -12,6 +12,8 @@ import Events from './pages/events/Events';
 import Referees from './pages/referees/Referees';
 import RefereeProfile from './pages/referees/profile/RefereeProfile';
 import Users from './pages/user/Users';
+import Protected from './common/permissions/protect';
+import { requireLoggedIn } from './common/permissions/requirements';
 
 const App = () => {
     return (
@@ -22,7 +24,9 @@ const App = () => {
                 <Route path="/games" element={<Games />} />
                 <Route path="/events" element={<Events />} />
                 <Route path="/refereeProfile/:id" element={<RefereeProfile />} />
-                <Route path="/users" element={<Users />} />
+                <Protected require={requireLoggedIn}>
+                    <Route path="/users" element={<Users />} />
+                </Protected>
             </Routes>
         </BrowserRouter>
     );
