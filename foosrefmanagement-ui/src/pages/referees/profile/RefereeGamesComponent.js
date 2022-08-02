@@ -3,7 +3,7 @@ import DataGrid from '../../../common/DataGrid';
 import {
     Column, FilterRow, Paging, Lookup
 } from 'devextreme-react/data-grid';
-import { api } from '../../../auth/auth';
+import { api } from '../../../auth';
 
 const RefereeGamesComponent = ({ refereeId }) => {
     const [games, setGames] = React.useState([]);

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import DataGrid from '../../common/DataGrid';
 import {
     Column, FilterRow, Lookup, Paging, Editing, Form
@@ -7,10 +8,7 @@ import TagBox from "devextreme/ui/tag_box";  // noqa: needed for tagbox edit
 import { SimpleItem } from 'devextreme-react/form';
 import RefereeProfileLinkRender from './RefereeProfileLinkRender';
 import { dataStoreFactory } from '../../common/apiDataStore';
-import { api } from "../../auth/auth";
-import Protected from '../../permissions/protect';
-import { requireLoggedIn } from '../../permissions/requirements';
-import { displayRefereeName } from './displayReferee';
+import { api } from "../../auth";
 
 const refereeRankOrder = {
     'ASSISTANT': 0,
@@ -24,6 +22,11 @@ const Referees = () => {
     const [refereeRanks, setRefereeRanks] = React.useState([]);
     const [refereeCities, setRefereeCities] = React.useState([]);
     const [refereeLanguages, setRefereeLanguges] = React.useState([]);
+
+    const user = useSelector((state) => state.user.user);
+    // TODO: now user info from /api/auth/token doesnt have bound referee info.
+    // Need permission management system bound to user.
+    const allowRefereeEditing = Boolean(user)/* && user.referee && user.referee.rank == 'NATIONAL'*/;
 
     React.useEffect(() => {
         (async () => {
@@ -47,10 +50,9 @@ const Referees = () => {
     }, []);
 
     const RefereeProfileLinkCellRender = ({ data, value }) => {
-        return <RefereeProfileLinkRender referee={data} displayValue={displayRefereeName} />;
+        return <RefereeProfileLinkRender referee={data}/>;
     };
 
-    // TODO: <Protected require={requireNationalReferee} />
     return (
         <React.Fragment>
             <h1>Рефери</h1>
@@ -58,7 +60,7 @@ const Referees = () => {
                 dataSource={dataStore}
                 columnHidingEnabled={true}
                 hoverStateEnabled={true}>
-                <Protected require={requireLoggedIn}>
+                {   allowRefereeEditing &&
                     <Editing
                         mode="form"
                         allowAdding={true}
@@ -76,7 +78,7 @@ const Referees = () => {
                             <SimpleItem dataField="is_active" />
                         </Form>
                     </Editing>
-                </Protected>
+                }
                 <Paging enabled={false} />
                 <FilterRow visible={true} />
                 <Column

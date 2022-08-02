@@ -1,15 +1,17 @@
 import './index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BreakpointProvider } from 'react-socks';
-import { AuthProvider } from './auth/auth';
+import { store } from './store/store';
+import { Provider } from 'react-redux';
+import  { BreakpointProvider } from 'react-socks';
 import App from './App';
 
+
 ReactDOM.render(
-    <BreakpointProvider>
-        <AuthProvider>
+    <Provider store={store}>
+        <BreakpointProvider>
             <App />
-        </AuthProvider>
-    </BreakpointProvider>,
+        </BreakpointProvider>
+    </Provider>,
     document.getElementById('root')
 );

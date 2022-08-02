@@ -1,6 +1,7 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 
-const RefereeProfileLinkRender = ({ referee, displayValue }) => {
+const RefereeProfileLinkRender = ({ referee }) => {
     const inactiveStyle = {
         color: "grey"
     };
@@ -9,9 +10,9 @@ const RefereeProfileLinkRender = ({ referee, displayValue }) => {
         <Link
             to={`/refereeProfile/${referee.id}`}
             style={referee.is_active ? {} : inactiveStyle}>
-            {displayValue(referee)}
+            {`${referee.last_name} ${referee.first_name}`}
         </Link>
     );
-}
+};
 
 export default RefereeProfileLinkRender;

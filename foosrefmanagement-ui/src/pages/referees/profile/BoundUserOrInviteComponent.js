@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'devextreme-react/button';
-import { api } from '../../../auth/auth';
+import { api } from '../../../auth';
 import displayUser from '../../user/displayUser';
 import notify from 'devextreme/ui/notify';
 

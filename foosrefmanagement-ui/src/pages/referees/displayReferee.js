@@ -1,8 +1,4 @@
-export const displayRefereeName = (referee) => {
-    return `${referee.last_name} ${referee.first_name}`;  
-};
-
-export const displayRefereeWithRankShort = (referee) => {
+export const displayRefereeShort = (referee) => {
     // TODO: make in icon for each rank
     const shortRankDisplayLookup = {
         'ASSISTANT': "Asst",

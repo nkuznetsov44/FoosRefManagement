@@ -2,9 +2,8 @@ import React from 'react';
 import DataGrid from '../../common/DataGrid';
 import { Column } from 'devextreme-react/data-grid';
 import RefereeProfileLinkRender from '../referees/RefereeProfileLinkRender';
-import { api } from "../../auth/auth";
+import { api } from "../../auth";
 import displayUser from './displayUser';
-import { displayRefereeName } from '../referees/displayReferee';
 
 const IntitationTokensTable = () => {
     const [invitationTokens, setInvitationTokens] = React.useState([]);
@@ -17,7 +16,7 @@ const IntitationTokensTable = () => {
     }, []);
 
     const RefereeProfileLinkCellRender = ({ data, value }) => {
-        return <RefereeProfileLinkRender referee={data.issued_for_referee} displayValue={displayRefereeName} />;
+        return <RefereeProfileLinkRender referee={data.issued_for_referee} />;
     };
 
     return (

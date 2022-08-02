@@ -2,8 +2,7 @@ import React from 'react';
 import DataGrid from '../../common/DataGrid';
 import { Column } from 'devextreme-react/data-grid';
 import RefereeProfileLinkRender from '../referees/RefereeProfileLinkRender';
-import { api } from "../../auth/auth";
-import { displayRefereeName } from '../referees/displayReferee';
+import { api } from "../../auth";
 
 const UsersTable = () => {
     const [users, setUsers] = React.useState([]);
@@ -16,10 +15,7 @@ const UsersTable = () => {
     }, []);
 
     const RefereeProfileLinkCellRender = ({ data, value }) => {
-        return (
-            data.referee &&
-            <RefereeProfileLinkRender referee={data.referee} displayValue={displayRefereeName} />
-        );
+        return data.referee && <RefereeProfileLinkRender referee={data.referee} />;
     };
 
     return (
