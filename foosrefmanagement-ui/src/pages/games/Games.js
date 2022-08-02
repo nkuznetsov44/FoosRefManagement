@@ -138,7 +138,7 @@ const Games = () => {
                     editCellRender={RefereeEditorRender}>
                     <Lookup
                         dataSource={referees}
-                        displayExpr={displayRefereeShort}
+                        displayExpr={displayRefereeWithRankShort}
                         valueExpr={(value) => value && value.id}>
                     </Lookup>
                 </Column>
@@ -153,7 +153,7 @@ const Games = () => {
                     editCellRender={RefereeEditorRender}>
                     <Lookup
                         dataSource={referees}
-                        displayExpr={displayRefereeShort}
+                        displayExpr={displayRefereeWithRankShort}
                         valueExpr={(value) => value && value.id}>
                     </Lookup>
                 </Column>

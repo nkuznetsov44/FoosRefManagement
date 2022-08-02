@@ -10,6 +10,7 @@ import { dataStoreFactory } from '../../common/apiDataStore';
 import { api } from "../../auth";
 import Protected from '../../common/permissions/protect';
 import { requireLoggedIn } from '../../common/permissions/requirements';
+import { displayRefereeName } from './displayReferee';
 
 const refereeRankOrder = {
     'ASSISTANT': 0,
@@ -46,9 +47,8 @@ const Referees = () => {
     }, []);
 
     const RefereeProfileLinkCellRender = ({ data, value }) => {
-        return <RefereeProfileLinkRender referee={data}/>;
+        return <RefereeProfileLinkRender referee={data} displayValue={displayRefereeName} />;
     };
-
 
     // TODO: <Protected require={requireNationalReferee} />
     return (
