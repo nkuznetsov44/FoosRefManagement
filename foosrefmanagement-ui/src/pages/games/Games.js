@@ -7,9 +7,9 @@ import SelectBox from 'devextreme-react/select-box';
 import { dataStoreFactory } from '../../common/apiDataStore';
 import { displayRefereeWithRankShort } from '../referees/displayReferee';
 import { requireLoggedIn } from '../../permissions/requirements';
-import Protected from '../../permissions/protect';
 import RefereeProfileLinkRender from '../referees/RefereeProfileLinkRender';
 import { useAxios } from '../../auth/AxiosInstanceProvider';
+import { useAuth } from '../../auth/AuthProvider';
 
 const displayEvent = (event) => {
     return event && event.name;
@@ -17,6 +17,7 @@ const displayEvent = (event) => {
 
 const Games = () => {
     const { api } = useAxios()
+    const { user } = useAuth();
     const dataStore = dataStoreFactory(api, '/api/games', 'id');
     const [referees, setReferees] = React.useState([]);
     const [events, setEvents] = React.useState([]);
@@ -91,14 +92,12 @@ const Games = () => {
         <React.Fragment>
             <h1>Игры</h1>
             <DataGrid columnHidingEnabled={true} dataSource={dataStore}>
-                <Protected require={requireLoggedIn}>
-                    <Editing
-                        mode="form"
-                        allowAdding={true}
-                        allowDeleting={true}
-                        allowUpdating={true}>
-                    </Editing>
-                </Protected>
+                <Editing
+                    mode="form"
+                    allowAdding={requireLoggedIn(user)}
+                    allowDeleting={requireLoggedIn(user)}
+                    allowUpdating={requireLoggedIn(user)}>
+                </Editing>
                 <FilterRow visible={true} />
                 <Column
                     dataField="date"
