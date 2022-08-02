@@ -1,14 +1,13 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import TelegramLoginButton from './TelegramLoginButton';
 import displayUser from '../displayUser';
 import { displayRefereeWithRankShort } from '../../referees/displayReferee';
-import { api } from '../../../auth';
-import Protected from '../../../common/permissions/protect';
-import { requireLoggedIn, requireNotLoggedIn } from '../../../common/permissions/requirements';
+import { api, useAuth } from '../../../auth/auth';
+import Protected from '../../../permissions/protect';
+import { requireLoggedIn, requireNotLoggedIn } from '../../../permissions/requirements';
 
 const UserInfo = () => {
-    const user = useSelector((state) => state.user.user);
+    const { user } = useAuth();
     const [referee, setReferee] = React.useState();
 
     React.useEffect(() => {

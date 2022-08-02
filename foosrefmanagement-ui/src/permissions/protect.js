@@ -1,7 +1,7 @@
-import { useSelector } from 'react-redux';
+import { useAuth } from '../auth/auth';
 
 const Protected = (props) => {
-    const user = useSelector((state) => state.user.user);
+    const { user } = useAuth();
     return props.require(user) ? props.children : null;
 };
 

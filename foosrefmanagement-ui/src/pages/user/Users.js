@@ -1,8 +1,8 @@
 import React from 'react';
 import UsersTable from './UsersTableComponent';
 import IntitationTokensTable from './InvitationTokensTableComponent';
-import Protected from '../../common/permissions/protect';
-import { requireLoggedIn } from '../../common/permissions/requirements';
+import Protected from '../../permissions/protect';
+import { requireLoggedIn } from '../../permissions/requirements';
 
 const Users = () => {
     return (

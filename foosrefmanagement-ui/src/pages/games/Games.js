@@ -5,10 +5,10 @@ import {
 } from 'devextreme-react/data-grid';
 import SelectBox from 'devextreme-react/select-box';
 import { dataStoreFactory } from '../../common/apiDataStore';
-import { api } from "../../auth";
+import { api } from "../../auth/auth";
 import { displayRefereeWithRankShort } from '../referees/displayReferee';
-import { requireLoggedIn } from '../../common/permissions/requirements';
-import Protected from '../../common/permissions/protect';
+import { requireLoggedIn } from '../../permissions/requirements';
+import Protected from '../../permissions/protect';
 import RefereeProfileLinkRender from '../referees/RefereeProfileLinkRender';
 
 const displayEvent = (event) => {

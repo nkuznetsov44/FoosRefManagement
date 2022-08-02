@@ -2,9 +2,9 @@ import React from 'react';
 import DataGrid from '../../common/DataGrid';
 import { Editing, Column, Lookup } from 'devextreme-react/data-grid';
 import { dataStoreFactory } from '../../common/apiDataStore';
-import { api } from '../../auth';
-import Protected from '../../common/permissions/protect';
-import { requireLoggedIn } from '../../common/permissions/requirements';
+import { api } from '../../auth/auth';
+import Protected from '../../permissions/protect';
+import { requireLoggedIn } from '../../permissions/requirements';
 
 const Events = () => {
     const dataStore = dataStoreFactory('/api/events', 'id');

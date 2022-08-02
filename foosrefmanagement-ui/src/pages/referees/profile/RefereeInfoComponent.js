@@ -1,8 +1,8 @@
 import React from 'react';
 import BoundUserOrInviteComponent from './BoundUserOrInviteComponent';
-import { api } from '../../../auth';
-import Protected from '../../../common/permissions/protect';
-import { requireLoggedIn } from '../../../common/permissions/requirements';
+import { api } from '../../../auth/auth';
+import Protected from '../../../permissions/protect';
+import { requireLoggedIn } from '../../../permissions/requirements';
 
 const RefereeInfoComponent = ({ referee }) => {
     const inlineBlockStyle = {

@@ -2,7 +2,7 @@ import React from 'react';
 import DataGrid from '../../common/DataGrid';
 import { Column } from 'devextreme-react/data-grid';
 import RefereeProfileLinkRender from '../referees/RefereeProfileLinkRender';
-import { api } from "../../auth";
+import { api } from "../../auth/auth";
 import { displayRefereeName } from '../referees/displayReferee';
 
 const UsersTable = () => {
