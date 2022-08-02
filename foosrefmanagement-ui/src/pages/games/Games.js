@@ -1,14 +1,15 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import DataGrid from '../../common/DataGrid';
 import {
     Editing, FilterRow, Column, Lookup
 } from 'devextreme-react/data-grid';
 import SelectBox from 'devextreme-react/select-box';
 import { dataStoreFactory } from '../../common/apiDataStore';
-import { api } from "../../auth";
-import { displayRefereeShort } from '../referees/displayReferee';
+import { api } from "../../auth/auth";
+import { displayRefereeWithRankShort } from '../referees/displayReferee';
+import { requireLoggedIn } from '../../permissions/requirements';
+import Protected from '../../permissions/protect';
+import RefereeProfileLinkRender from '../referees/RefereeProfileLinkRender';
 
 const displayEvent = (event) => {
     return event && event.name;
@@ -20,10 +21,6 @@ const Games = () => {
     const [events, setEvents] = React.useState([]);
     const [gameCategories, setGameCategories] = React.useState([]);
     const [gameStages, setGameStages] = React.useState([]);
-
-    const user = useSelector((state) => state.user.user);
-    // TODO: allow editing only user's games
-    const allowGamesEditing = Boolean(user);
 
     React.useEffect(() => {
         (async () => {
@@ -59,20 +56,19 @@ const Games = () => {
 
     const RefereeCellRender = ({ data }) => {
         return (
-            <Link to={`/refereeProfile/${data.referee.id}`}>
-                {displayRefereeShort(data.referee)}
-            </Link>
+            <RefereeProfileLinkRender
+                referee={data.referee}
+                displayValue={displayRefereeWithRankShort}
+            />
         );
     };
 
     const AssistantCellRender = ({ data }) => {
-        if (!data.assistant) {
-            return <div />
-        }
-        return (
-            <Link to={`/refereeProfile/${data.assistant.id}`}>
-                {displayRefereeShort(data.assistant)}
-            </Link>
+        return data.assistant && (
+            <RefereeProfileLinkRender
+                referee={data.assistant}
+                displayValue={displayRefereeWithRankShort}
+            />
         );
     };
 
@@ -82,7 +78,7 @@ const Games = () => {
                 defaultValue={cell.value}
                 {...cell.column.lookup}
                 onValueChanged={({ value }) => cell.setValue(value)}
-                itemRender={displayRefereeShort}
+                itemRender={displayRefereeWithRankShort}
                 searchEnabled={true}
                 searchMode="contains"
                 searchExpr={["first_name", "last_name"]}
@@ -94,14 +90,14 @@ const Games = () => {
         <React.Fragment>
             <h1>Игры</h1>
             <DataGrid columnHidingEnabled={true} dataSource={dataStore}>
-                {   allowGamesEditing &&
+                <Protected require={requireLoggedIn}>
                     <Editing
                         mode="form"
                         allowAdding={true}
                         allowDeleting={true}
                         allowUpdating={true}>
                     </Editing>
-                }
+                </Protected>
                 <FilterRow visible={true} />
                 <Column
                     dataField="date"
@@ -142,7 +138,7 @@ const Games = () => {
                     editCellRender={RefereeEditorRender}>
                     <Lookup
                         dataSource={referees}
-                        displayExpr={displayRefereeShort}
+                        displayExpr={displayRefereeWithRankShort}
                         valueExpr={(value) => value && value.id}>
                     </Lookup>
                 </Column>
@@ -157,7 +153,7 @@ const Games = () => {
                     editCellRender={RefereeEditorRender}>
                     <Lookup
                         dataSource={referees}
-                        displayExpr={displayRefereeShort}
+                        displayExpr={displayRefereeWithRankShort}
                         valueExpr={(value) => value && value.id}>
                     </Lookup>
                 </Column>

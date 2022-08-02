@@ -1,16 +1,14 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import DataGrid from '../../common/DataGrid';
 import { Editing, Column, Lookup } from 'devextreme-react/data-grid';
 import { dataStoreFactory } from '../../common/apiDataStore';
-import { api } from '../../auth';
+import { api } from '../../auth/auth';
+import Protected from '../../permissions/protect';
+import { requireLoggedIn } from '../../permissions/requirements';
 
-const Events = (props) => {
+const Events = () => {
     const dataStore = dataStoreFactory('/api/events', 'id');
     const [eventTypes, setEventTypes] = React.useState([]);
-
-    const user = useSelector((state) => state.user.user);
-    const allowTournamentsEditing = Boolean(user);
 
     React.useEffect(() => {
         (async () => {
@@ -23,14 +21,14 @@ const Events = (props) => {
         <React.Fragment>
             <h1>Турниры</h1>
             <DataGrid dataSource={dataStore}>
-                {   allowTournamentsEditing &&
+                <Protected require={requireLoggedIn}>
                     <Editing
                         mode="row"
                         allowAdding={true}
                         allowDeleting={true}
                         allowUpdating={true}
                     />
-                }
+                </Protected>
                 <Column dataField="name" caption="Название" />
                 <Column
                     dataField="type"
