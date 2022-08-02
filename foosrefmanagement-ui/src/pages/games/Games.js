@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import DataGrid from '../../common/DataGrid';
 import {
     Editing, FilterRow, Column, Lookup
@@ -7,9 +6,10 @@ import {
 import SelectBox from 'devextreme-react/select-box';
 import { dataStoreFactory } from '../../common/apiDataStore';
 import { api } from "../../auth";
-import { displayRefereeShort } from '../referees/displayReferee';
+import { displayRefereeWithRankShort } from '../referees/displayReferee';
 import { requireLoggedIn } from '../../common/permissions/requirements';
 import Protected from '../../common/permissions/protect';
+import RefereeProfileLinkRender from '../referees/RefereeProfileLinkRender';
 
 const displayEvent = (event) => {
     return event && event.name;
@@ -56,20 +56,19 @@ const Games = () => {
 
     const RefereeCellRender = ({ data }) => {
         return (
-            <Link to={`/refereeProfile/${data.referee.id}`}>
-                {displayRefereeShort(data.referee)}
-            </Link>
+            <RefereeProfileLinkRender
+                referee={data.referee}
+                displayValue={displayRefereeWithRankShort}
+            />
         );
     };
 
     const AssistantCellRender = ({ data }) => {
-        if (!data.assistant) {
-            return <div />
-        }
-        return (
-            <Link to={`/refereeProfile/${data.assistant.id}`}>
-                {displayRefereeShort(data.assistant)}
-            </Link>
+        return data.assistant && (
+            <RefereeProfileLinkRender
+                referee={data.assistant}
+                displayValue={displayRefereeWithRankShort}
+            />
         );
     };
 
@@ -79,7 +78,7 @@ const Games = () => {
                 defaultValue={cell.value}
                 {...cell.column.lookup}
                 onValueChanged={({ value }) => cell.setValue(value)}
-                itemRender={displayRefereeShort}
+                itemRender={displayRefereeWithRankShort}
                 searchEnabled={true}
                 searchMode="contains"
                 searchExpr={["first_name", "last_name"]}

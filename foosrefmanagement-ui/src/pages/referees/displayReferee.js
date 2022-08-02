@@ -1,4 +1,4 @@
-export const displayRefereeShort = (referee) => {
+export const displayRefereeWithRankShort = (referee) => {
     // TODO: make in icon for each rank
     const shortRankDisplayLookup = {
         'ASSISTANT': "Asst",
