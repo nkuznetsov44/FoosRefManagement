@@ -1,15 +1,17 @@
 import React from 'react';
 import UsersTable from './UsersTableComponent';
 import IntitationTokensTable from './InvitationTokensTableComponent';
+import Protected from '../../common/permissions/protect';
+import { requireLoggedIn } from '../../common/permissions/requirements';
 
 const Users = () => {
     return (
-        <React.Fragment>
+        <Protected require={requireLoggedIn}>
             <h3>Users</h3>
             <UsersTable />
             <h3>Intitation tokens</h3>
             <IntitationTokensTable />
-        </React.Fragment>
+        </Protected>
     );
 };
 
