@@ -1,4 +1,4 @@
-import React, { useRef, createContext, useContext, useEffect, useMemo } from "react";
+import React, { useRef, createContext, useContext, useEffect, useMemo, useState } from "react";
 import axios from 'axios';
 import { useAuth } from "./AuthProvider";
 import notify from "devextreme/ui/notify";
@@ -16,7 +16,7 @@ export const AxiosInstanceProvider = ({ children }) => {
     const instanseRef = useRef(axios.create({}));
 
     useEffect(() => {
-        instanseRef.current.interceptors.request.use(
+        const requestInterceptor = instanseRef.current.interceptors.request.use(
             request => {
                 if (accessToken) {
                     request.headers['Authorization'] = `Bearer ${accessToken}`;
@@ -25,7 +25,7 @@ export const AxiosInstanceProvider = ({ children }) => {
             }
         );
 
-        instanseRef.current.interceptors.response.use(
+        const responseInterceptor = instanseRef.current.interceptors.response.use(
             response => response,
             error => {
                 const originalReq = error.config;
@@ -51,6 +51,11 @@ export const AxiosInstanceProvider = ({ children }) => {
                 throw(error);
             }
         );
+
+        return () => {
+            instanseRef.current.interceptors.request.eject(requestInterceptor);
+            instanseRef.current.interceptors.response.eject(responseInterceptor);
+        };
     }, [accessToken, refreshToken]);
 
     return (
