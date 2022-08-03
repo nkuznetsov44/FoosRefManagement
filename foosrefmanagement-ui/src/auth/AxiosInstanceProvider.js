@@ -51,7 +51,7 @@ export const AxiosInstanceProvider = ({ children }) => {
                 throw(error);
             }
         );
-    }, [accessToken]);
+    }, [accessToken, refreshToken]);
 
     return (
         <AxiosContext.Provider value={instanseRef.current}>

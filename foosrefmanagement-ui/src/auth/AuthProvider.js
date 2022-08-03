@@ -26,7 +26,6 @@ export const AuthProvider = ({ children }) => {
                 "Content-Type": "application/json"
             }
         });
-        localStorage.setItem('refresh_token', data.refresh);
     
         const user = {
             id: data.id,
@@ -42,7 +41,6 @@ export const AuthProvider = ({ children }) => {
     };
 
     const logout = () => {
-        localStorage.removeItem('refresh_token');
         setAccessToken(null);
         setRefreshToken(null);
         setUser(null);
