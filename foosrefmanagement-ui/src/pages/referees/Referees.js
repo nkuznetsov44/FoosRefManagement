@@ -5,10 +5,10 @@ import {
 } from 'devextreme-react/data-grid';
 import TagBox from "devextreme/ui/tag_box";  // noqa: needed for tagbox edit
 import { SimpleItem } from 'devextreme-react/form';
-import RefereeProfileLinkRender from './RefereeProfileLinkRender';
+import RefereeProfileLinkRender from '../../common/RefereeProfileLinkRender';
 import { dataStoreFactory } from '../../common/apiDataStore';
+import { displayRefereeName } from '../../common/displayReferee';
 import { requireLoggedIn } from '../../permissions/requirements';
-import { displayRefereeName } from './displayReferee';
 import { useAxios } from '../../auth/AxiosInstanceProvider';
 import { useAuth } from '../../auth/AuthProvider';
 

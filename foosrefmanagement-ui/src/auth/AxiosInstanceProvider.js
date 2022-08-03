@@ -32,7 +32,6 @@ export const AxiosInstanceProvider = ({ children }) => {
                 const status = error.response ? error.response.status : null;
 
                 if (status === 401) {
-                    //const refreshToken = localStorage.getItem('refresh_token');
                     if (!refreshToken) {
                         notify('Login required', 'error', 5000);
                     }

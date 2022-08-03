@@ -1,9 +1,9 @@
 import React from 'react';
 import DataGrid from '../../common/DataGrid';
 import { Column } from 'devextreme-react/data-grid';
-import RefereeProfileLinkRender from '../referees/RefereeProfileLinkRender';
-import displayUser from './displayUser';
-import { displayRefereeName } from '../referees/displayReferee';
+import RefereeProfileLinkRender from '../../common/RefereeProfileLinkRender';
+import displayUser from '../../common/displayUser';
+import { displayRefereeName } from '../../common/displayReferee';
 import { useAxios } from '../../auth/AxiosInstanceProvider';
 
 const IntitationTokensTable = () => {

@@ -2,7 +2,7 @@ import React from 'react';
 import Toolbar, { Item } from 'devextreme-react/toolbar';
 import DropDownButton from 'devextreme-react/drop-down-button';
 import { Link } from 'react-router-dom';
-import UserInfoOrLoginButton from '../pages/user/login/UserInfoOrLoginButton';
+import UserInfoOrLoginButton from '../auth/login/UserInfoOrLoginButton';
 
 const MobileMenuComponent = ({ items }) => {
     const MenuItemRender = (item) => {

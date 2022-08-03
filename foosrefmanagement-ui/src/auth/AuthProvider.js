@@ -4,9 +4,21 @@ import axios from "axios";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [accessToken, setAccessToken] = useState();
-    const [refreshToken, setRefreshToken] = useState();
-    const [user, setUser] = useState();
+    const [accessToken, setAccessToken] = useState(sessionStorage.getItem('access_token'));
+    const [refreshToken, setRefreshToken] = useState(sessionStorage.getItem('refresh_token'));
+    const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')));
+
+    useEffect(() => {
+        sessionStorage.setItem('access_token', accessToken);
+    }, [accessToken]);
+
+    useEffect(() => {
+        sessionStorage.setItem('refresh_token', refreshToken);
+    }, [refreshToken]);
+
+    useEffect(() => {
+        sessionStorage.setItem('user', JSON.stringify(user));
+    }, [user]);
 
     const login = async (telegramDataOnauth) => {
         const { data } = await axios.post('/api/auth/token/', telegramDataOnauth, {
@@ -14,7 +26,7 @@ export const AuthProvider = ({ children }) => {
                 "Content-Type": "application/json"
             }
         });
-        //localStorage.setItem('refresh_token', data.refresh);
+        localStorage.setItem('refresh_token', data.refresh);
     
         const user = {
             id: data.id,
@@ -30,7 +42,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     const logout = () => {
-        //localStorage.removeItem('refresh_token');
+        localStorage.removeItem('refresh_token');
         setAccessToken(null);
         setRefreshToken(null);
         setUser(null);

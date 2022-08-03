@@ -1,7 +1,7 @@
 import React from 'react';
 import Toolbar, { Item } from 'devextreme-react/toolbar';
 import { Link } from 'react-router-dom';
-import UserInfoOrLoginButton from '../pages/user/login/UserInfoOrLoginButton';
+import UserInfoOrLoginButton from '../auth/login/UserInfoOrLoginButton';
 
 const DesktopMenuComponent = ({ items }) => {
     const MenuItemRender = ({ item }) => {

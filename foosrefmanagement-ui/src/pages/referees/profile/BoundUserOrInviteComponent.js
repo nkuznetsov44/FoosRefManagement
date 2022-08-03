@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'devextreme-react/button';
-import displayUser from '../../user/displayUser';
 import notify from 'devextreme/ui/notify';
+import displayUser from '../../../common/displayUser';
 import { useAxios } from '../../../auth/AxiosInstanceProvider';
 
 const IssueInvitationMessageButton = ({ refereeId }) => {

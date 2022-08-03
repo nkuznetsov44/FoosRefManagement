@@ -5,9 +5,9 @@ import {
 } from 'devextreme-react/data-grid';
 import SelectBox from 'devextreme-react/select-box';
 import { dataStoreFactory } from '../../common/apiDataStore';
-import { displayRefereeWithRankShort } from '../referees/displayReferee';
+import { displayRefereeWithRankShort } from '../../common/displayReferee';
 import { requireLoggedIn } from '../../permissions/requirements';
-import RefereeProfileLinkRender from '../referees/RefereeProfileLinkRender';
+import RefereeProfileLinkRender from '../../common/RefereeProfileLinkRender';
 import { useAxios } from '../../auth/AxiosInstanceProvider';
 import { useAuth } from '../../auth/AuthProvider';
 

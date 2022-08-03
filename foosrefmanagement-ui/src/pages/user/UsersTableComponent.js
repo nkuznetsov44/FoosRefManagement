@@ -1,8 +1,8 @@
 import React from 'react';
-import DataGrid from '../../common/DataGrid';
 import { Column } from 'devextreme-react/data-grid';
-import RefereeProfileLinkRender from '../referees/RefereeProfileLinkRender';
-import { displayRefereeName } from '../referees/displayReferee';
+import DataGrid from '../../common/DataGrid';
+import RefereeProfileLinkRender from '../../common/RefereeProfileLinkRender';
+import { displayRefereeName } from '../../common/displayReferee';
 import { useAxios } from '../../auth/AxiosInstanceProvider';
 
 const UsersTable = () => {
