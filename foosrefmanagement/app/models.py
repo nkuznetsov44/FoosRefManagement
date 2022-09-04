@@ -80,6 +80,7 @@ class GameCategory(models.TextChoices):
     AS = 'AS', 'AS'
     AD = 'AD', 'AD'
     ND = 'ND', 'ND'
+    NS = 'NS', 'NS'
     PRO_AM = 'PRO_AM', 'Pro-Am'
     COD = 'COD', 'COD'
     TEAM = 'TEAM', 'Team'
